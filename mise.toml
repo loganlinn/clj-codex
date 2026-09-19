@@ -1,0 +1,5 @@
+[tools]
+babashka = "latest"
+
+[tasks]
+codegen = { run = "codex app-server generate-json-schema --out apis/codex/app-server/" }
