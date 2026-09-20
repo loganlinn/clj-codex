@@ -114,7 +114,7 @@ In the REPL, pass both `:url` and `:unix-socket`:
 ```
 
 The other exploration scripts currently expose TCP URLs through `--url`.
-See [Unix transport setup and runtime requirements](../README.md#connect-through-a-unix-socket) for the server command and smoke test.
+See [development tasks](../README.md#development) for the opt-in live Unix socket smoke test.
 
 ## Inspect current state and history
 
