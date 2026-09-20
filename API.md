@@ -191,7 +191,7 @@ Codex account state. Separate from transport authentication.
 Function.
 
 Cancel a managed login by ID.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/account.clj#L6-L7">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/account.clj#L6-L7">Source</a></sub></p>
 
 ## <a name="codex.account/limits!">`limits!`</a>
 ``` clojure
@@ -201,7 +201,7 @@ Cancel a managed login by ID.
 Function.
 
 Read ChatGPT rate limits.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/account.clj#L9-L9">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/account.clj#L9-L9">Source</a></sub></p>
 
 ## <a name="codex.account/login!">`login!`</a>
 ``` clojure
@@ -210,7 +210,7 @@ Read ChatGPT rate limits.
 Function.
 
 Start a login ceremony. Completion arrives through account events.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/account.clj#L4-L5">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/account.clj#L4-L5">Source</a></sub></p>
 
 ## <a name="codex.account/logout!">`logout!`</a>
 ``` clojure
@@ -219,7 +219,7 @@ Start a login ceremony. Completion arrives through account events.
 Function.
 
 Sign out of the Codex account.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/account.clj#L8-L8">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/account.clj#L8-L8">Source</a></sub></p>
 
 ## <a name="codex.account/read!">`read!`</a>
 ``` clojure
@@ -229,7 +229,7 @@ Sign out of the Codex account.
 Function.
 
 Read account state and whether provider authentication is needed.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/account.clj#L2-L3">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/account.clj#L2-L3">Source</a></sub></p>
 
 ## <a name="codex.account/usage!">`usage!`</a>
 ``` clojure
@@ -239,7 +239,7 @@ Read account state and whether provider authentication is needed.
 Function.
 
 Read account token usage.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/account.clj#L10-L10">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/account.clj#L10-L10">Source</a></sub></p>
 
 -----
 # <a name="codex.api">codex.api</a>
@@ -258,7 +258,7 @@ Inspectable operations, schema-aware invocation, and reducible pagination.
 Function.
 
 Await a submitted operation. A timed wait never abandons or interrupts remote work.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/api.clj#L68-L79">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/api.clj#L68-L79">Source</a></sub></p>
 
 ## <a name="codex.api/describe">`describe`</a>
 ``` clojure
@@ -267,7 +267,7 @@ Await a submitted operation. A timed wait never abandons or interrupts remote wo
 Function.
 
 Describe an operation keyword such as :thread/read or :thread.goal/set.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/api.clj#L15-L16">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/api.clj#L15-L16">Source</a></sub></p>
 
 ## <a name="codex.api/entries">`entries`</a>
 ``` clojure
@@ -276,7 +276,7 @@ Describe an operation keyword such as :thread/read or :thread.goal/set.
 Function.
 
 Return a reducible of entries across pages. Does not fetch during construction.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/api.clj#L102-L111">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/api.clj#L102-L111">Source</a></sub></p>
 
 ## <a name="codex.api/invoke!">`invoke!`</a>
 ``` clojure
@@ -286,7 +286,7 @@ Return a reducible of entries across pages. Does not fetch during construction.
 Function.
 
 Run an operation and return its domain result after the RPC response.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/api.clj#L81-L83">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/api.clj#L81-L83">Source</a></sub></p>
 
 ## <a name="codex.api/operations">`operations`</a>
 ``` clojure
@@ -296,7 +296,7 @@ Run an operation and return its domain result after the RPC response.
 Function.
 
 Return the operation catalog, optionally filtered by a descriptor predicate.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/api.clj#L12-L14">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/api.clj#L12-L14">Source</a></sub></p>
 
 ## <a name="codex.api/pages">`pages`</a>
 ``` clojure
@@ -305,7 +305,7 @@ Return the operation catalog, optionally filtered by a descriptor predicate.
 Function.
 
 Return a reducible of pages. Reduction performs I/O and stops at reduced or a nil cursor.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/api.clj#L85-L100">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/api.clj#L85-L100">Source</a></sub></p>
 
 ## <a name="codex.api/provenance">`provenance`</a>
 ``` clojure
@@ -314,7 +314,7 @@ Return a reducible of pages. Reduction performs I/O and stops at reduced or a ni
 Function.
 
 Return the Codex generator version and schema digest.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/api.clj#L17-L17">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/api.clj#L17-L17">Source</a></sub></p>
 
 ## <a name="codex.api/submit!">`submit!`</a>
 ``` clojure
@@ -325,7 +325,7 @@ Function.
 
 Submit {:op keyword :args map} and return a pending operation.
    opts contains local RPC controls such as :timeout-ms; it is not sent as API arguments.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/api.clj#L55-L61">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/api.clj#L55-L61">Source</a></sub></p>
 
 -----
 # <a name="codex.app">codex.app</a>
@@ -344,7 +344,7 @@ Connector metadata and effective runtime state.
 Function.
 
 Read enabled/callable app runtime state.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/app.clj#L6-L7">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/app.clj#L6-L7">Source</a></sub></p>
 
 ## <a name="codex.app/list!">`list!`</a>
 ``` clojure
@@ -354,7 +354,7 @@ Read enabled/callable app runtime state.
 Function.
 
 Fetch a page of available apps.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/app.clj#L2-L3">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/app.clj#L2-L3">Source</a></sub></p>
 
 ## <a name="codex.app/read!">`read!`</a>
 ``` clojure
@@ -364,7 +364,7 @@ Fetch a page of available apps.
 Function.
 
 Read app metadata, preserving missing IDs.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/app.clj#L4-L5">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/app.clj#L4-L5">Source</a></sub></p>
 
 -----
 # <a name="codex.app-server">codex.app-server</a>
@@ -382,7 +382,7 @@ Bidirectional app-server connections. Raw params/results use string-keyed JSON m
 Function.
 
 Release local pending state. Does not cancel remote work.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/app_server.clj#L159-L164">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/app_server.clj#L159-L164">Source</a></sub></p>
 
 ## <a name="codex.app-server/await!">`await!`</a>
 ``` clojure
@@ -392,7 +392,7 @@ Release local pending state. Does not cancel remote work.
 Function.
 
 Await a pending RPC. A local timeout returns timeout-value without cancelling the RPC.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/app_server.clj#L154-L157">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/app_server.clj#L154-L157">Source</a></sub></p>
 
 ## <a name="codex.app-server/close!">`close!`</a>
 ``` clojure
@@ -402,7 +402,7 @@ Await a pending RPC. A local timeout returns timeout-value without cancelling th
 Function.
 
 Close the connection and owned process. Remote turns are not interrupted. Idempotent.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/app_server.clj#L191-L209">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/app_server.clj#L191-L209">Source</a></sub></p>
 
 ## <a name="codex.app-server/connect!">`connect!`</a>
 ``` clojure
@@ -414,7 +414,7 @@ Connect over :stdio or :websocket and complete initialize/initialized.
    WebSockets use TCP unless transport contains :unix-socket (ws:// only).
    :handlers maps raw method strings to functions returning {:result ...}, {:error ...},
    or ::defer. :interaction-timeout-ms bounds deferred requests. No account login occurs.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/app_server.clj#L211-L262">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/app_server.clj#L211-L262">Source</a></sub></p>
 
 ## <a name="codex.app-server/info">`info`</a>
 ``` clojure
@@ -423,7 +423,7 @@ Connect over :stdio or :websocket and complete initialize/initialized.
 Function.
 
 Return initialization results, capabilities, and safe connection metadata.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/app_server.clj#L18-L21">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/app_server.clj#L18-L21">Source</a></sub></p>
 
 ## <a name="codex.app-server/listen!">`listen!`</a>
 ``` clojure
@@ -434,7 +434,7 @@ Function.
 
 Observe raw incoming envelopes on an ordered bounded worker queue.
    opts: :capacity (default 1024), :on-error. Returns a subscription.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/app_server.clj#L31-L53">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/app_server.clj#L31-L53">Source</a></sub></p>
 
 ## <a name="codex.app-server/notify!">`notify!`</a>
 ``` clojure
@@ -443,7 +443,7 @@ Observe raw incoming envelopes on an ordered bounded worker queue.
 Function.
 
 Send a raw notification. Use ::omit to omit params.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/app_server.clj#L187-L189">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/app_server.clj#L187-L189">Source</a></sub></p>
 
 ## <a name="codex.app-server/pending-requests">`pending-requests`</a>
 ``` clojure
@@ -452,7 +452,7 @@ Send a raw notification. Use ::omit to omit params.
 Function.
 
 Return pending server requests, including their reply tokens.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/app_server.clj#L77-L78">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/app_server.clj#L77-L78">Source</a></sub></p>
 
 ## <a name="codex.app-server/reply!">`reply!`</a>
 ``` clojure
@@ -461,7 +461,7 @@ Return pending server requests, including their reply tokens.
 Function.
 
 Reply once to a server request token. reply is {:result wire-value} or {:error wire-error}.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/app_server.clj#L80-L91">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/app_server.clj#L80-L91">Source</a></sub></p>
 
 ## <a name="codex.app-server/request!">`request!`</a>
 ``` clojure
@@ -471,7 +471,7 @@ Reply once to a server request token. reply is {:result wire-value} or {:error w
 Function.
 
 Submit a raw RPC and return a pending handle. :timeout-ms nil disables its deadline.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/app_server.clj#L166-L185">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/app_server.clj#L166-L185">Source</a></sub></p>
 
 ## <a name="codex.app-server/status">`status`</a>
 ``` clojure
@@ -480,7 +480,7 @@ Submit a raw RPC and return a pending handle. :timeout-ms nil disables its deadl
 Function.
 
 Return the connection lifecycle state.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/app_server.clj#L17-L17">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/app_server.clj#L17-L17">Source</a></sub></p>
 
 ## <a name="codex.app-server/unlisten!">`unlisten!`</a>
 ``` clojure
@@ -489,7 +489,7 @@ Return the connection lifecycle state.
 Function.
 
 Stop a local raw observer. Does not unsubscribe a remote thread.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/app_server.clj#L23-L29">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/app_server.clj#L23-L29">Source</a></sub></p>
 
 -----
 # <a name="codex.command">codex.command</a>
@@ -508,7 +508,7 @@ Sandboxed command execution. Streaming handles preserve byte boundaries.
 Function.
 
 Await exit and collected byte output. A local timeout does not terminate the command.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/command.clj#L14-L15">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/command.clj#L14-L15">Source</a></sub></p>
 
 ## <a name="codex.command/exec!">`exec!`</a>
 ``` clojure
@@ -517,7 +517,7 @@ Await exit and collected byte output. A local timeout does not terminate the com
 Function.
 
 Run a buffered command and return stdout/stderr strings and exit status.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/command.clj#L4-L7">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/command.clj#L4-L7">Source</a></sub></p>
 
 ## <a name="codex.command/output">`output`</a>
 ``` clojure
@@ -526,7 +526,7 @@ Run a buffered command and return stdout/stderr strings and exit status.
 Function.
 
 Snapshot collected stdout/stderr bytes and truncation status.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/command.clj#L16-L16">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/command.clj#L16-L16">Source</a></sub></p>
 
 ## <a name="codex.command/resize!">`resize!`</a>
 ``` clojure
@@ -535,7 +535,7 @@ Snapshot collected stdout/stderr bytes and truncation status.
 Function.
 
 Resize a PTY with {:rows n :cols n}.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/command.clj#L12-L12">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/command.clj#L12-L12">Source</a></sub></p>
 
 ## <a name="codex.command/start!">`start!`</a>
 ``` clojure
@@ -545,7 +545,7 @@ Resize a PTY with {:rows n :cols n}.
 Function.
 
 Start a streaming command. opts: :on-output, :capture-limit-bytes (default 1 MiB).
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/command.clj#L8-L9">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/command.clj#L8-L9">Source</a></sub></p>
 
 ## <a name="codex.command/terminate!">`terminate!`</a>
 ``` clojure
@@ -554,7 +554,7 @@ Start a streaming command. opts: :on-output, :capture-limit-bytes (default 1 MiB
 Function.
 
 Request command termination.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/command.clj#L13-L13">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/command.clj#L13-L13">Source</a></sub></p>
 
 ## <a name="codex.command/write!">`write!`</a>
 ``` clojure
@@ -564,7 +564,7 @@ Request command termination.
 Function.
 
 Write stdin bytes; nil bytes with close? closes stdin.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/command.clj#L10-L11">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/command.clj#L10-L11">Source</a></sub></p>
 
 -----
 # <a name="codex.config">codex.config</a>
@@ -583,7 +583,7 @@ Effective configuration and persistent edits.
 Function.
 
 Apply a vector of configuration edits atomically.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/config.clj#L7-L8">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/config.clj#L7-L8">Source</a></sub></p>
 
 ## <a name="codex.config/read!">`read!`</a>
 ``` clojure
@@ -593,7 +593,7 @@ Apply a vector of configuration edits atomically.
 Function.
 
 Read effective configuration, optionally with layers.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/config.clj#L2-L2">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/config.clj#L2-L2">Source</a></sub></p>
 
 ## <a name="codex.config/requirements!">`requirements!`</a>
 ``` clojure
@@ -602,7 +602,7 @@ Read effective configuration, optionally with layers.
 Function.
 
 Read managed requirements.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/config.clj#L3-L3">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/config.clj#L3-L3">Source</a></sub></p>
 
 ## <a name="codex.config/write!">`write!`</a>
 ``` clojure
@@ -612,7 +612,7 @@ Read managed requirements.
 Function.
 
 Write a configuration value at a wire key path. Preserve user JSON keys.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/config.clj#L4-L6">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/config.clj#L4-L6">Source</a></sub></p>
 
 -----
 # <a name="codex.event">codex.event</a>
@@ -630,7 +630,7 @@ Domain notifications and a pure projection of observed conversation state.
 Function.
 
 Pure reducer. State contains :threads, :turns, :items, :item-order, and :pending maps.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/event.clj#L57-L93">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/event.clj#L57-L93">Source</a></sub></p>
 
 ## <a name="codex.event/listen!">`listen!`</a>
 ``` clojure
@@ -640,7 +640,7 @@ Pure reducer. State contains :threads, :turns, :items, :item-order, and :pending
 Function.
 
 Observe matching domain events. :capacity and :on-error configure the local observer.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/event.clj#L37-L43">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/event.clj#L37-L43">Source</a></sub></p>
 
 ## <a name="codex.event/matches?">`matches?`</a>
 ``` clojure
@@ -649,7 +649,7 @@ Observe matching domain events. :capacity and :on-error configure the local obse
 Function.
 
 Match an event against optional :thread-id, :turn-id, :item-id, and :types.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/event.clj#L32-L36">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/event.clj#L32-L36">Source</a></sub></p>
 
 ## <a name="codex.event/normalize">`normalize`</a>
 ``` clojure
@@ -658,7 +658,7 @@ Match an event against optional :thread-id, :turn-id, :item-id, and :types.
 Function.
 
 Convert a raw notification/request to a domain envelope. Responses return nil.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/event.clj#L14-L30">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/event.clj#L14-L30">Source</a></sub></p>
 
 ## <a name="codex.event/terminal?">`terminal?`</a>
 ``` clojure
@@ -667,7 +667,7 @@ Convert a raw notification/request to a domain envelope. Responses return nil.
 Function.
 
 Is this a terminal turn notification?
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/event.clj#L47-L49">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/event.clj#L47-L49">Source</a></sub></p>
 
 ## <a name="codex.event/text-delta">`text-delta`</a>
 ``` clojure
@@ -676,7 +676,7 @@ Is this a terminal turn notification?
 Function.
 
 Return an agent text delta, or nil.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/event.clj#L45-L46">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/event.clj#L45-L46">Source</a></sub></p>
 
 ## <a name="codex.event/turn-snapshot">`turn-snapshot`</a>
 ``` clojure
@@ -685,7 +685,7 @@ Return an agent text delta, or nil.
 Function.
 
 Read a turn projection, with items in observed order.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/event.clj#L95-L99">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/event.clj#L95-L99">Source</a></sub></p>
 
 ## <a name="codex.event/unlisten!">`unlisten!`</a>
 ``` clojure
@@ -694,7 +694,7 @@ Read a turn projection, with items in observed order.
 Function.
 
 Release an event observer.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/event.clj#L44-L44">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/event.clj#L44-L44">Source</a></sub></p>
 
 -----
 # <a name="codex.fs">codex.fs</a>
@@ -712,7 +712,7 @@ Files on the server host. Read/write content as bytes, never implicit local path
 Function.
 
 Copy paths using explicit sourcePath/destinationPath equivalents.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/fs.clj#L13-L14">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/fs.clj#L13-L14">Source</a></sub></p>
 
 ## <a name="codex.fs/delete!">`delete!`</a>
 ``` clojure
@@ -722,7 +722,7 @@ Copy paths using explicit sourcePath/destinationPath equivalents.
 Function.
 
 Remove a server-side path.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/fs.clj#L15-L16">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/fs.clj#L15-L16">Source</a></sub></p>
 
 ## <a name="codex.fs/list!">`list!`</a>
 ``` clojure
@@ -731,7 +731,7 @@ Remove a server-side path.
 Function.
 
 Read a directory.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/fs.clj#L10-L10">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/fs.clj#L10-L10">Source</a></sub></p>
 
 ## <a name="codex.fs/mkdir!">`mkdir!`</a>
 ``` clojure
@@ -741,7 +741,7 @@ Read a directory.
 Function.
 
 Create a directory.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/fs.clj#L11-L12">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/fs.clj#L11-L12">Source</a></sub></p>
 
 ## <a name="codex.fs/read!">`read!`</a>
 ``` clojure
@@ -750,7 +750,7 @@ Create a directory.
 Function.
 
 Read a file as a byte array.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/fs.clj#L4-L6">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/fs.clj#L4-L6">Source</a></sub></p>
 
 ## <a name="codex.fs/stat!">`stat!`</a>
 ``` clojure
@@ -759,7 +759,7 @@ Read a file as a byte array.
 Function.
 
 Read path metadata.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/fs.clj#L9-L9">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/fs.clj#L9-L9">Source</a></sub></p>
 
 ## <a name="codex.fs/unwatch!">`unwatch!`</a>
 ``` clojure
@@ -768,7 +768,7 @@ Read path metadata.
 Function.
 
 Remove a server-side watch by ID.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/fs.clj#L20-L21">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/fs.clj#L20-L21">Source</a></sub></p>
 
 ## <a name="codex.fs/watch!">`watch!`</a>
 ``` clojure
@@ -777,7 +777,7 @@ Remove a server-side watch by ID.
 Function.
 
 Create a server-side watch. Subscribe to :fs/changed before calling.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/fs.clj#L17-L19">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/fs.clj#L17-L19">Source</a></sub></p>
 
 ## <a name="codex.fs/write!">`write!`</a>
 ``` clojure
@@ -786,7 +786,7 @@ Create a server-side watch. Subscribe to :fs/changed before calling.
 Function.
 
 Write a byte array to a server-side file.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/fs.clj#L7-L8">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/fs.clj#L7-L8">Source</a></sub></p>
 
 -----
 # <a name="codex.goal">codex.goal</a>
@@ -804,7 +804,7 @@ Goal operations and pure budget accounting.
 Function.
 
 Clear a thread's goal.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/goal.clj#L8-L9">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/goal.clj#L8-L9">Source</a></sub></p>
 
 ## <a name="codex.goal/read!">`read!`</a>
 ``` clojure
@@ -813,7 +813,7 @@ Clear a thread's goal.
 Function.
 
 Read a thread's current goal.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/goal.clj#L4-L5">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/goal.clj#L4-L5">Source</a></sub></p>
 
 ## <a name="codex.goal/remaining-tokens">`remaining-tokens`</a>
 ``` clojure
@@ -822,7 +822,7 @@ Read a thread's current goal.
 Function.
 
 Remaining token budget, or nil for an unbudgeted goal.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/goal.clj#L10-L11">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/goal.clj#L10-L11">Source</a></sub></p>
 
 ## <a name="codex.goal/set!">`set!`</a>
 ``` clojure
@@ -831,7 +831,7 @@ Remaining token budget, or nil for an unbudgeted goal.
 Function.
 
 Set or update a goal. A new objective resets usage accounting.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/goal.clj#L6-L7">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/goal.clj#L6-L7">Source</a></sub></p>
 
 -----
 # <a name="codex.history">codex.history</a>
@@ -849,7 +849,7 @@ Stored history queries and explicit context changes.
 Function.
 
 Request compaction and return acknowledgement; progress arrives as events.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/history.clj#L9-L10">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/history.clj#L9-L10">Source</a></sub></p>
 
 ## <a name="codex.history/inject!">`inject!`</a>
 ``` clojure
@@ -858,7 +858,7 @@ Request compaction and return acknowledgement; progress arrives as events.
 Function.
 
 Append string-keyed Responses API items without starting a turn.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/history.clj#L11-L12">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/history.clj#L11-L12">Source</a></sub></p>
 
 ## <a name="codex.history/items!">`items!`</a>
 ``` clojure
@@ -868,7 +868,7 @@ Append string-keyed Responses API items without starting a turn.
 Function.
 
 Fetch a page of persisted items (experimental).
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/history.clj#L7-L8">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/history.clj#L7-L8">Source</a></sub></p>
 
 ## <a name="codex.history/turns!">`turns!`</a>
 ``` clojure
@@ -878,7 +878,7 @@ Fetch a page of persisted items (experimental).
 Function.
 
 Fetch a page of persisted turns (experimental).
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/history.clj#L5-L6">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/history.clj#L5-L6">Source</a></sub></p>
 
 -----
 # <a name="codex.input">codex.input</a>
@@ -896,7 +896,7 @@ Pure constructors for user input. Values can also be written as maps.
 Function.
 
 Audio URL input.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/input.clj#L7-L7">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/input.clj#L7-L7">Source</a></sub></p>
 
 ## <a name="codex.input/image">`image`</a>
 ``` clojure
@@ -905,7 +905,7 @@ Audio URL input.
 Function.
 
 Image URL input.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/input.clj#L5-L5">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/input.clj#L5-L5">Source</a></sub></p>
 
 ## <a name="codex.input/local-audio">`local-audio`</a>
 ``` clojure
@@ -914,7 +914,7 @@ Image URL input.
 Function.
 
 Audio path on the server host.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/input.clj#L8-L8">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/input.clj#L8-L8">Source</a></sub></p>
 
 ## <a name="codex.input/local-image">`local-image`</a>
 ``` clojure
@@ -923,7 +923,7 @@ Audio path on the server host.
 Function.
 
 Image path on the server host.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/input.clj#L6-L6">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/input.clj#L6-L6">Source</a></sub></p>
 
 ## <a name="codex.input/mention">`mention`</a>
 ``` clojure
@@ -932,7 +932,7 @@ Image path on the server host.
 Function.
 
 App or other mention reference.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/input.clj#L10-L10">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/input.clj#L10-L10">Source</a></sub></p>
 
 ## <a name="codex.input/normalize">`normalize`</a>
 ``` clojure
@@ -941,7 +941,7 @@ App or other mention reference.
 Function.
 
 Normalize a string, input map, or ordered collection to a vector.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/input.clj#L11-L14">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/input.clj#L11-L14">Source</a></sub></p>
 
 ## <a name="codex.input/skill">`skill`</a>
 ``` clojure
@@ -950,7 +950,7 @@ Normalize a string, input map, or ordered collection to a vector.
 Function.
 
 Explicit skill reference. Include its $name in the accompanying text.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/input.clj#L9-L9">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/input.clj#L9-L9">Source</a></sub></p>
 
 ## <a name="codex.input/text">`text`</a>
 ``` clojure
@@ -959,7 +959,7 @@ Explicit skill reference. Include its $name in the accompanying text.
 Function.
 
 Text input.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/input.clj#L4-L4">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/input.clj#L4-L4">Source</a></sub></p>
 
 -----
 # <a name="codex.interaction">codex.interaction</a>
@@ -978,7 +978,7 @@ Function.
 
 Install the sole responder for a request kind. f returns response data or ::defer.
    Duplicate handlers are rejected. Returns a registration for unhandle!.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/interaction.clj#L24-L38">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/interaction.clj#L24-L38">Source</a></sub></p>
 
 ## <a name="codex.interaction/pending">`pending`</a>
 ``` clojure
@@ -987,7 +987,7 @@ Install the sole responder for a request kind. f returns response data or ::defe
 Function.
 
 Return typed pending requests, including reply tokens.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/interaction.clj#L12-L13">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/interaction.clj#L12-L13">Source</a></sub></p>
 
 ## <a name="codex.interaction/reject!">`reject!`</a>
 ``` clojure
@@ -996,7 +996,7 @@ Return typed pending requests, including reply tokens.
 Function.
 
 Send a JSON-RPC error for a pending request.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/interaction.clj#L22-L23">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/interaction.clj#L22-L23">Source</a></sub></p>
 
 ## <a name="codex.interaction/resolved?">`resolved?`</a>
 ``` clojure
@@ -1005,7 +1005,7 @@ Send a JSON-RPC error for a pending request.
 Function.
 
 Has this request been answered, expired, or cleared?
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/interaction.clj#L14-L15">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/interaction.clj#L14-L15">Source</a></sub></p>
 
 ## <a name="codex.interaction/respond!">`respond!`</a>
 ``` clojure
@@ -1014,7 +1014,7 @@ Has this request been answered, expired, or cleared?
 Function.
 
 Send a typed response to a pending request exactly once locally.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/interaction.clj#L20-L21">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/interaction.clj#L20-L21">Source</a></sub></p>
 
 ## <a name="codex.interaction/unhandle!">`unhandle!`</a>
 ``` clojure
@@ -1023,7 +1023,7 @@ Send a typed response to a pending request exactly once locally.
 Function.
 
 Remove a handler registration without replacing another owner.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/interaction.clj#L39-L44">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/interaction.clj#L39-L44">Source</a></sub></p>
 
 -----
 # <a name="codex.item">codex.item</a>
@@ -1041,7 +1041,7 @@ Pure queries over immutable item values.
 Function.
 
 Select file-change items.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/item.clj#L6-L6">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/item.clj#L6-L6">Source</a></sub></p>
 
 ## <a name="codex.item/commands">`commands`</a>
 ``` clojure
@@ -1050,7 +1050,7 @@ Select file-change items.
 Function.
 
 Select command execution items.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/item.clj#L5-L5">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/item.clj#L5-L5">Source</a></sub></p>
 
 ## <a name="codex.item/completed?">`completed?`</a>
 ``` clojure
@@ -1059,7 +1059,7 @@ Select command execution items.
 Function.
 
 Was an item completed, or does it carry a terminal execution status?
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/item.clj#L7-L8">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/item.clj#L7-L8">Source</a></sub></p>
 
 ## <a name="codex.item/messages">`messages`</a>
 ``` clojure
@@ -1068,7 +1068,7 @@ Was an item completed, or does it carry a terminal execution status?
 Function.
 
 Select user and agent message items, preserving order.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/item.clj#L3-L4">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/item.clj#L3-L4">Source</a></sub></p>
 
 ## <a name="codex.item/text">`text`</a>
 ``` clojure
@@ -1077,7 +1077,7 @@ Select user and agent message items, preserving order.
 Function.
 
 Return textual content for an item, or nil.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/item.clj#L2-L2">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/item.clj#L2-L2">Source</a></sub></p>
 
 -----
 # <a name="codex.mcp">codex.mcp</a>
@@ -1095,7 +1095,7 @@ MCP integration through app-server, not a separate MCP client.
 Function.
 
 Call a tool through a thread's configured MCP server.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/mcp.clj#L4-L4">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/mcp.clj#L4-L4">Source</a></sub></p>
 
 ## <a name="codex.mcp/login!">`login!`</a>
 ``` clojure
@@ -1104,7 +1104,7 @@ Call a tool through a thread's configured MCP server.
 Function.
 
 Start an MCP OAuth flow; completion arrives as an event.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/mcp.clj#L5-L5">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/mcp.clj#L5-L5">Source</a></sub></p>
 
 ## <a name="codex.mcp/reload!">`reload!`</a>
 ``` clojure
@@ -1113,7 +1113,7 @@ Start an MCP OAuth flow; completion arrives as an event.
 Function.
 
 Reload MCP configuration from disk.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/mcp.clj#L6-L6">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/mcp.clj#L6-L6">Source</a></sub></p>
 
 ## <a name="codex.mcp/resource!">`resource!`</a>
 ``` clojure
@@ -1122,7 +1122,7 @@ Reload MCP configuration from disk.
 Function.
 
 Read a resource through an initialized MCP server.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/mcp.clj#L3-L3">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/mcp.clj#L3-L3">Source</a></sub></p>
 
 ## <a name="codex.mcp/servers!">`servers!`</a>
 ``` clojure
@@ -1132,7 +1132,7 @@ Read a resource through an initialized MCP server.
 Function.
 
 Fetch a page of MCP server status.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/mcp.clj#L2-L2">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/mcp.clj#L2-L2">Source</a></sub></p>
 
 -----
 # <a name="codex.model">codex.model</a>
@@ -1150,7 +1150,7 @@ Discover models and provider bounds.
 Function.
 
 Read provider capabilities for model/provider arguments.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/model.clj#L3-L4">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/model.clj#L3-L4">Source</a></sub></p>
 
 ## <a name="codex.model/list!">`list!`</a>
 ``` clojure
@@ -1160,7 +1160,7 @@ Read provider capabilities for model/provider arguments.
 Function.
 
 Fetch one model page.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/model.clj#L2-L2">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/model.clj#L2-L2">Source</a></sub></p>
 
 -----
 # <a name="codex.permission">codex.permission</a>
@@ -1179,7 +1179,7 @@ Permission discovery and pure policy values.
 Function.
 
 Policy for an externally sandboxed execution host.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/permission.clj#L8-L9">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/permission.clj#L8-L9">Source</a></sub></p>
 
 ## <a name="codex.permission/grant">`grant`</a>
 ``` clojure
@@ -1189,7 +1189,7 @@ Policy for an externally sandboxed execution host.
 Function.
 
 Permission reply value. Only supply a requested subset.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/permission.clj#L10-L11">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/permission.clj#L10-L11">Source</a></sub></p>
 
 ## <a name="codex.permission/profiles!">`profiles!`</a>
 ``` clojure
@@ -1199,7 +1199,7 @@ Permission reply value. Only supply a requested subset.
 Function.
 
 Fetch available permission profiles for a working directory.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/permission.clj#L2-L3">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/permission.clj#L2-L3">Source</a></sub></p>
 
 ## <a name="codex.permission/read-only">`read-only`</a>
 ``` clojure
@@ -1209,7 +1209,7 @@ Fetch available permission profiles for a working directory.
 Function.
 
 Read-only sandbox policy with optional boolean network access.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/permission.clj#L4-L5">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/permission.clj#L4-L5">Source</a></sub></p>
 
 ## <a name="codex.permission/workspace-write">`workspace-write`</a>
 ``` clojure
@@ -1219,7 +1219,7 @@ Read-only sandbox policy with optional boolean network access.
 Function.
 
 Workspace-write policy for explicit server-side roots.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/permission.clj#L6-L7">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/permission.clj#L6-L7">Source</a></sub></p>
 
 -----
 # <a name="codex.plugin">codex.plugin</a>
@@ -1237,7 +1237,7 @@ Plugin operations. Upstream marks these APIs as under development.
 Function.
 
 Install a plugin by explicit source and name arguments.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/plugin.clj#L4-L4">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/plugin.clj#L4-L4">Source</a></sub></p>
 
 ## <a name="codex.plugin/list!">`list!`</a>
 ``` clojure
@@ -1247,7 +1247,7 @@ Install a plugin by explicit source and name arguments.
 Function.
 
 Discover plugins and marketplaces.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/plugin.clj#L2-L2">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/plugin.clj#L2-L2">Source</a></sub></p>
 
 ## <a name="codex.plugin/read!">`read!`</a>
 ``` clojure
@@ -1256,7 +1256,7 @@ Discover plugins and marketplaces.
 Function.
 
 Read a plugin by explicit source and name arguments.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/plugin.clj#L3-L3">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/plugin.clj#L3-L3">Source</a></sub></p>
 
 ## <a name="codex.plugin/skill!">`skill!`</a>
 ``` clojure
@@ -1265,7 +1265,7 @@ Read a plugin by explicit source and name arguments.
 Function.
 
 Read remote plugin skill content.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/plugin.clj#L6-L6">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/plugin.clj#L6-L6">Source</a></sub></p>
 
 ## <a name="codex.plugin/uninstall!">`uninstall!`</a>
 ``` clojure
@@ -1274,7 +1274,7 @@ Read remote plugin skill content.
 Function.
 
 Uninstall a plugin.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/plugin.clj#L5-L5">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/plugin.clj#L5-L5">Source</a></sub></p>
 
 -----
 # <a name="codex.process">codex.process</a>
@@ -1293,7 +1293,7 @@ Explicit unsandboxed process control. Requires :experimental-api true.
 Function.
 
 Await process exit and collected bytes. Local timeout does not kill the process.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/process.clj#L10-L11">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/process.clj#L10-L11">Source</a></sub></p>
 
 ## <a name="codex.process/kill!">`kill!`</a>
 ``` clojure
@@ -1302,7 +1302,7 @@ Await process exit and collected bytes. Local timeout does not kill the process.
 Function.
 
 Request process termination.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/process.clj#L9-L9">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/process.clj#L9-L9">Source</a></sub></p>
 
 ## <a name="codex.process/output">`output`</a>
 ``` clojure
@@ -1311,7 +1311,7 @@ Request process termination.
 Function.
 
 Snapshot collected stdout/stderr bytes and truncation status.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/process.clj#L12-L12">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/process.clj#L12-L12">Source</a></sub></p>
 
 ## <a name="codex.process/resize!">`resize!`</a>
 ``` clojure
@@ -1320,7 +1320,7 @@ Snapshot collected stdout/stderr bytes and truncation status.
 Function.
 
 Resize a process PTY with {:rows n :cols n}.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/process.clj#L8-L8">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/process.clj#L8-L8">Source</a></sub></p>
 
 ## <a name="codex.process/start!">`start!`</a>
 ``` clojure
@@ -1330,7 +1330,7 @@ Resize a process PTY with {:rows n :cols n}.
 Function.
 
 Start an unsandboxed process with explicit :command and :cwd. Returns a tracked handle.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/process.clj#L4-L5">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/process.clj#L4-L5">Source</a></sub></p>
 
 ## <a name="codex.process/write!">`write!`</a>
 ``` clojure
@@ -1340,7 +1340,7 @@ Start an unsandboxed process with explicit :command and :cwd. Returns a tracked 
 Function.
 
 Write process stdin bytes.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/process.clj#L6-L7">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/process.clj#L6-L7">Source</a></sub></p>
 
 -----
 # <a name="codex.repl">codex.repl</a>
@@ -1358,7 +1358,7 @@ Explicit, bounded REPL observation. Loading this namespace performs no I/O.
 Function.
 
 Print and return an operation descriptor.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/repl.clj#L24-L24">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/repl.clj#L24-L24">Source</a></sub></p>
 
 ## <a name="codex.repl/history">`history`</a>
 ``` clojure
@@ -1367,7 +1367,7 @@ Print and return an operation descriptor.
 Function.
 
 Return the bounded event history of a watcher.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/repl.clj#L19-L19">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/repl.clj#L19-L19">Source</a></sub></p>
 
 ## <a name="codex.repl/inspect">`inspect`</a>
 ``` clojure
@@ -1376,7 +1376,7 @@ Return the bounded event history of a watcher.
 Function.
 
 Print and return a value. Connections use their safe info snapshot.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/repl.clj#L21-L23">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/repl.clj#L21-L23">Source</a></sub></p>
 
 ## <a name="codex.repl/pending">`pending`</a>
 ``` clojure
@@ -1385,7 +1385,7 @@ Print and return a value. Connections use their safe info snapshot.
 Function.
 
 Inspect typed pending server requests.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/repl.clj#L20-L20">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/repl.clj#L20-L20">Source</a></sub></p>
 
 ## <a name="codex.repl/unwatch!">`unwatch!`</a>
 ``` clojure
@@ -1394,7 +1394,7 @@ Inspect typed pending server requests.
 Function.
 
 Stop a REPL watcher.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/repl.clj#L18-L18">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/repl.clj#L18-L18">Source</a></sub></p>
 
 ## <a name="codex.repl/watch!">`watch!`</a>
 ``` clojure
@@ -1404,7 +1404,7 @@ Stop a REPL watcher.
 Function.
 
 Observe and print domain events. :history-limit defaults to 200; :print? defaults true.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/repl.clj#L5-L17">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/repl.clj#L5-L17">Source</a></sub></p>
 
 -----
 # <a name="codex.review">codex.review</a>
@@ -1422,7 +1422,7 @@ Review targets, submission, and parsing of rendered reports.
 Function.
 
 Review against a base branch.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/review.clj#L6-L6">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/review.clj#L6-L6">Source</a></sub></p>
 
 ## <a name="codex.review/commit">`commit`</a>
 ``` clojure
@@ -1432,7 +1432,7 @@ Review against a base branch.
 Function.
 
 Review a commit.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/review.clj#L7-L7">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/review.clj#L7-L7">Source</a></sub></p>
 
 ## <a name="codex.review/custom">`custom`</a>
 ``` clojure
@@ -1441,7 +1441,7 @@ Review a commit.
 Function.
 
 Review using custom instructions.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/review.clj#L8-L8">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/review.clj#L8-L8">Source</a></sub></p>
 
 ## <a name="codex.review/parse-report">`parse-report`</a>
 ``` clojure
@@ -1451,12 +1451,12 @@ Function.
 
 Parse the built-in reviewer's rendered report into plain-keyed data.
 
-  Returns :status, :findings, :overall-explanation, and the original :raw text.
-  :parsed means a complete findings block was recognized. :unstructured means
-  the text has no recognized block or its format is invalid. An empty findings
-  vector alone does not prove a clean review. Priority comes from a [P0]-[P3]
+  Returns :findings and the original :report-text. Findings are extracted only
+  from a complete, recognized findings block. An empty findings vector means
+  none were extracted, not that the review passed. Prose-only reports and
+  malformed blocks both return empty findings. Priority comes from a [P0]-[P3]
   title prefix. Confidence scores and the overall verdict cannot be recovered.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/review.clj#L37-L63">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/review.clj#L37-L59">Source</a></sub></p>
 
 ## <a name="codex.review/start!">`start!`</a>
 ``` clojure
@@ -1466,7 +1466,7 @@ Parse the built-in reviewer's rendered report into plain-keyed data.
 Function.
 
 Start a review. Preserve both review-thread-id and the initial turn.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/review.clj#L9-L12">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/review.clj#L9-L12">Source</a></sub></p>
 
 ## <a name="codex.review/uncommitted">`uncommitted`</a>
 ``` clojure
@@ -1475,7 +1475,7 @@ Start a review. Preserve both review-thread-id and the initial turn.
 Function.
 
 Review staged, unstaged, and untracked changes.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/review.clj#L5-L5">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/review.clj#L5-L5">Source</a></sub></p>
 
 -----
 # <a name="codex.run">codex.run</a>
@@ -1494,7 +1494,7 @@ Track a user-input turn through its terminal event. A wait timeout never interru
 Function.
 
 Return the terminal turn projection, including failed-turn data. Transport failures throw.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/run.clj#L12-L15">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/run.clj#L12-L15">Source</a></sub></p>
 
 ## <a name="codex.run/close!">`close!`</a>
 ``` clojure
@@ -1503,7 +1503,7 @@ Return the terminal turn projection, including failed-turn data. Transport failu
 Function.
 
 Stop local observation without interrupting the remote turn.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/run.clj#L16-L19">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/run.clj#L16-L19">Source</a></sub></p>
 
 ## <a name="codex.run/interrupt!">`interrupt!`</a>
 ``` clojure
@@ -1512,7 +1512,7 @@ Stop local observation without interrupting the remote turn.
 Function.
 
 Request interruption of this run's identified turn.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/run.clj#L20-L21">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/run.clj#L20-L21">Source</a></sub></p>
 
 ## <a name="codex.run/snapshot">`snapshot`</a>
 ``` clojure
@@ -1521,7 +1521,7 @@ Request interruption of this run's identified turn.
 Function.
 
 Return the current immutable turn projection.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/run.clj#L10-L11">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/run.clj#L10-L11">Source</a></sub></p>
 
 ## <a name="codex.run/start!">`start!`</a>
 ``` clojure
@@ -1530,7 +1530,7 @@ Return the current immutable turn projection.
 Function.
 
 Start and track an ordinary user-input turn. Installs observation before submission.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/run.clj#L23-L60">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/run.clj#L23-L60">Source</a></sub></p>
 
 -----
 # <a name="codex.schema">codex.schema</a>
@@ -1548,7 +1548,7 @@ Inspect and check the bundled protocol schemas. Checks accept wire JSON values.
 Function.
 
 Return a JSON Schema document (string keys).
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/schema.clj#L8-L10">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/schema.clj#L8-L10">Source</a></sub></p>
 
 ## <a name="codex.schema/explain">`explain`</a>
 ``` clojure
@@ -1557,7 +1557,7 @@ Return a JSON Schema document (string keys).
 Function.
 
 Return structural schema errors, or an empty vector.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/schema.clj#L11-L12">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/schema.clj#L11-L12">Source</a></sub></p>
 
 ## <a name="codex.schema/schemas">`schemas`</a>
 ``` clojure
@@ -1566,7 +1566,7 @@ Return structural schema errors, or an empty vector.
 Function.
 
 Return descriptors for exported schemas and nested value definitions.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/schema.clj#L5-L7">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/schema.clj#L5-L7">Source</a></sub></p>
 
 ## <a name="codex.schema/valid?">`valid?`</a>
 ``` clojure
@@ -1575,7 +1575,7 @@ Return descriptors for exported schemas and nested value definitions.
 Function.
 
 Does a wire JSON value satisfy the schema checks?
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/schema.clj#L13-L14">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/schema.clj#L13-L14">Source</a></sub></p>
 
 -----
 # <a name="codex.skill">codex.skill</a>
@@ -1593,7 +1593,7 @@ Discover and configure standalone skills.
 Function.
 
 Disable a skill by server-side path.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/skill.clj#L6-L7">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/skill.clj#L6-L7">Source</a></sub></p>
 
 ## <a name="codex.skill/enable!">`enable!`</a>
 ``` clojure
@@ -1602,7 +1602,7 @@ Disable a skill by server-side path.
 Function.
 
 Enable a skill by server-side path.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/skill.clj#L4-L5">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/skill.clj#L4-L5">Source</a></sub></p>
 
 ## <a name="codex.skill/extra-roots!">`extra-roots!`</a>
 ``` clojure
@@ -1611,7 +1611,7 @@ Enable a skill by server-side path.
 Function.
 
 Replace process-level extra skill roots.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/skill.clj#L8-L9">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/skill.clj#L8-L9">Source</a></sub></p>
 
 ## <a name="codex.skill/list!">`list!`</a>
 ``` clojure
@@ -1621,7 +1621,7 @@ Replace process-level extra skill roots.
 Function.
 
 Discover skills, optionally for :cwds and with :force-reload.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/skill.clj#L2-L3">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/skill.clj#L2-L3">Source</a></sub></p>
 
 -----
 # <a name="codex.thread">codex.thread</a>
@@ -1639,7 +1639,7 @@ Conversation lifecycle. Thread values are immutable and contain no connection.
 Function.
 
 Archive a thread and attempt to archive spawned descendants.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/thread.clj#L25-L26">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/thread.clj#L25-L26">Source</a></sub></p>
 
 ## <a name="codex.thread/delete!">`delete!`</a>
 ``` clojure
@@ -1648,7 +1648,7 @@ Archive a thread and attempt to archive spawned descendants.
 Function.
 
 Permanently delete a thread and spawned descendants.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/thread.clj#L29-L30">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/thread.clj#L29-L30">Source</a></sub></p>
 
 ## <a name="codex.thread/fork!">`fork!`</a>
 ``` clojure
@@ -1658,7 +1658,7 @@ Permanently delete a thread and spawned descendants.
 Function.
 
 Fork history, optionally through :last-turn-id.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/thread.clj#L13-L14">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/thread.clj#L13-L14">Source</a></sub></p>
 
 ## <a name="codex.thread/list!">`list!`</a>
 ``` clojure
@@ -1668,7 +1668,7 @@ Fork history, optionally through :last-turn-id.
 Function.
 
 Fetch one page of stored threads.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/thread.clj#L17-L18">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/thread.clj#L17-L18">Source</a></sub></p>
 
 ## <a name="codex.thread/loaded!">`loaded!`</a>
 ``` clojure
@@ -1678,7 +1678,7 @@ Fetch one page of stored threads.
 Function.
 
 Fetch a page of loaded thread IDs.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/thread.clj#L19-L20">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/thread.clj#L19-L20">Source</a></sub></p>
 
 ## <a name="codex.thread/patch!">`patch!`</a>
 ``` clojure
@@ -1687,7 +1687,7 @@ Fetch a page of loaded thread IDs.
 Function.
 
 Patch persisted metadata. Omitted fields and explicit nil differ.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/thread.clj#L23-L24">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/thread.clj#L23-L24">Source</a></sub></p>
 
 ## <a name="codex.thread/read!">`read!`</a>
 ``` clojure
@@ -1697,7 +1697,7 @@ Patch persisted metadata. Omitted fields and explicit nil differ.
 Function.
 
 Read a stored snapshot without subscribing.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/thread.clj#L15-L16">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/thread.clj#L15-L16">Source</a></sub></p>
 
 ## <a name="codex.thread/ref">`ref`</a>
 ``` clojure
@@ -1706,7 +1706,7 @@ Read a stored snapshot without subscribing.
 Function.
 
 Extract an explicit thread reference from an ID or thread value.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/thread.clj#L5-L8">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/thread.clj#L5-L8">Source</a></sub></p>
 
 ## <a name="codex.thread/rename!">`rename!`</a>
 ``` clojure
@@ -1715,7 +1715,7 @@ Extract an explicit thread reference from an ID or thread value.
 Function.
 
 Set a thread's display name.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/thread.clj#L21-L22">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/thread.clj#L21-L22">Source</a></sub></p>
 
 ## <a name="codex.thread/restore!">`restore!`</a>
 ``` clojure
@@ -1724,7 +1724,7 @@ Set a thread's display name.
 Function.
 
 Restore an archived thread.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/thread.clj#L27-L28">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/thread.clj#L27-L28">Source</a></sub></p>
 
 ## <a name="codex.thread/resume!">`resume!`</a>
 ``` clojure
@@ -1734,7 +1734,7 @@ Restore an archived thread.
 Function.
 
 Load and subscribe to a stored thread.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/thread.clj#L11-L12">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/thread.clj#L11-L12">Source</a></sub></p>
 
 ## <a name="codex.thread/start!">`start!`</a>
 ``` clojure
@@ -1743,7 +1743,7 @@ Load and subscribe to a stored thread.
 Function.
 
 Create a thread and return its thread/configuration context.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/thread.clj#L9-L10">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/thread.clj#L9-L10">Source</a></sub></p>
 
 ## <a name="codex.thread/unsubscribe!">`unsubscribe!`</a>
 ``` clojure
@@ -1752,7 +1752,7 @@ Create a thread and return its thread/configuration context.
 Function.
 
 Remove this connection's remote thread subscription.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/thread.clj#L31-L32">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/thread.clj#L31-L32">Source</a></sub></p>
 
 -----
 # <a name="codex.turn">codex.turn</a>
@@ -1770,7 +1770,7 @@ Turn control. RPC acknowledgement and turn completion are separate.
 Function.
 
 Request interruption. Completion arrives through events.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/turn.clj#L20-L21">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/turn.clj#L20-L21">Source</a></sub></p>
 
 ## <a name="codex.turn/ref">`ref`</a>
 ``` clojure
@@ -1780,7 +1780,7 @@ Request interruption. Completion arrives through events.
 Function.
 
 Construct or check a reference containing both thread and turn IDs.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/turn.clj#L5-L10">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/turn.clj#L5-L10">Source</a></sub></p>
 
 ## <a name="codex.turn/start!">`start!`</a>
 ``` clojure
@@ -1789,7 +1789,7 @@ Construct or check a reference containing both thread and turn IDs.
 Function.
 
 Submit input and return the initial turn snapshot.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/turn.clj#L12-L15">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/turn.clj#L12-L15">Source</a></sub></p>
 
 ## <a name="codex.turn/steer!">`steer!`</a>
 ``` clojure
@@ -1798,7 +1798,7 @@ Submit input and return the initial turn snapshot.
 Function.
 
 Append input only to the explicitly identified active turn.
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/turn.clj#L16-L19">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/turn.clj#L16-L19">Source</a></sub></p>
 
 ## <a name="codex.turn/terminal?">`terminal?`</a>
 ``` clojure
@@ -1807,4 +1807,4 @@ Append input only to the explicitly identified active turn.
 Function.
 
 Is a turn snapshot terminal?
-<p><sub><a href="https://github.com/loganlinn/codex-app-clj/blob/main/src/codex/turn.clj#L11-L11">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/turn.clj#L11-L11">Source</a></sub></p>

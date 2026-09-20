@@ -161,7 +161,7 @@ bb examples/review_agent.clj /path/to/repo \
   --timeout-ms 600000
 
 # From another repository, use the absolute path to the example.
-bb /path/to/codex-app-clj/examples/review_agent.clj .
+bb /path/to/clj-codex/examples/review_agent.clj .
 ```
 
 The repository defaults to the caller's current directory.
@@ -178,28 +178,26 @@ It installs its event listener before submission and waits for the terminal turn
 The final report comes from the `exitedReviewMode` item.
 
 `review!` returns the result of `codex.review/parse-report` as a Clojure map.
-The CLI prints the original report by default. `--format edn` prints the map.
+The CLI prints the map as EDN by default. `--format text` prints the original report.
 You can also parse a report without a server:
 
 ```clojure
 (require '[codex.review :as review])
 (review/parse-report report)
-;; => {:status :parsed
-;;     :findings [{:title "[P1] Preserve queued work"
+;; => {:findings [{:title "[P1] Preserve queued work"
 ;;                 :priority 1
 ;;                 :body "Closing here discards queued requests."
 ;;                 :code-location {:absolute-file-path "/repo/queue.clj"
 ;;                                 :line-range {:start 12 :end 14}}}]
-;;     :overall-explanation "This change drops pending work."
-;;     :raw "...original report..."}
+;;     :report-text "...original report..."}
 ```
 
 The parser recognizes Codex's `Review comment:` and `Full review comments:` blocks.
 It preserves Markdown bodies and reads priority from a `[P0]` through `[P3]` title prefix.
 The rendered report omits confidence scores and the overall correctness verdict. The parser cannot recover those fields.
-`:parsed` means the complete findings block matches the expected format. It does not validate the findings against the repository.
-Prose-only reports and malformed blocks return `:unstructured`, an empty findings vector, and the original text.
-An empty findings vector does not establish that the review found no defects.
+The parser extracts findings only from a complete, recognized findings block. It does not validate the findings against the repository.
+Prose-only reports and malformed blocks both return an empty findings vector.
+Empty findings means none were extracted, not that the review passed. `:report-text` always contains the original report.
 This parser depends on Codex's text format. It is not a structured protocol guarantee.
 
 A completed review returns exit status zero, even when it reports findings.

@@ -68,10 +68,12 @@
                         {:repo {:coerce :string :default "." :desc "Git working tree path (default: current directory)"}
                          :prompt {:alias :p :coerce :string :desc "Custom review instructions; replaces the default target"}
                          :model {:coerce :string :desc "Optional model ID; otherwise use the configured model"}
-                         :format {:coerce :string :default "text" :validate #{"text" "edn"}
-                                  :desc "Output format: text or edn (default: text)"}})
+                         :format {:coerce :string
+                                  :default "edn"
+                                  :validate #{"text" "edn"}
+                                  :desc "Output format"}})
                  [:repo] (fn [opts]
                            (let [result (review! opts)]
                              (if (= "edn" (:format opts))
                                (pprint result)
-                               (println (:raw result)))))))
+                               (println (:report-text result)))))))

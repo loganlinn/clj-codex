@@ -31,7 +31,7 @@
                        [babashka.fs :as fs]
                        [quickdoc.api :as api])
             :task (api/quickdoc (merge {:git/branch "main"
-                                        :github/repo "https://github.com/loganlinn/codex-app-clj"
+                                        :github/repo "https://github.com/loganlinn/clj-codex"
                                         :source-paths (mapv str (sort (fs/glob "src/codex" "*.clj")))
                                         :outfile "API.md"
                                         :toc true

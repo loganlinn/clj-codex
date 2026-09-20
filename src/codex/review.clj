@@ -37,10 +37,10 @@
 (defn parse-report
   "Parse the built-in reviewer's rendered report into plain-keyed data.
 
-  Returns :status, :findings, :overall-explanation, and the original :raw text.
-  :parsed means a complete findings block was recognized. :unstructured means
-  the text has no recognized block or its format is invalid. An empty findings
-  vector alone does not prove a clean review. Priority comes from a [P0]-[P3]
+  Returns :findings and the original :report-text. Findings are extracted only
+  from a complete, recognized findings block. An empty findings vector means
+  none were extracted, not that the review passed. Prose-only reports and
+  malformed blocks both return empty findings. Priority comes from a [P0]-[P3]
   title prefix. Confidence scores and the overall verdict cannot be recovered."
   [report]
   (when-not (string? report)
@@ -55,9 +55,5 @@
                      (if (= "Review comment:" (get lines index))
                        (= 1 (count findings))
                        (< 1 (count findings))))]
-    {:status (if parsed? :parsed :unstructured)
-     :findings (if parsed? findings [])
-     :overall-explanation (if parsed?
-                            (str/trim (str/join "\n" (subvec lines 0 index)))
-                            (str/trim report))
-     :raw report}))
+    {:findings (if parsed? findings [])
+     :report-text report}))
