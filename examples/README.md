@@ -10,6 +10,7 @@ Use the scripts for repeatable queries and complete workflows.
 | [repl.clj](repl.clj) | Connections, state, history, schemas, raw RPC, turns, approvals, commands, cleanup | Only the forms you evaluate |
 | [catalog.clj](catalog.clj) | Operation catalog, protocol provenance, argument and entity schemas | None. Uses bundled data |
 | [state.clj](state.clj) | Account, limits, configuration, models, skills, MCP, loaded threads | Reads the selected topic |
+| [unix_socket.clj](unix_socket.clj) | Unix WebSocket connection, initialization, loaded threads, cleanup | Reads an existing server; leaves it running |
 | [threads.clj](threads.clj) | Stored threads, reducible pagination, turns and items | Reads stored history |
 | [watch.clj](watch.clj) | Thread subscription, events, state reduction, pending requests | Resumes a thread and observes it |
 | [turn.clj](turn.clj) | Input values, tracked turns, completion, interruption | Creates a thread and runs the model |
@@ -85,7 +86,35 @@ An idle thread can produce no events.
 For an authenticated WebSocket endpoint, pass `--token-env MY_CODEX_TRANSPORT_TOKEN` with `--url`.
 The script reads the credential from that environment variable.
 Use `--experimental` to opt into experimental operations.
-Unix-domain WebSocket connections are not supported by this SDK yet.
+For a Unix-domain WebSocket connection, start a server in another terminal:
+
+```sh
+codex app-server --listen unix:///tmp/codex.sock
+```
+
+Run [the Unix socket example](unix_socket.clj) to inspect that server:
+
+```sh
+bb examples/unix_socket.clj /tmp/codex.sock
+bb examples/unix_socket.clj --help
+```
+
+The example reads the connection metadata and one page of loaded thread IDs.
+It closes its client connection and leaves the server running.
+Unix transport requires Java 16+ with OS Unix socket support, or a compatible Babashka runtime such as 1.12.218.
+
+In the REPL, pass both `:url` and `:unix-socket`:
+
+```clojure
+(def conn
+  (server/connect!
+    {:transport {:type :websocket
+                 :url "ws://localhost/"
+                 :unix-socket "/tmp/codex.sock"}}))
+```
+
+The other exploration scripts currently expose TCP URLs through `--url`.
+See [Unix transport setup and runtime requirements](../README.md#connect-through-a-unix-socket) for the server command and smoke test.
 
 ## Inspect current state and history
 

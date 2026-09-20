@@ -471,7 +471,7 @@ Promise wrappers expose a shared deref contract or the explicit `await!` functio
 
 An optional core.async adapter can route events into caller-owned channels. It must preserve the same overflow and cleanup semantics.
 
-The first supported transports are stdio and `ws`/`wss`. Unix-domain WebSocket support needs a separate adapter and compatibility work. Do not treat a Unix socket as raw JSONL or claim parity without tests. Callers can use a localhost TCP bridge meanwhile.
+The supported transports are stdio, TCP `ws`/`wss`, and `ws` over filesystem Unix sockets. The WebSocket adapter selects the private `codex.impl.websocket.*` backend when `:unix-socket` is present; otherwise it uses upstream `babashka.http-client.websocket`. The Unix backend performs HTTP Upgrade and WebSocket framing, not raw JSONL. It loads lazily and requires Java 16+ with Unix socket support, or a compatible Babashka runtime. Protocol fixtures, SDK regressions, and an opt-in live Codex smoke test cover this path.
 
 The initial compatibility matrix must cover:
 

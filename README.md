@@ -2,7 +2,7 @@
 
 A data-oriented SDK for local and remote Codex app-server connections.
 
-The library provides explicit connections, immutable conversation values, an inspectable operation catalog, and domain functions. It supports stdio and TCP WebSockets. Unix-domain WebSocket transport is not implemented.
+The library provides explicit connections, immutable conversation values, an inspectable operation catalog, and domain functions. It supports stdio, TCP WebSockets, and WebSockets over filesystem Unix sockets.
 
 The bundled protocol comes from Codex CLI **0.155.1**. It includes 164 client operations, their experimental fields, server requests, and notifications. Experimental calls require capability opt-in. The server can still reject a method that its runtime does not support.
 
@@ -74,6 +74,46 @@ The server uses its configured Codex account. Connecting does not perform a logi
 The token function supplies the WebSocket handshake credential. Account login is a separate API. Upstream labels the WebSocket transport experimental.
 
 Connections own only subprocesses they start. Closing a remote connection does not terminate its server or interrupt its turns. Reconnection and operation replay are explicit.
+
+## Connect through a Unix socket
+
+Start an app-server with an explicit socket path:
+
+```sh
+codex app-server --listen unix:///tmp/codex.sock
+```
+
+```clojure
+(def conn
+  (server/connect!
+    {:transport {:type :websocket
+                 :url "ws://localhost/"
+                 :unix-socket "/tmp/codex.sock"
+                 :connect-timeout-ms 10000}}))
+
+(server/await! (server/request! conn "thread/loaded/list" {}))
+(server/close! conn)
+```
+
+The runnable [Unix socket example](examples/unix_socket.clj) uses this configuration to inspect an existing server:
+
+```sh
+bb examples/unix_socket.clj /tmp/codex.sock
+```
+
+`:unix-socket` selects the filesystem socket. `:url` supplies the HTTP Upgrade host, path, and query; it does not cause DNS lookup or a TCP connection. Unix connections support `ws://` only. TLS, proxies, and compression are not supported by the private Unix backend.
+
+Unix transport requires Java 16+ with operating-system Unix socket support, or a compatible Babashka runtime. It is tested on macOS with Java 21 and Babashka 1.12.218. The private facade loads lazily, so loading the SDK does not load Java 16 Unix classes. TCP WebSockets retain the upstream `org.babashka/http-client` dependency.
+
+`:headers` and `:token-fn` work as they do for TCP WebSockets. `:connect-timeout-ms` is a positive integer and defaults to 10000. It covers socket connection and HTTP Upgrade, and bounds each send wait. Initialization RPCs use the connection's `:request-timeout-ms`.
+
+Closing the client leaves the external server and its socket path intact. Malformed JSON or binary messages fail the connection and its pending calls. Both WebSocket backends assemble text fragments before JSON parsing; the SDK currently has no complete-message size limit.
+
+Run `bb test` or `clojure -M:test` for TCP, stdio, Unix protocol, and SDK regression tests. The loading check runs first in a fresh process. Use `bb -m codex.test-runner --loading-only` or `clojure -M:test --loading-only` to run only that check. Full suites fail if Unix sockets are unavailable instead of silently skipping coverage. The JVM `http-kit` dependency is test-only.
+
+Run `bb test:unix-live` for the opt-in live Codex smoke test. It uses an isolated temporary Codex home, performs initialization and a read-only RPC, verifies reconnect after client disposal, and cleans up its own process and directory. It does not run a model or access existing sessions.
+
+The private module's [provenance](src/codex/impl/websocket/PROVENANCE.md) and [license](src/codex/impl/websocket/LICENSE) accompany its source.
 
 ## Discover operations and schemas
 

@@ -210,6 +210,7 @@
 
 (defn connect!
   "Connect over :stdio or :websocket and complete initialize/initialized.
+   WebSockets use TCP unless transport contains :unix-socket (ws:// only).
    :handlers maps raw method strings to functions returning {:result ...}, {:error ...},
    or ::defer. :interaction-timeout-ms bounds deferred requests. No account login occurs."
   [{:keys [transport client-info capabilities handlers] :as opts}]

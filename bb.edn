@@ -10,10 +10,13 @@
                           {:coerce {:toc parse-boolean}}))
 
   test {:doc "Run the shared test suite in Babashka"
-        :task (exec 'codex.test-runner/-main)}
+        :task (apply (requiring-resolve 'codex.test-runner/-main) *command-line-args*)}
 
   test:jvm {:doc "Run the shared test suite in JVM Clojure"
             :task (apply clojure "-M:test" *command-line-args*)}
+
+  test:unix-live {:doc "Run an isolated live Codex Unix socket smoke test"
+                  :task (apply (requiring-resolve 'codex.unix-smoke/-main) *command-line-args*)}
 
   codegen {:doc "Regenerate protocol schemas and catalog using installed Codex"
            :task (shell "bb --classpath src script/codegen.clj")}
