@@ -35,9 +35,9 @@
 
 (defn connect! [path & [opts]]
   (server/connect!
-    (merge {:transport {:type :websocket :url "ws://no-dns.invalid/rpc?q=1"
+   (merge {:transport {:type :websocket :url "ws://no-dns.invalid/rpc?q=1"
                        :unix-socket path :connect-timeout-ms 2000}
-            :request-timeout-ms 2000} opts)))
+           :request-timeout-ms 2000} opts)))
 
 (defn drain-until-eof! [channel]
   (try (loop [] (peer/read-frame! channel) (recur))
@@ -65,11 +65,11 @@
       (fn [path done]
         (let [token-calls (atom 0)
               c (connect! path
-                  {:transport {:type :websocket :url "ws://no-dns.invalid/rpc?q=1"
-                               :unix-socket path :connect-timeout-ms 2000
-                               :headers {"X-Fixture" "sdk"}
-                               :token-fn #(do (swap! token-calls inc) "fixture-token")}
-                   :handlers {"fixture/question" (fn [request] {:result (:params request)})}})
+                          {:transport {:type :websocket :url "ws://no-dns.invalid/rpc?q=1"
+                                       :unix-socket path :connect-timeout-ms 2000
+                                       :headers {"X-Fixture" "sdk"}
+                                       :token-fn #(do (swap! token-calls inc) "fixture-token")}
+                           :handlers {"fixture/question" (fn [request] {:result (:params request)})}})
               observer (server/listen! c #(when (= "fixture/notice" (get % "method")) (deliver notification %)))]
           (try
             (is (= :ready (server/status c)))
@@ -149,7 +149,7 @@
                 observer (server/listen! c {:on-error #(deliver error %)} (fn [_]))]
             (try
               (is (thrown? Exception
-                    (server/await! (server/request! c "bad-response" {} {:timeout-ms nil}) 3000 ::timeout)))
+                           (server/await! (server/request! c "bad-response" {} {:timeout-ms nil}) 3000 ::timeout)))
               (is (instance? Throwable (deref error 3000 nil)))
               (is (= :failed (server/status c)))
               ;; EOF must arrive before explicitly disposing the SDK connection.
@@ -174,21 +174,21 @@
     (fn [path done]
       (let [start (System/nanoTime)]
         (is (thrown? Exception
-              (connect! path {:transport {:type :websocket :url "ws://localhost/"
-                                         :unix-socket path :connect-timeout-ms 100}})))
+                     (connect! path {:transport {:type :websocket :url "ws://localhost/"
+                                                 :unix-socket path :connect-timeout-ms 100}})))
         (is (< (/ (- (System/nanoTime) start) 1e6) 3000))
         (peer/await! done))))
   (is (thrown? Exception (connect! (str "/tmp/missing-" (UUID/randomUUID))))))
 
 (deftest unix-invalid-options
   (doseq [transport [{:type :stdio :unix-socket "/unused"}
-                    {:type :websocket :url "ws://localhost/" :unix-socket nil}
-                    {:type :websocket :url "ws://localhost/" :unix-socket ""}
-                    {:type :websocket :url "ws://localhost/" :unix-socket 123}
-                    {:type :websocket :unix-socket "/unused"}
-                    {:type :websocket :url "wss://localhost/" :unix-socket "/unused"}
-                    {:type :websocket :url "ws://localhost/" :unix-socket "/unused" :connect-timeout-ms 0}
-                    {:type :websocket :url "ws://localhost/" :unix-socket "/unused" :connect-timeout-ms nil}
-                    {:type :websocket :url "ws://localhost/" :unix-socket "/unused" :headers {"Host" "override"}}]]
+                     {:type :websocket :url "ws://localhost/" :unix-socket nil}
+                     {:type :websocket :url "ws://localhost/" :unix-socket ""}
+                     {:type :websocket :url "ws://localhost/" :unix-socket 123}
+                     {:type :websocket :unix-socket "/unused"}
+                     {:type :websocket :url "wss://localhost/" :unix-socket "/unused"}
+                     {:type :websocket :url "ws://localhost/" :unix-socket "/unused" :connect-timeout-ms 0}
+                     {:type :websocket :url "ws://localhost/" :unix-socket "/unused" :connect-timeout-ms nil}
+                     {:type :websocket :url "ws://localhost/" :unix-socket "/unused" :headers {"Host" "override"}}]]
     (testing (pr-str transport)
       (is (thrown? Exception (server/connect! {:transport transport}))))))

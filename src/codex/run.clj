@@ -6,7 +6,7 @@
 (defrecord Run [connection thread-id turn-id state result subscription])
 (defmethod print-method Run [run w]
   (.write ^java.io.Writer w (str "#codex/run " (pr-str {:thread-id (:thread-id run) :turn-id @(:turn-id run)
-                                                       :done? (realized? (:result run))}))))
+                                                        :done? (realized? (:result run))}))))
 (defn snapshot "Return the current immutable turn projection." [run]
   (event/turn-snapshot @(:state run) (:thread-id run) @(:turn-id run)))
 (defn await!

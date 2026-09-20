@@ -13,11 +13,11 @@
             op (api/describe op)
             :else {:provenance (api/provenance)
                    :operations (into (sorted-map)
-                                 (map (fn [[k v]] [k (select-keys v [:experimental? :args-schema :result-schema])]))
-                                 (api/operations))})))
+                                     (map (fn [[k v]] [k (select-keys v [:experimental? :args-schema :result-schema])]))
+                                     (api/operations))})))
 
 (when (= *file* (System/getProperty "babashka.file"))
   (example/main! "bb examples/catalog.clj [--op thread/read | --schema-name Thread]"
-    {:op {:coerce :keyword :desc "Operation keyword without the leading colon"}
-     :schema-name {:coerce :string :desc "Bundled schema name"}}
-    [] catalog!))
+                 {:op {:coerce :keyword :desc "Operation keyword without the leading colon"}
+                  :schema-name {:coerce :string :desc "Bundled schema name"}}
+                 [] catalog!))

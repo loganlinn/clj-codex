@@ -66,9 +66,9 @@
       (reset! (:subscription p)
               (server/listen! conn {:on-error #(do (u/deliver-error! (:result p) %) (release! p))} observer))
       (let [pending (api/submit! conn
-                                {:op (if (= kind :command) :command/exec :process/spawn)
-                                 :args (assoc args id-key id :stream-stdout-stderr true)}
-                                {:timeout-ms nil})]
+                                 {:op (if (= kind :command) :command/exec :process/spawn)
+                                  :args (assoc args id-key id :stream-stdout-stderr true)}
+                                 {:timeout-ms nil})]
         (locking (:lock p)
           (reset! (:request p) pending)
           (doseq [raw @buffered] (process! raw))

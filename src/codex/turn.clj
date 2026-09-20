@@ -11,11 +11,11 @@
 (defn terminal? "Is a turn snapshot terminal?" [turn] (contains? #{:completed :failed :interrupted} (::status turn)))
 (defn start! "Submit input and return the initial turn snapshot." [c t args]
   (api/invoke! c {:op :turn/start
-                 :args (cond-> (assoc args :thread-id (::thread/id (thread/ref t)))
-                         (contains? args :input) (update :input input/normalize))}))
+                  :args (cond-> (assoc args :thread-id (::thread/id (thread/ref t)))
+                          (contains? args :input) (update :input input/normalize))}))
 (defn steer! "Append input only to the explicitly identified active turn." [c turn input]
   (let [reference (ref turn)]
     (api/invoke! c {:op :turn/steer :args {:thread-id (::thread/id reference)
-                                         :expected-turn-id (::id reference) :input (input/normalize input)}})))
+                                           :expected-turn-id (::id reference) :input (input/normalize input)}})))
 (defn interrupt! "Request interruption. Completion arrives through events." [c turn]
   (let [r (ref turn)] (api/invoke! c {:op :turn/interrupt :args {:thread-id (::thread/id r) :turn-id (::id r)}})))

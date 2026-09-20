@@ -127,7 +127,7 @@
         (echo-close! channel))
       (fn [path done]
         (let [result (connection path {:uri {:scheme "ws" :host "no-dns.invalid"
-                                            :path "/events/a b" :query "q=a+b"}
+                                             :path "/events/a b" :query "q=a+b"}
                                        :headers {:authorization "Bearer example"}
                                        :subprotocols ["events"] :async true
                                        :on-open (fn [socket] (await! (ws/send! socket "hello")))
@@ -245,7 +245,7 @@
     (with-server
       (fn [channel]
         (write-bytes! channel (.getBytes ^String (transform (response (read-request! channel)))
-                                        StandardCharsets/ISO_8859_1)))
+                                         StandardCharsets/ISO_8859_1)))
       (fn [path done]
         (is (thrown? java.util.concurrent.ExecutionException (connection path {})))
         (await! done)))))
@@ -390,7 +390,7 @@
                                              (str "HTTP/1.1 101 OK\r\nX-Large: "
                                                   (apply str (repeat 65536 "x")))
                                              "HTTP/1.1 101")
-                                          StandardCharsets/ISO_8859_1))
+                                           StandardCharsets/ISO_8859_1))
           (catch java.io.IOException _)))
       (fn [path done]
         (is (thrown? java.util.concurrent.ExecutionException (connection path {})))
@@ -504,10 +504,10 @@
 (deftest httpkit-interoperability-test
   (let [received (promise)
         server (httpkit/run-server
-                 (fn [request]
-                   (httpkit/as-channel request
-                                       {:on-receive (fn [channel data] (httpkit/send! channel data))}))
-                 {:port 0 :legacy-return-value? false})
+                (fn [request]
+                  (httpkit/as-channel request
+                                      {:on-receive (fn [channel data] (httpkit/send! channel data))}))
+                {:port 0 :legacy-return-value? false})
         port (httpkit/server-port server)]
     (try
       (with-server

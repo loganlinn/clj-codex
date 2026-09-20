@@ -9,9 +9,9 @@
 (def definitions (delay (edn/read-string (slurp (io/resource "codex/definition-index.edn")))))
 (def catalog (delay (edn/read-string (slurp (io/resource "codex/catalog.edn")))))
 (def document (memoize (fn [path]
-                        (if-let [r (io/resource path)]
-                          (json/parse-string (slurp r))
-                          (throw (u/error :schema "Schema resource not found" {:resource path}))))))
+                         (if-let [r (io/resource path)]
+                           (json/parse-string (slurp r))
+                           (throw (u/error :schema "Schema resource not found" {:resource path}))))))
 (def stable (delay (document "codex/stable-client-request.json")))
 
 (def entity-ns
@@ -113,15 +113,15 @@
     (if tagged
       (transform direction root tagged x owner)
       (if-let [v (first attempts)]
-      (first v)
-      (if (= direction :decode)
-        (let [compatible (filter (fn [branch]
-                                   (let [s (resolve-ref root branch) t (get s "type")]
-                                     (and t (type-matches? t x)))) branches)]
-          (if (= 1 (count compatible))
-            (transform direction root (first compatible) x owner)
-            {:type :codex.api/unknown :codex.api/raw x}))
-        (throw (u/error :schema "Value does not match any union variant" {})))))))
+        (first v)
+        (if (= direction :decode)
+          (let [compatible (filter (fn [branch]
+                                     (let [s (resolve-ref root branch) t (get s "type")]
+                                       (and t (type-matches? t x)))) branches)]
+            (if (= 1 (count compatible))
+              (transform direction root (first compatible) x owner)
+              {:type :codex.api/unknown :codex.api/raw x}))
+          (throw (u/error :schema "Value does not match any union variant" {})))))))
 
 (defn transform [direction root s x owner]
   (let [ref (some-> (get s "$ref") (str/split #"/") last)

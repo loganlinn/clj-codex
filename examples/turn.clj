@@ -30,8 +30,8 @@
 
 (when (= *file* (System/getProperty "babashka.file"))
   (example/main! "bb examples/turn.clj [--cwd .] [--prompt 'Explain this project.']"
-    (merge example/timeout-spec
-      {:cwd {:coerce :string :default "." :desc "Local directory to inspect"}
-       :prompt {:coerce :string :default "Explain the repository structure without changing files."
-                :desc "Input for a new turn"}})
-    [] turn!))
+                 (merge example/timeout-spec
+                        {:cwd {:coerce :string :default "." :desc "Local directory to inspect"}
+                         :prompt {:coerce :string :default "Explain the repository structure without changing files."
+                                  :desc "Input for a new turn"}})
+                 [] turn!))

@@ -9,12 +9,12 @@
                         (resolve 'java.net.UnixDomainSocketAddress)
                         ((requiring-resolve 'codex.impl.websocket.unix-socket-fixture/supported?)))
         result (when-not loading-only?
-                 (require 'codex.core-test 'codex.transport-test)
+                 (require 'codex.core-test 'codex.transport-test 'codex.review-test)
                  (when supported?
                    (require 'codex.impl.websocket.unix-test 'codex.unix-transport-test))
                  (apply t/run-tests
-                   (cond-> ['codex.core-test 'codex.transport-test]
-                     supported? (into ['codex.impl.websocket.unix-test 'codex.unix-transport-test]))))
+                        (cond-> ['codex.core-test 'codex.transport-test 'codex.review-test]
+                          supported? (into ['codex.impl.websocket.unix-test 'codex.unix-transport-test]))))
         unavailable? (and (not loading-only?) (not supported?))]
     (when unavailable?
       (println "Unix sockets unavailable: Unix suites were NOT run."))

@@ -149,6 +149,9 @@ Its timeout requests interruption before cleanup. The SDK's `run/await!` alone d
 # Review uncommitted changes in the current Git working tree.
 bb examples/review_agent.clj
 
+# Print parsed findings and the original report as EDN.
+bb examples/review_agent.clj --format edn
+
 # Review a different repository, including a path with spaces.
 bb examples/review_agent.clj '/path/to/my repo'
 
@@ -173,6 +176,31 @@ The example uses `codex.review/start!` and the built-in Codex reviewer.
 It does not require a separately installed `review-agent` skill.
 It installs its event listener before submission and waits for the terminal turn event.
 The final report comes from the `exitedReviewMode` item.
+
+`review!` returns the result of `codex.review/parse-report` as a Clojure map.
+The CLI prints the original report by default. `--format edn` prints the map.
+You can also parse a report without a server:
+
+```clojure
+(require '[codex.review :as review])
+(review/parse-report report)
+;; => {:status :parsed
+;;     :findings [{:title "[P1] Preserve queued work"
+;;                 :priority 1
+;;                 :body "Closing here discards queued requests."
+;;                 :code-location {:absolute-file-path "/repo/queue.clj"
+;;                                 :line-range {:start 12 :end 14}}}]
+;;     :overall-explanation "This change drops pending work."
+;;     :raw "...original report..."}
+```
+
+The parser recognizes Codex's `Review comment:` and `Full review comments:` blocks.
+It preserves Markdown bodies and reads priority from a `[P0]` through `[P3]` title prefix.
+The rendered report omits confidence scores and the overall correctness verdict. The parser cannot recover those fields.
+`:parsed` means the complete findings block matches the expected format. It does not validate the findings against the repository.
+Prose-only reports and malformed blocks return `:unstructured`, an empty findings vector, and the original text.
+An empty findings vector does not establish that the review found no defects.
+This parser depends on Codex's text format. It is not a structured protocol guarantee.
 
 A completed review returns exit status zero, even when it reports findings.
 A failed turn, missing report, or timeout returns a nonzero status.

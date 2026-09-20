@@ -54,13 +54,13 @@
       (doto (Thread. ^Runnable runnable ^String name) (.setDaemon true)))))
 
 (defn- options [{:keys [uri unix-socket client connect-timeout headers subprotocols]
-                :as opts}]
+                 :as opts}]
   (when-not (and (string? unix-socket) (not (empty? unix-socket)))
     (invalid! ":unix-socket must be a nonempty filesystem path string"))
   (when (some? client) (invalid! ":client cannot be used with :unix-socket"))
   (when (and (some? connect-timeout) (not (and (integer? connect-timeout)
-                                             (pos? connect-timeout)
-                                             (<= connect-timeout Long/MAX_VALUE))))
+                                               (pos? connect-timeout)
+                                               (<= connect-timeout Long/MAX_VALUE))))
     (invalid! ":connect-timeout must be a positive number of milliseconds"))
   (let [^URI uri (->uri uri)]
     (when-not (and uri (= "ws" (some-> (.getScheme uri) str/lower-case))
@@ -207,7 +207,7 @@
     (cond
       (< length 126) (.put header (unchecked-byte (bit-or 128 length)))
       (<= length 65535) (do (.put header (unchecked-byte 254))
-                           (.putShort header (unchecked-short length)))
+                            (.putShort header (unchecked-short length)))
       :else (do (.put header (unchecked-byte 255)) (.putLong header (long length))))
     (.put header mask)
     (.flip header)
@@ -272,7 +272,7 @@
   (try
     (if (instance? CharSequence data)
       (enqueue! ws 1 last? (.encode (.newEncoder StandardCharsets/UTF_8)
-                                   (CharBuffer/wrap ^CharSequence data)) :data)
+                                    (CharBuffer/wrap ^CharSequence data)) :data)
       (enqueue! ws 2 last? (payload-buffer data) :data))
     (catch Exception error (failed-future error))))
 
@@ -378,8 +378,8 @@
               8 (receive-close! ws payload)
               9 (do
                     ;; Apply backpressure instead of accumulating automatic pongs.
-                    (.get ^CompletableFuture (send-control! ws 10 (.duplicate payload) :auto))
-                    (callback! ws :on-ping payload))
+                  (.get ^CompletableFuture (send-control! ws 10 (.duplicate payload) :auto))
+                  (callback! ws :on-ping payload))
               10 (callback! ws :on-pong payload))
             (recur fragment decoder carry))
           (do

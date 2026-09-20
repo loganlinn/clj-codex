@@ -16,7 +16,7 @@
     (try
       (let [subscription
             (event/listen! c {:thread-id id :on-error #(deliver failed %)}
-              (fn [e] (swap! state event/apply-event e) (pprint e) (flush)))]
+                           (fn [e] (swap! state event/apply-event e) (pprint e) (flush)))]
         (try
           ;; A local listener alone does not establish a remote subscription.
           (thread/resume! c id)
@@ -28,6 +28,6 @@
 
 (when (= *file* (System/getProperty "babashka.file"))
   (example/main! "bb examples/watch.clj --id THREAD_ID [--url ws://localhost:4500]"
-    (merge example/connection-spec example/timeout-spec
-      {:id {:coerce :string :desc "Thread to resume and observe"}})
-    [] watch!))
+                 (merge example/connection-spec example/timeout-spec
+                        {:id {:coerce :string :desc "Thread to resume and observe"}})
+                 [] watch!))

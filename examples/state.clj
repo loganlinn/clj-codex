@@ -15,22 +15,22 @@
   (let [c (example/connect! opts)]
     (try
       (pprint
-        (case topic
-          :connection (server/info c)
-          :account (account/read! c)
-          :limits (account/limits! c)
-          :config (config/read! c (cond-> {:include-layers true} cwd (assoc :cwd cwd)))
-          :models (model/list! c)
-          :skills (skill/list! c (cond-> {} cwd (assoc :cwds [cwd])))
-          :mcp (mcp/servers! c)
-          :loaded (thread/loaded! c)))
+       (case topic
+         :connection (server/info c)
+         :account (account/read! c)
+         :limits (account/limits! c)
+         :config (config/read! c (cond-> {:include-layers true} cwd (assoc :cwd cwd)))
+         :models (model/list! c)
+         :skills (skill/list! c (cond-> {} cwd (assoc :cwds [cwd])))
+         :mcp (mcp/servers! c)
+         :loaded (thread/loaded! c)))
       (finally (server/close! c)))))
 
 (when (= *file* (System/getProperty "babashka.file"))
   (example/main! "bb examples/state.clj [TOPIC] [--url ws://localhost:4500]"
-    (merge example/connection-spec
-      {:topic {:coerce :keyword :default :connection
-               :validate #{:connection :account :limits :config :models :skills :mcp :loaded}
-               :desc "connection, account, limits, config, models, skills, mcp, or loaded"}
-       :cwd {:coerce :string :desc "Absolute server-side directory for configuration and skills"}})
-    [:topic] state!))
+                 (merge example/connection-spec
+                        {:topic {:coerce :keyword :default :connection
+                                 :validate #{:connection :account :limits :config :models :skills :mcp :loaded}
+                                 :desc "connection, account, limits, config, models, skills, mcp, or loaded"}
+                         :cwd {:coerce :string :desc "Absolute server-side directory for configuration and skills"}})
+                 [:topic] state!))

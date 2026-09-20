@@ -33,7 +33,7 @@
     :custom (open {:receive! receive! :closed! closed! :stderr! stderr!})
     :stdio
     (let [p (process/process command (cond-> {:in :stream :out :stream :err :stream}
-                                      cwd (assoc :dir cwd) env (assoc :extra-env env)))
+                                       cwd (assoc :dir cwd) env (assoc :extra-env env)))
           writer (io/writer (:in p) :encoding "UTF-8")
           reader (io/reader (:out p) :encoding "UTF-8")
           err (io/reader (:err p) :encoding "UTF-8")
@@ -66,26 +66,26 @@
           fragments (atom "")
           socket (connect
                   (cond-> {:uri url :connect-timeout connect-timeout-ms
-                   :headers (cond-> (or headers {}) token-fn (assoc "Authorization" (str "Bearer " (token-fn))))
-                   :on-message (fn [socket data last?]
-                                 (try
-                                   (when-not (instance? CharSequence data)
-                                     (throw (u/error :protocol "Expected a WebSocket text message" {})))
-                                   (let [text (swap! fragments str data)]
-                                     (when last?
-                                       (reset! fragments "")
-                                       (receive! (websocket-message text))))
-                                   (catch Exception e
+                           :headers (cond-> (or headers {}) token-fn (assoc "Authorization" (str "Bearer " (token-fn))))
+                           :on-message (fn [socket data last?]
+                                         (try
+                                           (when-not (instance? CharSequence data)
+                                             (throw (u/error :protocol "Expected a WebSocket text message" {})))
+                                           (let [text (swap! fragments str data)]
+                                             (when last?
+                                               (reset! fragments "")
+                                               (receive! (websocket-message text))))
+                                           (catch Exception e
                                      ;; A callback can precede open!'s return. Dispose via
                                      ;; its handle even before the SDK stores the transport.
-                                     (reset! fragments "")
-                                     (abort socket)
-                                     (closed! e))))
-                   :on-close (fn [_ _ _] (closed! nil))
-                   :on-error (fn [socket e] (abort socket) (closed! e))}
+                                             (reset! fragments "")
+                                             (abort socket)
+                                             (closed! e))))
+                           :on-close (fn [_ _ _] (closed! nil))
+                           :on-error (fn [socket e] (abort socket) (closed! e))}
                     (contains? opts :unix-socket) (assoc :unix-socket unix-socket)))]
       {:send! (fn [message] (.get ^java.util.concurrent.CompletableFuture
-                                 (send socket (json/generate-string message))
-                                 (long connect-timeout-ms) java.util.concurrent.TimeUnit/MILLISECONDS))
+                             (send socket (json/generate-string message))
+                                  (long connect-timeout-ms) java.util.concurrent.TimeUnit/MILLISECONDS))
        :close! #(abort socket)})
     (throw (u/error :transport "Unsupported transport" {:type type}))))

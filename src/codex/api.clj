@@ -28,7 +28,7 @@
       (throw (u/error :capability "Operation requires :experimental-api" {:op (:op descriptor)})))
     (when (and (not experimental?) s)
       (let [stable-s (some #(when (= (:wire/method descriptor) (get-in % ["properties" "method" "enum" 0]))
-                             (get-in % ["properties" "params"])) (get @schema/stable "oneOf"))
+                              (get-in % ["properties" "params"])) (get @schema/stable "oneOf"))
             errors (schema/errors @schema/stable stable-s wire [] true)]
         (when (seq errors)
           (throw (u/error :capability "Arguments require the experimental API or do not match the stable schema"

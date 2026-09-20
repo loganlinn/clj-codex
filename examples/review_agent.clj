@@ -3,6 +3,7 @@
 (load-file (str (fs/path (fs/parent *file*) "support.clj")))
 (require '[examples.support :as example]
          '[babashka.process :as process]
+         '[clojure.pprint :refer [pprint]]
          '[clojure.string :as str]
          '[codex.app-server :as server]
          '[codex.event :as event]
@@ -14,7 +15,7 @@
 (defn repo-root [path]
   (let [{:keys [exit out err]}
         (process/shell {:out :string :err :string :continue true :shutdown nil}
-          "git" "-C" path "rev-parse" "--show-toplevel")]
+                       "git" "-C" path "rev-parse" "--show-toplevel")]
     (when-not (zero? exit)
       (throw (ex-info "Expected a path inside a Git working tree" {:path path :git-error (str/trim err)})))
     (str/trim out)))
@@ -26,18 +27,18 @@
         c (example/connect! {:cwd cwd})]
     (try
       (let [context (thread/start! c
-                      (cond-> {:cwd cwd :sandbox :read-only :approval-policy :never}
-                        model (assoc :model model)))
+                                   (cond-> {:cwd cwd :sandbox :read-only :approval-policy :never}
+                                     model (assoc :model model)))
             id (get-in context [::thread/thread ::thread/id])
             state (atom {})
             done (promise)
             ;; Subscribe before review/start: completion can precede its reply.
             subscription
             (event/listen! c {:thread-id id :on-error #(deliver done {:error %})}
-              (fn [e]
-                (swap! state event/apply-event e)
-                (when (event/terminal? e)
-                  (deliver done {:turn (event/turn-snapshot @state id (::turn/id e))}))))]
+                           (fn [e]
+                             (swap! state event/apply-event e)
+                             (when (event/terminal? e)
+                               (deliver done {:turn (event/turn-snapshot @state id (::turn/id e))}))))]
         (try
           (let [target (if prompt (review/custom prompt) (review/uncommitted))
                 started (review/start! c id target {:delivery :inline})
@@ -57,14 +58,20 @@
                                  (::turn/items completed))]
                 (when-not report
                   (throw (ex-info "Review completed without a review report" {:turn completed})))
-                (println report))))
+                (review/parse-report report))))
           (finally (event/unlisten! subscription))))
       (finally (server/close! c)))))
 
 (when (= *file* (System/getProperty "babashka.file"))
   (example/main! "bb examples/review_agent.clj [REPO] [--prompt 'Review changes against main.']"
-    (merge example/timeout-spec
-      {:repo {:coerce :string :default "." :desc "Git working tree path (default: current directory)"}
-       :prompt {:alias :p :coerce :string :desc "Custom review instructions; replaces the default target"}
-       :model {:coerce :string :desc "Optional model ID; otherwise use the configured model"}})
-    [:repo] review!))
+                 (merge example/timeout-spec
+                        {:repo {:coerce :string :default "." :desc "Git working tree path (default: current directory)"}
+                         :prompt {:alias :p :coerce :string :desc "Custom review instructions; replaces the default target"}
+                         :model {:coerce :string :desc "Optional model ID; otherwise use the configured model"}
+                         :format {:coerce :string :default "text" :validate #{"text" "edn"}
+                                  :desc "Output format: text or edn (default: text)"}})
+                 [:repo] (fn [opts]
+                           (let [result (review! opts)]
+                             (if (= "edn" (:format opts))
+                               (pprint result)
+                               (println (:raw result)))))))

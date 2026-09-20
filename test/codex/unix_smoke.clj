@@ -10,9 +10,9 @@
 
 (defn- read-loaded! [path]
   (let [c (server/connect!
-            {:transport {:type :websocket :url "ws://localhost/"
-                         :unix-socket path :connect-timeout-ms 5000}
-             :request-timeout-ms 5000})]
+           {:transport {:type :websocket :url "ws://localhost/"
+                        :unix-socket path :connect-timeout-ms 5000}
+            :request-timeout-ms 5000})]
     (try
       (check! (= :ready (server/status c)) "Initialization failed")
       (let [result (server/await! (server/request! c "thread/loaded/list" {}))]
@@ -22,7 +22,7 @@
 
 (defn -main [& [codex-bin]]
   (let [root (Files/createTempDirectory (Paths/get "/tmp" (make-array String 0))
-                                       "cxu-" (make-array FileAttribute 0))
+                                        "cxu-" (make-array FileAttribute 0))
         home (.resolve root "home")
         socket (.resolve root "s")
         log (.toFile (.resolve root "server.log"))
@@ -30,7 +30,7 @@
     (try
       (Files/createDirectory home (make-array FileAttribute 0))
       (let [builder (ProcessBuilder. ^java.util.List [(or codex-bin "codex") "app-server"
-                                                     "--listen" (str "unix://" socket)])]
+                                                      "--listen" (str "unix://" socket)])]
         (.put (.environment builder) "CODEX_HOME" (str home))
         (.directory builder (.toFile root))
         (.redirectErrorStream builder true)

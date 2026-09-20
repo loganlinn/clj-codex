@@ -193,8 +193,8 @@
   ([conn] (close! conn nil))
   ([conn cause]
    (let [[before _] (swap-vals! (:state conn) #(if (#{:closed :failed} (:status %)) %
-                                                 (assoc % :status (if cause :failed :closed)
-                                                        :error (some-> cause ex-data))))]
+                                                   (assoc % :status (if cause :failed :closed)
+                                                          :error (some-> cause ex-data))))]
      (when-not (#{:closed :failed} (:status before))
        (let [e (or cause (u/error :closed "Connection closed" {}))]
          (locking (:pending conn)
@@ -232,9 +232,9 @@
                         (when-not (or (= ::stop request) (#{:closed :failed} (status conn)))
                           (when request (dispatch-request! conn request)) (recur))))))
       (let [opened (transport/open! (or transport {:type :stdio})
-                                     {:receive! #(try (receive! conn %) (catch Exception e (close! conn e)))
-                                      :closed! #(close! conn (or % (u/error :transport "Transport closed" {})))
-                                      :stderr! (:on-stderr opts)})]
+                                    {:receive! #(try (receive! conn %) (catch Exception e (close! conn e)))
+                                     :closed! #(close! conn (or % (u/error :transport "Transport closed" {})))
+                                     :stderr! (:on-stderr opts)})]
         (reset! (:transport conn) opened)
         (when (#{:closed :failed} (status conn))
           ((:close! opened)) (throw (u/error :transport "Transport closed during connection" {}))))

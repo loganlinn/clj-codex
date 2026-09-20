@@ -69,10 +69,10 @@
   ;; The read-only / never thread above does not request sandbox escalation.
   (def handler
     (interaction/handle! conn :item.command-execution/request-approval
-      (constantly ::interaction/defer)))
+                         (constantly ::interaction/defer)))
   (repl/pending conn)
   (when-let [request (first (filter #(= :item.command-execution/request-approval (:kind %))
-                                  (interaction/pending conn)))]
+                                    (interaction/pending conn)))]
     (interaction/respond! conn request {:decision :decline}))
   (interaction/unhandle! handler)
 

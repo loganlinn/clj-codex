@@ -10,10 +10,10 @@
   ;; Start the server separately:
   ;; codex app-server --listen unix:///tmp/codex.sock
   (let [c (server/connect!
-            {:transport {:type :websocket
-                         :url url
-                         :unix-socket socket
-                         :connect-timeout-ms connect-timeout-ms}})]
+           {:transport {:type :websocket
+                        :url url
+                        :unix-socket socket
+                        :connect-timeout-ms connect-timeout-ms}})]
     (try
       ;; :socket selects the endpoint. The ws:// URL supplies HTTP Upgrade
       ;; metadata only: this connection does not use DNS or a TCP socket.
@@ -24,8 +24,8 @@
 
 (when (= *file* (System/getProperty "babashka.file"))
   (example/main! "bb examples/unix_socket.clj [SOCKET] [--url ws://localhost/]"
-    {:socket {:coerce :string :default "/tmp/codex.sock" :desc "Existing app-server Unix socket path"}
-     :url {:coerce :string :default "ws://localhost/" :desc "HTTP Upgrade URL (ws:// only)"}
-     :connect-timeout-ms {:coerce :long :default 10000 :validate pos?
-                          :desc "Connection and send timeout in milliseconds"}}
-    [:socket] inspect-unix!))
+                 {:socket {:coerce :string :default "/tmp/codex.sock" :desc "Existing app-server Unix socket path"}
+                  :url {:coerce :string :default "ws://localhost/" :desc "HTTP Upgrade URL (ws:// only)"}
+                  :connect-timeout-ms {:coerce :long :default 10000 :validate pos?
+                                       :desc "Connection and send timeout in milliseconds"}}
+                 [:socket] inspect-unix!))

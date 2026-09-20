@@ -46,32 +46,32 @@
         stable-methods (set (map #(get-in % ["properties" "method" "enum" 0]) (get stable "oneOf")))
         union (fn [file direction]
                 (let [root (read-json (fs/path full-dir file))]
-                (for [s (get root "oneOf")
-                      :let [method (get-in s ["properties" "method" "enum" 0])
-                            params (type-name (get-in s ["properties" "params"]))
-                            stable-param (get-in stable ["definitions" params])
-                            full-param (get-in root ["definitions" params])
-                            extra-fields (when stable-param
-                                           (vec (sort (remove (set (keys (get stable-param "properties")))
-                                                              (keys (get full-param "properties"))))))
-                            result (or (get response-overrides method)
-                                       (some-> params (str/replace #"^Nullable" "")
-                                               (str/replace #"Params$" "Response")))]]
-                  [(u/operation method)
-                   (cond-> {:op (u/operation method) :wire/method method
-                            :direction direction :args-schema params
-                            :params-required? (boolean (some #{"params"} (get s "required")))
-                            :wire/params (get-in s ["properties" "params"])
-                            :source-schema (str/replace file #"\.json$" "")
-                            :completion :rpc-response :retry :never-automatically
-                            :experimental-fields (mapv (comp keyword u/kebab) extra-fields)
-                            :experimental? (and (= direction :client->server)
-                                                (not (stable-methods method)))}
-                     (and result (contains? index result)) (assoc :result-schema result)
-                     (get s "description") (assoc :doc (get s "description"))
-                     (#{"plugin/list" "plugin/read" "plugin/install" "plugin/uninstall"} method)
-                     (assoc :stability :under-development)
-                     (= method "thread/rollback") (assoc :deprecated? true))])))
+                  (for [s (get root "oneOf")
+                        :let [method (get-in s ["properties" "method" "enum" 0])
+                              params (type-name (get-in s ["properties" "params"]))
+                              stable-param (get-in stable ["definitions" params])
+                              full-param (get-in root ["definitions" params])
+                              extra-fields (when stable-param
+                                             (vec (sort (remove (set (keys (get stable-param "properties")))
+                                                                (keys (get full-param "properties"))))))
+                              result (or (get response-overrides method)
+                                         (some-> params (str/replace #"^Nullable" "")
+                                                 (str/replace #"Params$" "Response")))]]
+                    [(u/operation method)
+                     (cond-> {:op (u/operation method) :wire/method method
+                              :direction direction :args-schema params
+                              :params-required? (boolean (some #{"params"} (get s "required")))
+                              :wire/params (get-in s ["properties" "params"])
+                              :source-schema (str/replace file #"\.json$" "")
+                              :completion :rpc-response :retry :never-automatically
+                              :experimental-fields (mapv (comp keyword u/kebab) extra-fields)
+                              :experimental? (and (= direction :client->server)
+                                                  (not (stable-methods method)))}
+                       (and result (contains? index result)) (assoc :result-schema result)
+                       (get s "description") (assoc :doc (get s "description"))
+                       (#{"plugin/list" "plugin/read" "plugin/install" "plugin/uninstall"} method)
+                       (assoc :stability :under-development)
+                       (= method "thread/rollback") (assoc :deprecated? true))])))
         client (into (sorted-map) (union "ClientRequest.json" :client->server))
         server (into (sorted-map) (union "ServerRequest.json" :server->client))
         notifications (into (sorted-map) (union "ServerNotification.json" :notification))

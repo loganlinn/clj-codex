@@ -28,7 +28,7 @@
 (defn eventually [f]
   (loop [n 200]
     (if-let [x (f)] x
-        (when (pos? n) (Thread/sleep 5) (recur (dec n))))))
+            (when (pos? n) (Thread/sleep 5) (recur (dec n))))))
 
 (defn encode [id value] (let [[root s] (schema/lookup id)] (schema/encode root s value)))
 
@@ -122,7 +122,7 @@
 (deftest reply-id-direction-and-reentrant-handler
   (let [{:keys [conn responder receive! sent]} (fake)]
     (reset! responder (fn [m] (when (= "nested" (get m "method"))
-                               (receive! {"id" (get m "id") "result" "ok"}))))
+                                (receive! {"id" (get m "id") "result" "ok"}))))
     (try
       (interaction/handle! conn :item.command-execution/request-approval
                            (fn [_]
@@ -193,7 +193,7 @@
                          ["process/outputDelta" "process/exited"]
                          ["command/exec/outputDelta"])]]
     (let [{:keys [conn responder receive!]} (fake {:capabilities {:experimental-api true
-                                                               :opt-out-notification-methods opt-outs}})
+                                                                  :opt-out-notification-methods opt-outs}})
           output (.getBytes "λ🌱" "UTF-8")
           chunks [(java.util.Arrays/copyOfRange output 0 1)
                   (java.util.Arrays/copyOfRange output 1 (alength output))]
@@ -210,7 +210,7 @@
                     (receive! {"id" (get m "id") "result" (if (= kind :command) {"exitCode" 0 "stdout" "" "stderr" ""} {})})
                     (when (= kind :process)
                       (receive! {"method" "process/exited" "params" {id-key id "exitCode" 0 "stdout" "" "stderr" ""
-                                                                                    "stdoutCapReached" false "stderrCapReached" false}}))))))
+                                                                     "stdoutCapReached" false "stderrCapReached" false}}))))))
       (try
         (let [p ((if (= kind :command) command/start! process/start!) conn {:command ["echo" "hi"] :cwd "/tmp"})
               result ((if (= kind :command) command/await! process/await!) p 2000 ::timeout)]
@@ -221,11 +221,11 @@
 
 (deftest execution-requires-tracking-notifications
   (doseq [[start! method] [[command/start! "command/exec/outputDelta"]
-                          [process/start! "process/outputDelta"]
-                          [process/start! "process/exited"]]]
+                           [process/start! "process/outputDelta"]
+                           [process/start! "process/exited"]]]
     (testing method
       (let [{:keys [conn sent]} (fake {:capabilities {:experimental-api true
-                                                    :opt-out-notification-methods [method]}})
+                                                      :opt-out-notification-methods [method]}})
             before @sent]
         (try
           (let [error (try (start! conn {:command ["true"] :cwd "/tmp"})
@@ -251,8 +251,8 @@
 
 (deftest read-only-policy-encodes-for-turns-and-commands
   (doseq [[policy expected] [[(permission/read-only) {"type" "readOnly"}]
-                            [(permission/read-only false) {"type" "readOnly" "networkAccess" false}]
-                            [(permission/read-only true) {"type" "readOnly" "networkAccess" true}]]
+                             [(permission/read-only false) {"type" "readOnly" "networkAccess" false}]
+                             [(permission/read-only true) {"type" "readOnly" "networkAccess" true}]]
           [schema-id args] [["TurnStartParams" {:thread-id "t" :input []}]
                             ["CommandExecParams" {:command ["true"]}]]]
     (is (= expected (get (encode schema-id (assoc args :sandbox-policy policy)) "sandboxPolicy")))))
@@ -263,5 +263,5 @@
                  (server/connect! {:transport {:type :custom :open (fn [{:keys [receive!]}]
                                                                      {:close! #(reset! closed true)
                                                                       :send! #(receive! {"id" (get % "id")
-                                                                                        "error" {"code" -1 "message" "no"}})})}})))
+                                                                                         "error" {"code" -1 "message" "no"}})})}})))
     (is @closed)))

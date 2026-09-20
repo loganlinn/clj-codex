@@ -7,5 +7,5 @@
       "Requiring the facade must not load Java 16 implementation classes")
   (when-not (resolve 'java.net.UnixDomainSocketAddress)
     (is (thrown-with-msg? UnsupportedOperationException #"Java 16"
-                         (unix/websocket {:uri "ws://localhost/"
-                                          :unix-socket "/unused"})))))
+                          (unix/websocket {:uri "ws://localhost/"
+                                           :unix-socket "/unused"})))))

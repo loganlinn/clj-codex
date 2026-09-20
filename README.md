@@ -272,13 +272,32 @@ There are no automatic retries. Connection info and handle printing omit credent
 
 ## Development
 
+List the available tasks with `bb tasks`. If you use mise, run these commands through `mise exec --`.
+
 ```sh
 bb test
 clojure -M:test
 
+# Fix formatting, or check it without changing files.
+bb fmt
+bb fmt:check
+
+# Generate the API reference from public namespace docstrings.
+bb quickdoc
+
 # Regenerate both schema variants, provenance, and the operation catalog.
 bb codegen
 ```
+
+The formatter uses [cljfmt](https://github.com/weavejester/cljfmt) with the repository configuration in `.cljfmt.edn`.
+It covers source, tests, examples, scripts, and root EDN configuration files.
+Pass file or directory arguments to limit its scope, for example `bb fmt src/codex/thread.clj`.
+`bb fmt:check` exits with a nonzero status when files need formatting.
+
+The [API reference](API.md) uses [Quickdoc](https://github.com/borkdude/quickdoc), as do Babashka libraries such as `fs` and `http-client`.
+It includes public namespaces in `src/codex` and excludes `codex.impl.*`.
+After changes to public docstrings, run `bb quickdoc` and commit `API.md` with the source changes.
+The task accepts Quickdoc options, for example `bb quickdoc --outfile target/API.md --toc false`.
 
 The shared tests use deterministic peers and need no OpenAI account. They cover real subprocess pipes and loopback WebSockets, including fragmented frames and authentication headers.
 

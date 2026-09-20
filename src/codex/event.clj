@@ -74,14 +74,14 @@
                         (remember-item s k value (= :turn/completed type)))))
                 state (:codex.turn/items snapshot)))
       :item/started (if (get-in state [:items key :codex.item/completed?]) state
-                       (remember-item state key (:item data) false))
+                        (remember-item state key (:item data) false))
       :item/completed (remember-item state key (:item data) true)
       (:item/text-delta :item/plan-delta :item/command-output)
       (if (get-in state [:items key :codex.item/completed?]) state
           (let [field (if (= type :item/command-output) :codex.item/aggregated-output :codex.item/text)
                 current (get-in state [:items key] {:codex.item/id item
                                                     :codex.item/type (case type :item/text-delta :agent-message
-                                                                          :item/plan-delta :plan :command-execution)})]
+                                                                           :item/plan-delta :plan :command-execution)})]
             (remember-item state key (update current field (fnil str "") (:delta data)) false)))
       :turn/plan-updated (assoc-in state [:turns [t turn] :codex.turn/plan] data)
       :turn/diff-updated (assoc-in state [:turns [t turn] :codex.turn/diff] (:diff data))
@@ -96,4 +96,4 @@
   (assoc (get-in state [:turns [thread-id turn-id]] {:codex.turn/id turn-id})
          :codex.thread/id thread-id
          :codex.turn/items (mapv #(get-in state [:items [thread-id turn-id %]])
-                                (get-in state [:item-order [thread-id turn-id]] []))))
+                                 (get-in state [:item-order [thread-id turn-id]] []))))
