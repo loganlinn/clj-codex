@@ -1,0 +1,779 @@
+{"AccountLoginCompletedNotification"
+ "codex/app-server/v2/AccountLoginCompletedNotification.json",
+ "AccountRateLimitsUpdatedNotification"
+ "codex/app-server/v2/AccountRateLimitsUpdatedNotification.json",
+ "AccountUpdatedNotification"
+ "codex/app-server/v2/AccountUpdatedNotification.json",
+ "AgentMessageDeltaNotification"
+ "codex/app-server/v2/AgentMessageDeltaNotification.json",
+ "AppListUpdatedNotification"
+ "codex/app-server/v2/AppListUpdatedNotification.json",
+ "ApplyPatchApprovalParams"
+ "codex/app-server/ApplyPatchApprovalParams.json",
+ "ApplyPatchApprovalResponse"
+ "codex/app-server/ApplyPatchApprovalResponse.json",
+ "AppsInstalledParams" "codex/app-server/v2/AppsInstalledParams.json",
+ "AppsInstalledResponse"
+ "codex/app-server/v2/AppsInstalledResponse.json",
+ "AppsListParams" "codex/app-server/v2/AppsListParams.json",
+ "AppsListResponse" "codex/app-server/v2/AppsListResponse.json",
+ "AppsReadParams" "codex/app-server/v2/AppsReadParams.json",
+ "AppsReadResponse" "codex/app-server/v2/AppsReadResponse.json",
+ "AttestationGenerateParams"
+ "codex/app-server/AttestationGenerateParams.json",
+ "AttestationGenerateResponse"
+ "codex/app-server/AttestationGenerateResponse.json",
+ "AuthRecoveryNotification"
+ "codex/app-server/v2/AuthRecoveryNotification.json",
+ "BedrockDiscoverParams"
+ "codex/app-server/v2/BedrockDiscoverParams.json",
+ "BedrockDiscoverResponse"
+ "codex/app-server/v2/BedrockDiscoverResponse.json",
+ "BedrockSetupParams" "codex/app-server/v2/BedrockSetupParams.json",
+ "BedrockSetupResponse"
+ "codex/app-server/v2/BedrockSetupResponse.json",
+ "CancelLoginAccountParams"
+ "codex/app-server/v2/CancelLoginAccountParams.json",
+ "CancelLoginAccountResponse"
+ "codex/app-server/v2/CancelLoginAccountResponse.json",
+ "ChatgptAuthTokensRefreshParams"
+ "codex/app-server/ChatgptAuthTokensRefreshParams.json",
+ "ChatgptAuthTokensRefreshResponse"
+ "codex/app-server/ChatgptAuthTokensRefreshResponse.json",
+ "ClientNotification" "codex/app-server/ClientNotification.json",
+ "ClientRequest" "codex/app-server/ClientRequest.json",
+ "CollaborationModeListParams"
+ "codex/app-server/v2/CollaborationModeListParams.json",
+ "CollaborationModeListResponse"
+ "codex/app-server/v2/CollaborationModeListResponse.json",
+ "CommandExecOutputDeltaNotification"
+ "codex/app-server/v2/CommandExecOutputDeltaNotification.json",
+ "CommandExecParams" "codex/app-server/v2/CommandExecParams.json",
+ "CommandExecResizeParams"
+ "codex/app-server/v2/CommandExecResizeParams.json",
+ "CommandExecResizeResponse"
+ "codex/app-server/v2/CommandExecResizeResponse.json",
+ "CommandExecResponse" "codex/app-server/v2/CommandExecResponse.json",
+ "CommandExecTerminateParams"
+ "codex/app-server/v2/CommandExecTerminateParams.json",
+ "CommandExecTerminateResponse"
+ "codex/app-server/v2/CommandExecTerminateResponse.json",
+ "CommandExecWriteParams"
+ "codex/app-server/v2/CommandExecWriteParams.json",
+ "CommandExecWriteResponse"
+ "codex/app-server/v2/CommandExecWriteResponse.json",
+ "CommandExecutionOutputDeltaNotification"
+ "codex/app-server/v2/CommandExecutionOutputDeltaNotification.json",
+ "CommandExecutionRequestApprovalParams"
+ "codex/app-server/CommandExecutionRequestApprovalParams.json",
+ "CommandExecutionRequestApprovalResponse"
+ "codex/app-server/CommandExecutionRequestApprovalResponse.json",
+ "ConfigBatchWriteParams"
+ "codex/app-server/v2/ConfigBatchWriteParams.json",
+ "ConfigReadParams" "codex/app-server/v2/ConfigReadParams.json",
+ "ConfigReadResponse" "codex/app-server/v2/ConfigReadResponse.json",
+ "ConfigRequirementsReadResponse"
+ "codex/app-server/v2/ConfigRequirementsReadResponse.json",
+ "ConfigValueWriteParams"
+ "codex/app-server/v2/ConfigValueWriteParams.json",
+ "ConfigWarningNotification"
+ "codex/app-server/v2/ConfigWarningNotification.json",
+ "ConfigWriteResponse" "codex/app-server/v2/ConfigWriteResponse.json",
+ "ConsumeAccountRateLimitResetCreditParams"
+ "codex/app-server/v2/ConsumeAccountRateLimitResetCreditParams.json",
+ "ConsumeAccountRateLimitResetCreditResponse"
+ "codex/app-server/v2/ConsumeAccountRateLimitResetCreditResponse.json",
+ "ContextCompactedNotification"
+ "codex/app-server/v2/ContextCompactedNotification.json",
+ "CurrentTimeReadParams" "codex/app-server/CurrentTimeReadParams.json",
+ "CurrentTimeReadResponse"
+ "codex/app-server/CurrentTimeReadResponse.json",
+ "DeprecationNoticeNotification"
+ "codex/app-server/v2/DeprecationNoticeNotification.json",
+ "DynamicToolCallParams" "codex/app-server/DynamicToolCallParams.json",
+ "DynamicToolCallResponse"
+ "codex/app-server/DynamicToolCallResponse.json",
+ "EnvironmentAddParams"
+ "codex/app-server/v2/EnvironmentAddParams.json",
+ "EnvironmentAddResponse"
+ "codex/app-server/v2/EnvironmentAddResponse.json",
+ "EnvironmentConnectionNotification"
+ "codex/app-server/v2/EnvironmentConnectionNotification.json",
+ "EnvironmentInfoParams"
+ "codex/app-server/v2/EnvironmentInfoParams.json",
+ "EnvironmentInfoResponse"
+ "codex/app-server/v2/EnvironmentInfoResponse.json",
+ "EnvironmentStatusParams"
+ "codex/app-server/v2/EnvironmentStatusParams.json",
+ "EnvironmentStatusResponse"
+ "codex/app-server/v2/EnvironmentStatusResponse.json",
+ "ErrorNotification" "codex/app-server/v2/ErrorNotification.json",
+ "ExecCommandApprovalParams"
+ "codex/app-server/ExecCommandApprovalParams.json",
+ "ExecCommandApprovalResponse"
+ "codex/app-server/ExecCommandApprovalResponse.json",
+ "ExperimentalFeatureEnablementSetParams"
+ "codex/app-server/v2/ExperimentalFeatureEnablementSetParams.json",
+ "ExperimentalFeatureEnablementSetResponse"
+ "codex/app-server/v2/ExperimentalFeatureEnablementSetResponse.json",
+ "ExperimentalFeatureListParams"
+ "codex/app-server/v2/ExperimentalFeatureListParams.json",
+ "ExperimentalFeatureListResponse"
+ "codex/app-server/v2/ExperimentalFeatureListResponse.json",
+ "ExternalAgentConfigDetectParams"
+ "codex/app-server/v2/ExternalAgentConfigDetectParams.json",
+ "ExternalAgentConfigDetectResponse"
+ "codex/app-server/v2/ExternalAgentConfigDetectResponse.json",
+ "ExternalAgentConfigImportCompletedNotification"
+ "codex/app-server/v2/ExternalAgentConfigImportCompletedNotification.json",
+ "ExternalAgentConfigImportHistoriesReadResponse"
+ "codex/app-server/v2/ExternalAgentConfigImportHistoriesReadResponse.json",
+ "ExternalAgentConfigImportHistoryRecordParams"
+ "codex/app-server/v2/ExternalAgentConfigImportHistoryRecordParams.json",
+ "ExternalAgentConfigImportHistoryRecordResponse"
+ "codex/app-server/v2/ExternalAgentConfigImportHistoryRecordResponse.json",
+ "ExternalAgentConfigImportParams"
+ "codex/app-server/v2/ExternalAgentConfigImportParams.json",
+ "ExternalAgentConfigImportProgressNotification"
+ "codex/app-server/v2/ExternalAgentConfigImportProgressNotification.json",
+ "ExternalAgentConfigImportResponse"
+ "codex/app-server/v2/ExternalAgentConfigImportResponse.json",
+ "FeedbackUploadParams"
+ "codex/app-server/v2/FeedbackUploadParams.json",
+ "FeedbackUploadResponse"
+ "codex/app-server/v2/FeedbackUploadResponse.json",
+ "FileChangeOutputDeltaNotification"
+ "codex/app-server/v2/FileChangeOutputDeltaNotification.json",
+ "FileChangePatchUpdatedNotification"
+ "codex/app-server/v2/FileChangePatchUpdatedNotification.json",
+ "FileChangeRequestApprovalParams"
+ "codex/app-server/FileChangeRequestApprovalParams.json",
+ "FileChangeRequestApprovalResponse"
+ "codex/app-server/FileChangeRequestApprovalResponse.json",
+ "FsChangedNotification"
+ "codex/app-server/v2/FsChangedNotification.json",
+ "FsCopyParams" "codex/app-server/v2/FsCopyParams.json",
+ "FsCopyResponse" "codex/app-server/v2/FsCopyResponse.json",
+ "FsCreateDirectoryParams"
+ "codex/app-server/v2/FsCreateDirectoryParams.json",
+ "FsCreateDirectoryResponse"
+ "codex/app-server/v2/FsCreateDirectoryResponse.json",
+ "FsGetMetadataParams" "codex/app-server/v2/FsGetMetadataParams.json",
+ "FsGetMetadataResponse"
+ "codex/app-server/v2/FsGetMetadataResponse.json",
+ "FsReadDirectoryParams"
+ "codex/app-server/v2/FsReadDirectoryParams.json",
+ "FsReadDirectoryResponse"
+ "codex/app-server/v2/FsReadDirectoryResponse.json",
+ "FsReadFileParams" "codex/app-server/v2/FsReadFileParams.json",
+ "FsReadFileResponse" "codex/app-server/v2/FsReadFileResponse.json",
+ "FsRemoveParams" "codex/app-server/v2/FsRemoveParams.json",
+ "FsRemoveResponse" "codex/app-server/v2/FsRemoveResponse.json",
+ "FsUnwatchParams" "codex/app-server/v2/FsUnwatchParams.json",
+ "FsUnwatchResponse" "codex/app-server/v2/FsUnwatchResponse.json",
+ "FsWatchParams" "codex/app-server/v2/FsWatchParams.json",
+ "FsWatchResponse" "codex/app-server/v2/FsWatchResponse.json",
+ "FsWriteFileParams" "codex/app-server/v2/FsWriteFileParams.json",
+ "FsWriteFileResponse" "codex/app-server/v2/FsWriteFileResponse.json",
+ "FuzzyFileSearchParams" "codex/app-server/FuzzyFileSearchParams.json",
+ "FuzzyFileSearchResponse"
+ "codex/app-server/FuzzyFileSearchResponse.json",
+ "FuzzyFileSearchSessionCompletedNotification"
+ "codex/app-server/FuzzyFileSearchSessionCompletedNotification.json",
+ "FuzzyFileSearchSessionStartParams"
+ "codex/app-server/FuzzyFileSearchSessionStartParams.json",
+ "FuzzyFileSearchSessionStartResponse"
+ "codex/app-server/FuzzyFileSearchSessionStartResponse.json",
+ "FuzzyFileSearchSessionStopParams"
+ "codex/app-server/FuzzyFileSearchSessionStopParams.json",
+ "FuzzyFileSearchSessionStopResponse"
+ "codex/app-server/FuzzyFileSearchSessionStopResponse.json",
+ "FuzzyFileSearchSessionUpdateParams"
+ "codex/app-server/FuzzyFileSearchSessionUpdateParams.json",
+ "FuzzyFileSearchSessionUpdateResponse"
+ "codex/app-server/FuzzyFileSearchSessionUpdateResponse.json",
+ "FuzzyFileSearchSessionUpdatedNotification"
+ "codex/app-server/FuzzyFileSearchSessionUpdatedNotification.json",
+ "GetAccountParams" "codex/app-server/v2/GetAccountParams.json",
+ "GetAccountRateLimitsResponse"
+ "codex/app-server/v2/GetAccountRateLimitsResponse.json",
+ "GetAccountResponse" "codex/app-server/v2/GetAccountResponse.json",
+ "GetAccountTokenUsageResponse"
+ "codex/app-server/v2/GetAccountTokenUsageResponse.json",
+ "GetWorkspaceMessagesResponse"
+ "codex/app-server/v2/GetWorkspaceMessagesResponse.json",
+ "GuardianWarningNotification"
+ "codex/app-server/v2/GuardianWarningNotification.json",
+ "HookCompletedNotification"
+ "codex/app-server/v2/HookCompletedNotification.json",
+ "HookStartedNotification"
+ "codex/app-server/v2/HookStartedNotification.json",
+ "HooksListParams" "codex/app-server/v2/HooksListParams.json",
+ "HooksListResponse" "codex/app-server/v2/HooksListResponse.json",
+ "InitializeParams" "codex/app-server/v1/InitializeParams.json",
+ "InitializeResponse" "codex/app-server/v1/InitializeResponse.json",
+ "ItemCompletedNotification"
+ "codex/app-server/v2/ItemCompletedNotification.json",
+ "ItemGuardianApprovalReviewCompletedNotification"
+ "codex/app-server/v2/ItemGuardianApprovalReviewCompletedNotification.json",
+ "ItemGuardianApprovalReviewStartedNotification"
+ "codex/app-server/v2/ItemGuardianApprovalReviewStartedNotification.json",
+ "ItemStartedNotification"
+ "codex/app-server/v2/ItemStartedNotification.json",
+ "JSONRPCError" "codex/app-server/JSONRPCError.json",
+ "JSONRPCErrorError" "codex/app-server/JSONRPCErrorError.json",
+ "JSONRPCMessage" "codex/app-server/JSONRPCMessage.json",
+ "JSONRPCNotification" "codex/app-server/JSONRPCNotification.json",
+ "JSONRPCRequest" "codex/app-server/JSONRPCRequest.json",
+ "JSONRPCResponse" "codex/app-server/JSONRPCResponse.json",
+ "ListMcpServerStatusParams"
+ "codex/app-server/v2/ListMcpServerStatusParams.json",
+ "ListMcpServerStatusResponse"
+ "codex/app-server/v2/ListMcpServerStatusResponse.json",
+ "LoginAccountParams" "codex/app-server/v2/LoginAccountParams.json",
+ "LoginAccountResponse"
+ "codex/app-server/v2/LoginAccountResponse.json",
+ "LogoutAccountResponse"
+ "codex/app-server/v2/LogoutAccountResponse.json",
+ "MarketplaceAddParams"
+ "codex/app-server/v2/MarketplaceAddParams.json",
+ "MarketplaceAddResponse"
+ "codex/app-server/v2/MarketplaceAddResponse.json",
+ "MarketplaceRemoveParams"
+ "codex/app-server/v2/MarketplaceRemoveParams.json",
+ "MarketplaceRemoveResponse"
+ "codex/app-server/v2/MarketplaceRemoveResponse.json",
+ "MarketplaceUpgradeParams"
+ "codex/app-server/v2/MarketplaceUpgradeParams.json",
+ "MarketplaceUpgradeResponse"
+ "codex/app-server/v2/MarketplaceUpgradeResponse.json",
+ "McpResourceReadParams"
+ "codex/app-server/v2/McpResourceReadParams.json",
+ "McpResourceReadResponse"
+ "codex/app-server/v2/McpResourceReadResponse.json",
+ "McpServerElicitationRequestParams"
+ "codex/app-server/McpServerElicitationRequestParams.json",
+ "McpServerElicitationRequestResponse"
+ "codex/app-server/McpServerElicitationRequestResponse.json",
+ "McpServerEventStreamNotification"
+ "codex/app-server/v2/McpServerEventStreamNotification.json",
+ "McpServerEventStreamStartParams"
+ "codex/app-server/v2/McpServerEventStreamStartParams.json",
+ "McpServerEventStreamStartResponse"
+ "codex/app-server/v2/McpServerEventStreamStartResponse.json",
+ "McpServerEventStreamStopParams"
+ "codex/app-server/v2/McpServerEventStreamStopParams.json",
+ "McpServerEventStreamStopResponse"
+ "codex/app-server/v2/McpServerEventStreamStopResponse.json",
+ "McpServerOauthLoginCompletedNotification"
+ "codex/app-server/v2/McpServerOauthLoginCompletedNotification.json",
+ "McpServerOauthLoginParams"
+ "codex/app-server/v2/McpServerOauthLoginParams.json",
+ "McpServerOauthLoginResponse"
+ "codex/app-server/v2/McpServerOauthLoginResponse.json",
+ "McpServerRefreshResponse"
+ "codex/app-server/v2/McpServerRefreshResponse.json",
+ "McpServerStatusUpdatedNotification"
+ "codex/app-server/v2/McpServerStatusUpdatedNotification.json",
+ "McpServerToolCallParams"
+ "codex/app-server/v2/McpServerToolCallParams.json",
+ "McpServerToolCallResponse"
+ "codex/app-server/v2/McpServerToolCallResponse.json",
+ "McpToolCallProgressNotification"
+ "codex/app-server/v2/McpToolCallProgressNotification.json",
+ "MemoryResetResponse" "codex/app-server/v2/MemoryResetResponse.json",
+ "MemoryStatusParams" "codex/app-server/v2/MemoryStatusParams.json",
+ "MemoryStatusResponse"
+ "codex/app-server/v2/MemoryStatusResponse.json",
+ "MockExperimentalMethodParams"
+ "codex/app-server/v2/MockExperimentalMethodParams.json",
+ "MockExperimentalMethodResponse"
+ "codex/app-server/v2/MockExperimentalMethodResponse.json",
+ "ModelListParams" "codex/app-server/v2/ModelListParams.json",
+ "ModelListResponse" "codex/app-server/v2/ModelListResponse.json",
+ "ModelProviderCapabilitiesReadParams"
+ "codex/app-server/v2/ModelProviderCapabilitiesReadParams.json",
+ "ModelProviderCapabilitiesReadResponse"
+ "codex/app-server/v2/ModelProviderCapabilitiesReadResponse.json",
+ "ModelReroutedNotification"
+ "codex/app-server/v2/ModelReroutedNotification.json",
+ "ModelSafetyBufferingUpdatedNotification"
+ "codex/app-server/v2/ModelSafetyBufferingUpdatedNotification.json",
+ "ModelVerificationNotification"
+ "codex/app-server/v2/ModelVerificationNotification.json",
+ "NullableGetAccountRateLimitsParams"
+ "codex/app-server/v2/NullableGetAccountRateLimitsParams.json",
+ "NullableGetAccountTokenUsageParams"
+ "codex/app-server/v2/NullableGetAccountTokenUsageParams.json",
+ "NullableRemoteControlDisableParams"
+ "codex/app-server/v2/NullableRemoteControlDisableParams.json",
+ "NullableRemoteControlEnableParams"
+ "codex/app-server/v2/NullableRemoteControlEnableParams.json",
+ "PermissionProfileListParams"
+ "codex/app-server/v2/PermissionProfileListParams.json",
+ "PermissionProfileListResponse"
+ "codex/app-server/v2/PermissionProfileListResponse.json",
+ "PermissionsRequestApprovalParams"
+ "codex/app-server/PermissionsRequestApprovalParams.json",
+ "PermissionsRequestApprovalResponse"
+ "codex/app-server/PermissionsRequestApprovalResponse.json",
+ "PlanDeltaNotification"
+ "codex/app-server/v2/PlanDeltaNotification.json",
+ "PluginInstallParams" "codex/app-server/v2/PluginInstallParams.json",
+ "PluginInstallResponse"
+ "codex/app-server/v2/PluginInstallResponse.json",
+ "PluginInstalledParams"
+ "codex/app-server/v2/PluginInstalledParams.json",
+ "PluginInstalledResponse"
+ "codex/app-server/v2/PluginInstalledResponse.json",
+ "PluginListParams" "codex/app-server/v2/PluginListParams.json",
+ "PluginListResponse" "codex/app-server/v2/PluginListResponse.json",
+ "PluginReadParams" "codex/app-server/v2/PluginReadParams.json",
+ "PluginReadResponse" "codex/app-server/v2/PluginReadResponse.json",
+ "PluginReconcileParams"
+ "codex/app-server/v2/PluginReconcileParams.json",
+ "PluginReconcileResponse"
+ "codex/app-server/v2/PluginReconcileResponse.json",
+ "PluginSearchParams" "codex/app-server/v2/PluginSearchParams.json",
+ "PluginSearchResponse"
+ "codex/app-server/v2/PluginSearchResponse.json",
+ "PluginShareCheckoutParams"
+ "codex/app-server/v2/PluginShareCheckoutParams.json",
+ "PluginShareCheckoutResponse"
+ "codex/app-server/v2/PluginShareCheckoutResponse.json",
+ "PluginShareDeleteParams"
+ "codex/app-server/v2/PluginShareDeleteParams.json",
+ "PluginShareDeleteResponse"
+ "codex/app-server/v2/PluginShareDeleteResponse.json",
+ "PluginShareListParams"
+ "codex/app-server/v2/PluginShareListParams.json",
+ "PluginShareListResponse"
+ "codex/app-server/v2/PluginShareListResponse.json",
+ "PluginShareSaveParams"
+ "codex/app-server/v2/PluginShareSaveParams.json",
+ "PluginShareSaveResponse"
+ "codex/app-server/v2/PluginShareSaveResponse.json",
+ "PluginShareUpdateTargetsParams"
+ "codex/app-server/v2/PluginShareUpdateTargetsParams.json",
+ "PluginShareUpdateTargetsResponse"
+ "codex/app-server/v2/PluginShareUpdateTargetsResponse.json",
+ "PluginSkillReadParams"
+ "codex/app-server/v2/PluginSkillReadParams.json",
+ "PluginSkillReadResponse"
+ "codex/app-server/v2/PluginSkillReadResponse.json",
+ "PluginUninstallParams"
+ "codex/app-server/v2/PluginUninstallParams.json",
+ "PluginUninstallResponse"
+ "codex/app-server/v2/PluginUninstallResponse.json",
+ "ProcessExitedNotification"
+ "codex/app-server/v2/ProcessExitedNotification.json",
+ "ProcessKillParams" "codex/app-server/v2/ProcessKillParams.json",
+ "ProcessKillResponse" "codex/app-server/v2/ProcessKillResponse.json",
+ "ProcessOutputDeltaNotification"
+ "codex/app-server/v2/ProcessOutputDeltaNotification.json",
+ "ProcessResizePtyParams"
+ "codex/app-server/v2/ProcessResizePtyParams.json",
+ "ProcessResizePtyResponse"
+ "codex/app-server/v2/ProcessResizePtyResponse.json",
+ "ProcessSpawnParams" "codex/app-server/v2/ProcessSpawnParams.json",
+ "ProcessSpawnResponse"
+ "codex/app-server/v2/ProcessSpawnResponse.json",
+ "ProcessWriteStdinParams"
+ "codex/app-server/v2/ProcessWriteStdinParams.json",
+ "ProcessWriteStdinResponse"
+ "codex/app-server/v2/ProcessWriteStdinResponse.json",
+ "ProjectChangedNotification"
+ "codex/app-server/v2/ProjectChangedNotification.json",
+ "ProjectCreateParams" "codex/app-server/v2/ProjectCreateParams.json",
+ "ProjectCreateResponse"
+ "codex/app-server/v2/ProjectCreateResponse.json",
+ "ProjectDeleteParams" "codex/app-server/v2/ProjectDeleteParams.json",
+ "ProjectDeleteResponse"
+ "codex/app-server/v2/ProjectDeleteResponse.json",
+ "ProjectImportParams" "codex/app-server/v2/ProjectImportParams.json",
+ "ProjectImportResponse"
+ "codex/app-server/v2/ProjectImportResponse.json",
+ "ProjectListParams" "codex/app-server/v2/ProjectListParams.json",
+ "ProjectListResponse" "codex/app-server/v2/ProjectListResponse.json",
+ "ProjectMoveParams" "codex/app-server/v2/ProjectMoveParams.json",
+ "ProjectMoveResponse" "codex/app-server/v2/ProjectMoveResponse.json",
+ "ProjectReadParams" "codex/app-server/v2/ProjectReadParams.json",
+ "ProjectReadResponse" "codex/app-server/v2/ProjectReadResponse.json",
+ "ProjectUpdateParams" "codex/app-server/v2/ProjectUpdateParams.json",
+ "ProjectUpdateResponse"
+ "codex/app-server/v2/ProjectUpdateResponse.json",
+ "RawResponseCompletedNotification"
+ "codex/app-server/v2/RawResponseCompletedNotification.json",
+ "RawResponseItemCompletedNotification"
+ "codex/app-server/v2/RawResponseItemCompletedNotification.json",
+ "ReasoningSummaryPartAddedNotification"
+ "codex/app-server/v2/ReasoningSummaryPartAddedNotification.json",
+ "ReasoningSummaryTextDeltaNotification"
+ "codex/app-server/v2/ReasoningSummaryTextDeltaNotification.json",
+ "ReasoningTextDeltaNotification"
+ "codex/app-server/v2/ReasoningTextDeltaNotification.json",
+ "RemoteControlClientsListParams"
+ "codex/app-server/v2/RemoteControlClientsListParams.json",
+ "RemoteControlClientsListResponse"
+ "codex/app-server/v2/RemoteControlClientsListResponse.json",
+ "RemoteControlClientsRevokeParams"
+ "codex/app-server/v2/RemoteControlClientsRevokeParams.json",
+ "RemoteControlClientsRevokeResponse"
+ "codex/app-server/v2/RemoteControlClientsRevokeResponse.json",
+ "RemoteControlDisableResponse"
+ "codex/app-server/v2/RemoteControlDisableResponse.json",
+ "RemoteControlEnableResponse"
+ "codex/app-server/v2/RemoteControlEnableResponse.json",
+ "RemoteControlPairingStartParams"
+ "codex/app-server/v2/RemoteControlPairingStartParams.json",
+ "RemoteControlPairingStartResponse"
+ "codex/app-server/v2/RemoteControlPairingStartResponse.json",
+ "RemoteControlPairingStatusParams"
+ "codex/app-server/v2/RemoteControlPairingStatusParams.json",
+ "RemoteControlPairingStatusResponse"
+ "codex/app-server/v2/RemoteControlPairingStatusResponse.json",
+ "RemoteControlStatusChangedNotification"
+ "codex/app-server/v2/RemoteControlStatusChangedNotification.json",
+ "RemoteControlStatusReadResponse"
+ "codex/app-server/v2/RemoteControlStatusReadResponse.json",
+ "RequestId" "codex/app-server/RequestId.json",
+ "ReviewStartParams" "codex/app-server/v2/ReviewStartParams.json",
+ "ReviewStartResponse" "codex/app-server/v2/ReviewStartResponse.json",
+ "SendAddCreditsNudgeEmailParams"
+ "codex/app-server/v2/SendAddCreditsNudgeEmailParams.json",
+ "SendAddCreditsNudgeEmailResponse"
+ "codex/app-server/v2/SendAddCreditsNudgeEmailResponse.json",
+ "ServerDiagnosticsParams"
+ "codex/app-server/v2/ServerDiagnosticsParams.json",
+ "ServerDiagnosticsResponse"
+ "codex/app-server/v2/ServerDiagnosticsResponse.json",
+ "ServerNotification" "codex/app-server/ServerNotification.json",
+ "ServerRequest" "codex/app-server/ServerRequest.json",
+ "ServerRequestResolvedNotification"
+ "codex/app-server/v2/ServerRequestResolvedNotification.json",
+ "SkillsChangedNotification"
+ "codex/app-server/v2/SkillsChangedNotification.json",
+ "SkillsConfigWriteParams"
+ "codex/app-server/v2/SkillsConfigWriteParams.json",
+ "SkillsConfigWriteResponse"
+ "codex/app-server/v2/SkillsConfigWriteResponse.json",
+ "SkillsExtraRootsSetParams"
+ "codex/app-server/v2/SkillsExtraRootsSetParams.json",
+ "SkillsExtraRootsSetResponse"
+ "codex/app-server/v2/SkillsExtraRootsSetResponse.json",
+ "SkillsListParams" "codex/app-server/v2/SkillsListParams.json",
+ "SkillsListResponse" "codex/app-server/v2/SkillsListResponse.json",
+ "StrictReviewRequiredNotification"
+ "codex/app-server/v2/StrictReviewRequiredNotification.json",
+ "TerminalInteractionNotification"
+ "codex/app-server/v2/TerminalInteractionNotification.json",
+ "ThreadApproveGuardianDeniedActionParams"
+ "codex/app-server/v2/ThreadApproveGuardianDeniedActionParams.json",
+ "ThreadApproveGuardianDeniedActionResponse"
+ "codex/app-server/v2/ThreadApproveGuardianDeniedActionResponse.json",
+ "ThreadArchiveParams" "codex/app-server/v2/ThreadArchiveParams.json",
+ "ThreadArchiveResponse"
+ "codex/app-server/v2/ThreadArchiveResponse.json",
+ "ThreadArchivedNotification"
+ "codex/app-server/v2/ThreadArchivedNotification.json",
+ "ThreadAttachmentAddParams"
+ "codex/app-server/v2/ThreadAttachmentAddParams.json",
+ "ThreadAttachmentAddResponse"
+ "codex/app-server/v2/ThreadAttachmentAddResponse.json",
+ "ThreadAttachmentListParams"
+ "codex/app-server/v2/ThreadAttachmentListParams.json",
+ "ThreadAttachmentListResponse"
+ "codex/app-server/v2/ThreadAttachmentListResponse.json",
+ "ThreadAttachmentRemoveParams"
+ "codex/app-server/v2/ThreadAttachmentRemoveParams.json",
+ "ThreadAttachmentRemoveResponse"
+ "codex/app-server/v2/ThreadAttachmentRemoveResponse.json",
+ "ThreadAttachmentUpdatedNotification"
+ "codex/app-server/v2/ThreadAttachmentUpdatedNotification.json",
+ "ThreadBackgroundTerminalsCleanParams"
+ "codex/app-server/v2/ThreadBackgroundTerminalsCleanParams.json",
+ "ThreadBackgroundTerminalsCleanResponse"
+ "codex/app-server/v2/ThreadBackgroundTerminalsCleanResponse.json",
+ "ThreadBackgroundTerminalsListParams"
+ "codex/app-server/v2/ThreadBackgroundTerminalsListParams.json",
+ "ThreadBackgroundTerminalsListResponse"
+ "codex/app-server/v2/ThreadBackgroundTerminalsListResponse.json",
+ "ThreadBackgroundTerminalsTerminateParams"
+ "codex/app-server/v2/ThreadBackgroundTerminalsTerminateParams.json",
+ "ThreadBackgroundTerminalsTerminateResponse"
+ "codex/app-server/v2/ThreadBackgroundTerminalsTerminateResponse.json",
+ "ThreadClosedNotification"
+ "codex/app-server/v2/ThreadClosedNotification.json",
+ "ThreadCompactStartParams"
+ "codex/app-server/v2/ThreadCompactStartParams.json",
+ "ThreadCompactStartResponse"
+ "codex/app-server/v2/ThreadCompactStartResponse.json",
+ "ThreadDecrementElicitationParams"
+ "codex/app-server/v2/ThreadDecrementElicitationParams.json",
+ "ThreadDecrementElicitationResponse"
+ "codex/app-server/v2/ThreadDecrementElicitationResponse.json",
+ "ThreadDeleteParams" "codex/app-server/v2/ThreadDeleteParams.json",
+ "ThreadDeleteResponse"
+ "codex/app-server/v2/ThreadDeleteResponse.json",
+ "ThreadDeletedNotification"
+ "codex/app-server/v2/ThreadDeletedNotification.json",
+ "ThreadForkParams" "codex/app-server/v2/ThreadForkParams.json",
+ "ThreadForkResponse" "codex/app-server/v2/ThreadForkResponse.json",
+ "ThreadGoalClearParams"
+ "codex/app-server/v2/ThreadGoalClearParams.json",
+ "ThreadGoalClearResponse"
+ "codex/app-server/v2/ThreadGoalClearResponse.json",
+ "ThreadGoalClearedNotification"
+ "codex/app-server/v2/ThreadGoalClearedNotification.json",
+ "ThreadGoalGetParams" "codex/app-server/v2/ThreadGoalGetParams.json",
+ "ThreadGoalGetResponse"
+ "codex/app-server/v2/ThreadGoalGetResponse.json",
+ "ThreadGoalSetParams" "codex/app-server/v2/ThreadGoalSetParams.json",
+ "ThreadGoalSetResponse"
+ "codex/app-server/v2/ThreadGoalSetResponse.json",
+ "ThreadGoalUpdatedNotification"
+ "codex/app-server/v2/ThreadGoalUpdatedNotification.json",
+ "ThreadIncrementElicitationParams"
+ "codex/app-server/v2/ThreadIncrementElicitationParams.json",
+ "ThreadIncrementElicitationResponse"
+ "codex/app-server/v2/ThreadIncrementElicitationResponse.json",
+ "ThreadInjectItemsParams"
+ "codex/app-server/v2/ThreadInjectItemsParams.json",
+ "ThreadInjectItemsResponse"
+ "codex/app-server/v2/ThreadInjectItemsResponse.json",
+ "ThreadItemsListParams"
+ "codex/app-server/v2/ThreadItemsListParams.json",
+ "ThreadItemsListResponse"
+ "codex/app-server/v2/ThreadItemsListResponse.json",
+ "ThreadListParams" "codex/app-server/v2/ThreadListParams.json",
+ "ThreadListResponse" "codex/app-server/v2/ThreadListResponse.json",
+ "ThreadLoadedListParams"
+ "codex/app-server/v2/ThreadLoadedListParams.json",
+ "ThreadLoadedListResponse"
+ "codex/app-server/v2/ThreadLoadedListResponse.json",
+ "ThreadMemoryModeSetParams"
+ "codex/app-server/v2/ThreadMemoryModeSetParams.json",
+ "ThreadMemoryModeSetResponse"
+ "codex/app-server/v2/ThreadMemoryModeSetResponse.json",
+ "ThreadMetadataUpdateParams"
+ "codex/app-server/v2/ThreadMetadataUpdateParams.json",
+ "ThreadMetadataUpdateResponse"
+ "codex/app-server/v2/ThreadMetadataUpdateResponse.json",
+ "ThreadNameUpdatedNotification"
+ "codex/app-server/v2/ThreadNameUpdatedNotification.json",
+ "ThreadProjectUpdatedNotification"
+ "codex/app-server/v2/ThreadProjectUpdatedNotification.json",
+ "ThreadQueueAddParams"
+ "codex/app-server/v2/ThreadQueueAddParams.json",
+ "ThreadQueueAddResponse"
+ "codex/app-server/v2/ThreadQueueAddResponse.json",
+ "ThreadQueueChangedNotification"
+ "codex/app-server/v2/ThreadQueueChangedNotification.json",
+ "ThreadQueueDeleteParams"
+ "codex/app-server/v2/ThreadQueueDeleteParams.json",
+ "ThreadQueueDeleteResponse"
+ "codex/app-server/v2/ThreadQueueDeleteResponse.json",
+ "ThreadQueueListParams"
+ "codex/app-server/v2/ThreadQueueListParams.json",
+ "ThreadQueueListResponse"
+ "codex/app-server/v2/ThreadQueueListResponse.json",
+ "ThreadQueueReorderParams"
+ "codex/app-server/v2/ThreadQueueReorderParams.json",
+ "ThreadQueueReorderResponse"
+ "codex/app-server/v2/ThreadQueueReorderResponse.json",
+ "ThreadQueueStartParams"
+ "codex/app-server/v2/ThreadQueueStartParams.json",
+ "ThreadQueueStartResponse"
+ "codex/app-server/v2/ThreadQueueStartResponse.json",
+ "ThreadQueueUpdateParams"
+ "codex/app-server/v2/ThreadQueueUpdateParams.json",
+ "ThreadQueueUpdateResponse"
+ "codex/app-server/v2/ThreadQueueUpdateResponse.json",
+ "ThreadReadParams" "codex/app-server/v2/ThreadReadParams.json",
+ "ThreadReadResponse" "codex/app-server/v2/ThreadReadResponse.json",
+ "ThreadRealtimeAppendAudioParams"
+ "codex/app-server/v2/ThreadRealtimeAppendAudioParams.json",
+ "ThreadRealtimeAppendAudioResponse"
+ "codex/app-server/v2/ThreadRealtimeAppendAudioResponse.json",
+ "ThreadRealtimeAppendSpeechParams"
+ "codex/app-server/v2/ThreadRealtimeAppendSpeechParams.json",
+ "ThreadRealtimeAppendSpeechResponse"
+ "codex/app-server/v2/ThreadRealtimeAppendSpeechResponse.json",
+ "ThreadRealtimeAppendTextParams"
+ "codex/app-server/v2/ThreadRealtimeAppendTextParams.json",
+ "ThreadRealtimeAppendTextResponse"
+ "codex/app-server/v2/ThreadRealtimeAppendTextResponse.json",
+ "ThreadRealtimeClosedNotification"
+ "codex/app-server/v2/ThreadRealtimeClosedNotification.json",
+ "ThreadRealtimeErrorNotification"
+ "codex/app-server/v2/ThreadRealtimeErrorNotification.json",
+ "ThreadRealtimeItemAddedNotification"
+ "codex/app-server/v2/ThreadRealtimeItemAddedNotification.json",
+ "ThreadRealtimeItemCompletedNotification"
+ "codex/app-server/v2/ThreadRealtimeItemCompletedNotification.json",
+ "ThreadRealtimeItemStartedNotification"
+ "codex/app-server/v2/ThreadRealtimeItemStartedNotification.json",
+ "ThreadRealtimeItemTranscriptDeltaNotification"
+ "codex/app-server/v2/ThreadRealtimeItemTranscriptDeltaNotification.json",
+ "ThreadRealtimeListVoicesParams"
+ "codex/app-server/v2/ThreadRealtimeListVoicesParams.json",
+ "ThreadRealtimeListVoicesResponse"
+ "codex/app-server/v2/ThreadRealtimeListVoicesResponse.json",
+ "ThreadRealtimeOutputAudioDeltaNotification"
+ "codex/app-server/v2/ThreadRealtimeOutputAudioDeltaNotification.json",
+ "ThreadRealtimeSdpNotification"
+ "codex/app-server/v2/ThreadRealtimeSdpNotification.json",
+ "ThreadRealtimeStartParams"
+ "codex/app-server/v2/ThreadRealtimeStartParams.json",
+ "ThreadRealtimeStartResponse"
+ "codex/app-server/v2/ThreadRealtimeStartResponse.json",
+ "ThreadRealtimeStartedNotification"
+ "codex/app-server/v2/ThreadRealtimeStartedNotification.json",
+ "ThreadRealtimeStopParams"
+ "codex/app-server/v2/ThreadRealtimeStopParams.json",
+ "ThreadRealtimeStopResponse"
+ "codex/app-server/v2/ThreadRealtimeStopResponse.json",
+ "ThreadRealtimeTranscriptDeltaNotification"
+ "codex/app-server/v2/ThreadRealtimeTranscriptDeltaNotification.json",
+ "ThreadRealtimeTranscriptDoneNotification"
+ "codex/app-server/v2/ThreadRealtimeTranscriptDoneNotification.json",
+ "ThreadResumeParams" "codex/app-server/v2/ThreadResumeParams.json",
+ "ThreadResumeResponse"
+ "codex/app-server/v2/ThreadResumeResponse.json",
+ "ThreadRevertParams" "codex/app-server/v2/ThreadRevertParams.json",
+ "ThreadRevertResponse"
+ "codex/app-server/v2/ThreadRevertResponse.json",
+ "ThreadRevertedNotification"
+ "codex/app-server/v2/ThreadRevertedNotification.json",
+ "ThreadRollbackParams"
+ "codex/app-server/v2/ThreadRollbackParams.json",
+ "ThreadRollbackResponse"
+ "codex/app-server/v2/ThreadRollbackResponse.json",
+ "ThreadSearchOccurrencesParams"
+ "codex/app-server/v2/ThreadSearchOccurrencesParams.json",
+ "ThreadSearchOccurrencesResponse"
+ "codex/app-server/v2/ThreadSearchOccurrencesResponse.json",
+ "ThreadSearchParams" "codex/app-server/v2/ThreadSearchParams.json",
+ "ThreadSearchResponse"
+ "codex/app-server/v2/ThreadSearchResponse.json",
+ "ThreadSectionCreateParams"
+ "codex/app-server/v2/ThreadSectionCreateParams.json",
+ "ThreadSectionCreateResponse"
+ "codex/app-server/v2/ThreadSectionCreateResponse.json",
+ "ThreadSectionDeleteParams"
+ "codex/app-server/v2/ThreadSectionDeleteParams.json",
+ "ThreadSectionDeleteResponse"
+ "codex/app-server/v2/ThreadSectionDeleteResponse.json",
+ "ThreadSectionListParams"
+ "codex/app-server/v2/ThreadSectionListParams.json",
+ "ThreadSectionListResponse"
+ "codex/app-server/v2/ThreadSectionListResponse.json",
+ "ThreadSectionMoveParams"
+ "codex/app-server/v2/ThreadSectionMoveParams.json",
+ "ThreadSectionMoveResponse"
+ "codex/app-server/v2/ThreadSectionMoveResponse.json",
+ "ThreadSectionUpdateParams"
+ "codex/app-server/v2/ThreadSectionUpdateParams.json",
+ "ThreadSectionUpdateResponse"
+ "codex/app-server/v2/ThreadSectionUpdateResponse.json",
+ "ThreadSetNameParams" "codex/app-server/v2/ThreadSetNameParams.json",
+ "ThreadSetNameResponse"
+ "codex/app-server/v2/ThreadSetNameResponse.json",
+ "ThreadSettingsUpdateParams"
+ "codex/app-server/v2/ThreadSettingsUpdateParams.json",
+ "ThreadSettingsUpdateResponse"
+ "codex/app-server/v2/ThreadSettingsUpdateResponse.json",
+ "ThreadSettingsUpdatedNotification"
+ "codex/app-server/v2/ThreadSettingsUpdatedNotification.json",
+ "ThreadShellCommandParams"
+ "codex/app-server/v2/ThreadShellCommandParams.json",
+ "ThreadShellCommandResponse"
+ "codex/app-server/v2/ThreadShellCommandResponse.json",
+ "ThreadStartParams" "codex/app-server/v2/ThreadStartParams.json",
+ "ThreadStartResponse" "codex/app-server/v2/ThreadStartResponse.json",
+ "ThreadStartedNotification"
+ "codex/app-server/v2/ThreadStartedNotification.json",
+ "ThreadStatusChangedNotification"
+ "codex/app-server/v2/ThreadStatusChangedNotification.json",
+ "ThreadTimelineListParams"
+ "codex/app-server/v2/ThreadTimelineListParams.json",
+ "ThreadTimelineListResponse"
+ "codex/app-server/v2/ThreadTimelineListResponse.json",
+ "ThreadTokenUsageUpdatedNotification"
+ "codex/app-server/v2/ThreadTokenUsageUpdatedNotification.json",
+ "ThreadTurnsListParams"
+ "codex/app-server/v2/ThreadTurnsListParams.json",
+ "ThreadTurnsListResponse"
+ "codex/app-server/v2/ThreadTurnsListResponse.json",
+ "ThreadUnarchiveParams"
+ "codex/app-server/v2/ThreadUnarchiveParams.json",
+ "ThreadUnarchiveResponse"
+ "codex/app-server/v2/ThreadUnarchiveResponse.json",
+ "ThreadUnarchivedNotification"
+ "codex/app-server/v2/ThreadUnarchivedNotification.json",
+ "ThreadUnsubscribeParams"
+ "codex/app-server/v2/ThreadUnsubscribeParams.json",
+ "ThreadUnsubscribeResponse"
+ "codex/app-server/v2/ThreadUnsubscribeResponse.json",
+ "ToolRequestUserInputParams"
+ "codex/app-server/ToolRequestUserInputParams.json",
+ "ToolRequestUserInputResponse"
+ "codex/app-server/ToolRequestUserInputResponse.json",
+ "TurnCompletedNotification"
+ "codex/app-server/v2/TurnCompletedNotification.json",
+ "TurnDiffUpdatedNotification"
+ "codex/app-server/v2/TurnDiffUpdatedNotification.json",
+ "TurnInterruptParams" "codex/app-server/v2/TurnInterruptParams.json",
+ "TurnInterruptResponse"
+ "codex/app-server/v2/TurnInterruptResponse.json",
+ "TurnModerationMetadataNotification"
+ "codex/app-server/v2/TurnModerationMetadataNotification.json",
+ "TurnPlanUpdatedNotification"
+ "codex/app-server/v2/TurnPlanUpdatedNotification.json",
+ "TurnSettingsUpdateParams"
+ "codex/app-server/v2/TurnSettingsUpdateParams.json",
+ "TurnSettingsUpdateResponse"
+ "codex/app-server/v2/TurnSettingsUpdateResponse.json",
+ "TurnStartParams" "codex/app-server/v2/TurnStartParams.json",
+ "TurnStartResponse" "codex/app-server/v2/TurnStartResponse.json",
+ "TurnStartedNotification"
+ "codex/app-server/v2/TurnStartedNotification.json",
+ "TurnSteerParams" "codex/app-server/v2/TurnSteerParams.json",
+ "TurnSteerResponse" "codex/app-server/v2/TurnSteerResponse.json",
+ "UserVerificationCancelParams"
+ "codex/app-server/v2/UserVerificationCancelParams.json",
+ "UserVerificationCancelResponse"
+ "codex/app-server/v2/UserVerificationCancelResponse.json",
+ "UserVerificationDeleteParams"
+ "codex/app-server/v2/UserVerificationDeleteParams.json",
+ "UserVerificationDeleteResponse"
+ "codex/app-server/v2/UserVerificationDeleteResponse.json",
+ "UserVerificationEnrollParams"
+ "codex/app-server/v2/UserVerificationEnrollParams.json",
+ "UserVerificationEnrollResponse"
+ "codex/app-server/v2/UserVerificationEnrollResponse.json",
+ "UserVerificationRpcError"
+ "codex/app-server/v2/UserVerificationRpcError.json",
+ "UserVerificationStatusParams"
+ "codex/app-server/v2/UserVerificationStatusParams.json",
+ "UserVerificationStatusResponse"
+ "codex/app-server/v2/UserVerificationStatusResponse.json",
+ "UserVerificationVerifyParams"
+ "codex/app-server/v2/UserVerificationVerifyParams.json",
+ "UserVerificationVerifyResponse"
+ "codex/app-server/v2/UserVerificationVerifyResponse.json",
+ "WarningNotification" "codex/app-server/v2/WarningNotification.json",
+ "WindowsSandboxReadinessResponse"
+ "codex/app-server/v2/WindowsSandboxReadinessResponse.json",
+ "WindowsSandboxSetupCompletedNotification"
+ "codex/app-server/v2/WindowsSandboxSetupCompletedNotification.json",
+ "WindowsSandboxSetupStartParams"
+ "codex/app-server/v2/WindowsSandboxSetupStartParams.json",
+ "WindowsSandboxSetupStartResponse"
+ "codex/app-server/v2/WindowsSandboxSetupStartResponse.json",
+ "WindowsWorldWritableWarningNotification"
+ "codex/app-server/v2/WindowsWorldWritableWarningNotification.json",
+ "codex_app_server_protocol.schemas"
+ "codex/app-server/codex_app_server_protocol.schemas.json",
+ "codex_app_server_protocol.v2.schemas"
+ "codex/app-server/codex_app_server_protocol.v2.schemas.json"}

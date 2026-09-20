@@ -1,0 +1,29 @@
+{:paths ["src" "resources" "apis" "test"]
+
+ :tasks
+ {:requires ([clojure.edn :as edn]
+             [clojure.string :as str]
+             [babashka.cli :as cli])
+
+  :init (def cmd-line-opts
+          (cli/parse-opts *command-line-args*
+                          {:coerce {:toc parse-boolean}}))
+
+  test {:doc "Run the shared test suite in Babashka"
+        :task (exec 'codex.test-runner/-main)}
+
+  test:jvm {:doc "Run the shared test suite in JVM Clojure"
+            :task (apply clojure "-M:test" *command-line-args*)}
+
+  codegen {:doc "Regenerate protocol schemas and catalog using installed Codex"
+           :task (shell "bb --classpath src script/codegen.clj")}
+
+  quickdoc {:doc "Invoke quickdoc"
+            :extra-deps {io.github.borkdude/quickdoc {:git/tag "v0.2.6" :git/sha "ce8678000afa5f835639dd7267dc191fd90495a2"}}
+            :requires ([quickdoc.api :as api])
+            :task (api/quickdoc (merge {:git/branch "main"
+                                        :github/repo "https://github.com/loganlinn/codex-app-server-repl"
+                                        :toc true
+                                        :var-links true
+                                        :var-pattern :wikilinks}
+                                       cmd-line-opts))} }}

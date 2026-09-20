@@ -414,6 +414,15 @@
             "null"
           ]
         },
+        "allowedApprovalsReviewers": {
+          "items": {
+            "$ref": "#/definitions/ApprovalsReviewer"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
         "allowedPermissionProfiles": {
           "additionalProperties": {
             "type": "boolean"
@@ -448,6 +457,16 @@
           "type": [
             "array",
             "null"
+          ]
+        },
+        "application": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ApplicationRequirements"
+            },
+            {
+              "type": "null"
+            }
           ]
         },
         "autoReview": {
@@ -537,6 +556,16 @@
             }
           ]
         },
+        "hooks": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ManagedHooksRequirements"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
         "inAppBrowser": {
           "anyOf": [
             {
@@ -563,6 +592,16 @@
           "anyOf": [
             {
               "$ref": "#/definitions/ModelsRequirements"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "network": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/NetworkRequirements"
             },
             {
               "type": "null"

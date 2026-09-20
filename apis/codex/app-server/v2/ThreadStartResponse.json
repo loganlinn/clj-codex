@@ -1282,6 +1282,13 @@
             "null"
           ]
         },
+        "canAcceptDirectInput": {
+          "description": "Whether the app server accepts direct turn input for this loaded thread. `None` means the capability is unavailable, such as for an unloaded stored thread.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
         "cliVersion": {
           "description": "Version of the CLI that created the thread.",
           "type": "string"
@@ -1299,9 +1306,38 @@
           ],
           "description": "Working directory captured for the thread."
         },
+        "daybreakEnabled": {
+          "description": "Saved Daybreak choice, independent of turn execution. Null if unset.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "environments": {
+          "default": null,
+          "description": "Current environments for a loaded thread, in priority order, primary first. `null` means the thread is not loaded or the server does not expose its selection. An empty list means no environments are selected. This does not report connection status.",
+          "items": {
+            "$ref": "#/definitions/ThreadEnvironment"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
         "ephemeral": {
           "description": "Whether the thread is ephemeral and should not be materialized on disk.",
           "type": "boolean"
+        },
+        "extra": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ThreadExtra"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Optional implementation-specific thread data."
         },
         "forkedFromId": {
           "description": "Source thread id when this thread was created by forking another thread.",
@@ -2928,6 +2964,18 @@
     }
   },
   "properties": {
+    "activePermissionProfile": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/ActivePermissionProfile"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Named or implicit built-in profile that produced the active permissions, when known."
+    },
     "approvalPolicy": {
       "$ref": "#/definitions/AskForApproval"
     },
@@ -2956,6 +3004,15 @@
     "modelProvider": {
       "type": "string"
     },
+    "multiAgentMode": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/MultiAgentMode"
+        }
+      ],
+      "default": "explicitRequestOnly",
+      "description": "@deprecated Always `explicitRequestOnly`. Use `reasoningEffort` for Ultra behavior."
+    },
     "reasoningEffort": {
       "anyOf": [
         {
@@ -2965,6 +3022,14 @@
           "type": "null"
         }
       ]
+    },
+    "runtimeWorkspaceRoots": {
+      "default": [],
+      "description": "Thread-scoped runtime workspace roots used to materialize `:workspace_roots`.",
+      "items": {
+        "$ref": "#/definitions/AbsolutePathBuf"
+      },
+      "type": "array"
     },
     "sandbox": {
       "allOf": [

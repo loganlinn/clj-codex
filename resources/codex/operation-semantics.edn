@@ -1,0 +1,66 @@
+{:thread/start
+ {:doc "Create a conversation and subscribe this connection to its events."
+  :effects #{:thread/create :thread/subscribe}}
+ :thread/resume
+ {:doc "Load a stored conversation and subscribe to its events."
+  :effects #{:thread/load :thread/subscribe}}
+ :thread/fork
+ {:doc "Create a conversation from another thread's history."
+  :effects #{:thread/create :thread/subscribe}}
+ :thread/read
+ {:doc "Read a stored snapshot without loading or subscribing."
+  :effects #{:thread/read}}
+ :thread/list
+ {:doc "Read a page of thread summaries. Default behavior can repair stored metadata."
+  :effects #{:thread/read :thread/metadata-repair}}
+ :thread/unsubscribe
+ {:doc "Remove this connection's remote subscription."
+  :effects #{:thread/unsubscribe}}
+ :thread/archive
+ {:doc "Archive a thread and attempt to archive spawned descendants."
+  :effects #{:thread/archive}}
+ :thread/delete
+ {:doc "Permanently delete a thread and spawned descendants."
+  :effects #{:thread/delete}}
+ :turn/start
+ {:doc "Submit input and return an initial turn. Observe events for completion."
+  :effects #{:turn/start} :work/completion :turn/completed}
+ :turn/steer
+ {:doc "Append input to the expected active turn. No new turn is created."
+  :effects #{:turn/steer}}
+ :turn/interrupt
+ {:doc "Request interruption. The terminal turn event establishes completion."
+  :effects #{:turn/interrupt} :work/completion :turn/completed}
+ :thread.compact/start
+ {:doc "Request history compaction. Its RPC response is an acknowledgement."
+  :effects #{:history/compact} :work/completion :turn/completed}
+ :thread/inject-items
+ {:doc "Append raw Responses API history items without starting a turn."
+  :effects #{:history/append}}
+ :thread/shell-command
+ {:doc "Run an explicitly requested unsandboxed thread shell command."
+  :effects #{:process/execute-unsandboxed :history/append}}
+ :command/exec
+ {:doc "Execute a sandboxed command. The RPC completes after command exit."
+  :effects #{:process/execute-sandboxed}}
+ :process/spawn
+ {:doc "Start an unsandboxed process. Observe process/exited for completion."
+  :effects #{:process/execute-unsandboxed} :work/completion :process/exited}
+ :review/start
+ {:doc "Start a review and preserve its actual review thread identity."
+  :effects #{:turn/start} :work/completion :turn/completed}
+ :config.value/write
+ {:doc "Persist one configuration value."
+  :effects #{:config/write}}
+ :config/batch-write
+ {:doc "Persist configuration edits atomically."
+  :effects #{:config/write}}
+ :account.login/start
+ {:doc "Start account authentication. Completion is separate from the RPC response."
+  :effects #{:account/login} :work/completion :account.login/completed}
+ :account/send-add-credits-nudge-email
+ {:doc "Ask the account service to email a workspace owner."
+  :effects #{:email/send}}
+ :account.rate-limit-reset-credit/consume
+ {:doc "Consume a reset credit using a caller-owned idempotency key."
+  :effects #{:account/consume-credit}}}
