@@ -3,7 +3,8 @@
             [clojure.java.io :as io]
             [clojure.string :as str]
             [clojure.test :refer [deftest is testing use-fixtures]]
-            [deps-deploy.deps-deploy :as deploy]))
+            [deps-deploy.deps-deploy :as deploy]
+            [schema-bundle :as bundle]))
 
 (def commit (apply str (repeat 40 "a")))
 
@@ -87,8 +88,23 @@
           (doseq [root ["src" "resources" "apis"]
                   file (file-seq (io/file root))
                   :when (.isFile file)]
-            (is (some? (.getEntry jar (str (.relativize (.toPath (io/file root)) (.toPath file)))))))
+            (let [entry (.getEntry jar (str (.relativize (.toPath (io/file root)) (.toPath file))))]
+              (is (some? entry))
+              (when entry
+                (with-open [stream (.getInputStream jar entry)]
+                  (is (java.util.Arrays/equals (java.nio.file.Files/readAllBytes (.toPath file))
+                                               (.readAllBytes stream)))))))
           (is (some? (.getEntry jar "META-INF/LICENSE")))
           (is (some? (.getEntry jar "META-INF/maven/com.github.loganlinn/clj-codex/pom.xml")))
           (is (nil? (.getEntry jar "build.clj")))
           (is (nil? (.getEntry jar "codex/core_test.clj"))))))))
+
+(deftest invalid-schema-bundle-blocks-publication
+  (let [uploads (atom [])]
+    (with-redefs [bundle/check! (fn [_] (throw (ex-info "Invalid schema bundle" {})))
+                  build/env {"CLOJARS_USERNAME" "fixture" "CLOJARS_PASSWORD" "fixture"}
+                  deploy/deploy #(swap! uploads conj %)]
+      (doseq [[publish opts] [[build/publish {:tag "v0.1.0"}]
+                              [build/publish-snapshot {:version "0.1.0-SNAPSHOT"}]]]
+        (is (thrown-with-msg? clojure.lang.ExceptionInfo #"Invalid schema bundle" (publish opts)))))
+    (is (empty? @uploads))))

@@ -1,0 +1,71 @@
+name: Update Codex schemas
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Exact Codex CLI version to review'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  update:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+      pull-requests: write
+    env:
+      CODEX_VERSION: ${{ inputs.version }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '22'
+      - uses: DeLaGuardo/setup-clojure@6d46099eae24853c33c0482f2bb54edf4f1a4c74 # 13.7.0
+        with:
+          bb: '1.12.218'
+      - name: Select the generator version
+        run: |
+          printf '%s\n' "$CODEX_VERSION" > resources/codex/generator-version.txt
+          bb --classpath script -e '(require (quote schema-bundle)) (schema-bundle/pinned-version ".")'
+      - name: Install the selected generator
+        run: npm install --global "@openai/codex@$(cat resources/codex/generator-version.txt)"
+      - name: Regenerate and check the bundle
+        run: |
+          bb codegen
+          bb codegen:check
+      - name: Open a schema update PR
+        env:
+          # An optional GitHub token can start PR CI without GitHub's approval step.
+          GH_TOKEN: ${{ secrets.SCHEMA_UPDATE_GH_TOKEN || github.token }}
+        run: |
+          git add -- resources/codex/generator-version.txt apis/codex/app-server \
+            resources/codex/catalog.edn resources/codex/schema-index.edn \
+            resources/codex/definition-index.edn resources/codex/stable-client-request.json
+          if git diff --cached --quiet; then
+            echo 'The committed schemas already match this version.'
+            exit 0
+          fi
+          branch="schema-update/codex-$CODEX_VERSION-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          git switch -c "$branch"
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m "Update Codex schemas to $CODEX_VERSION"
+          gh auth setup-git
+          git push --set-upstream origin "$branch"
+          body="$RUNNER_TEMP/schema-update-pr.md"
+          cat > "$body" <<'EOF'
+          Update the pinned Codex CLI and committed stable and experimental schema artifacts.
+
+          Validation: `bb codegen` and `bb codegen:check` passed. Review the protocol changes and required SDK changes before merging. Normal PR CI runs separately. Publishing uses the schemas from the selected commit.
+          EOF
+          gh pr create --base main --head "$branch" \
+            --title "Update Codex schemas to $CODEX_VERSION" --body-file "$body"

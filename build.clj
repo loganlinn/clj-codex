@@ -1,7 +1,8 @@
 (ns build
   (:require [clojure.java.shell :as sh]
             [clojure.string :as str]
-            [clojure.tools.build.api :as b]))
+            [clojure.tools.build.api :as b]
+            [schema-bundle :as bundle]))
 
 (def lib 'com.github.loganlinn/clj-codex)
 (def repository "https://github.com/loganlinn/clj-codex")
@@ -80,6 +81,7 @@
           (env "SNAPSHOT_VERSION") (snapshot-options opts)
           :else (release-options opts))
         basis (b/create-basis {:project "deps.edn"})]
+    (bundle/check! ".")
     (clean nil)
     (b/write-pom {:class-dir class-dir
                   :lib lib

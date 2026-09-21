@@ -9,6 +9,23 @@ permissions:
   contents: read
 
 jobs:
+  schemas:
+    name: Schema reproducibility
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '22'
+      - uses: DeLaGuardo/setup-clojure@6d46099eae24853c33c0482f2bb54edf4f1a4c74 # 13.7.0
+        with:
+          bb: '1.12.218'
+      - name: Install the pinned Codex generator
+        run: npm install --global "@openai/codex@$(cat resources/codex/generator-version.txt)"
+      - run: bb test:codegen
+      - run: bb codegen:check
+
   format:
     name: Format
     runs-on: ubuntu-latest

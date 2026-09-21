@@ -4,7 +4,8 @@
             [cheshire.core :as json]
             [clojure.pprint :as pp]
             [clojure.string :as str]
-            [codex.impl.util :as u]))
+            [codex.impl.util :as u]
+            [schema-bundle :as bundle]))
 
 (def response-overrides
   {"memory/reset" "MemoryResetResponse"
@@ -30,18 +31,9 @@
   (or (some-> (get s "$ref") (str/split #"/") last)
       (some type-name (get s "anyOf"))))
 
-(defn -main [stable-dir full-dir version]
-  (let [files (sort-by str (distinct (concat (fs/glob full-dir "*.json") (fs/glob full-dir "**/*.json"))))
-        index (into (sorted-map)
-                    (for [f files :let [s (read-json f) title (str/replace (str (fs/file-name f)) #"\.json$" "")]]
-                      [title (str "codex/app-server/" (fs/relativize full-dir f))]))
-        definitions (reduce (fn [m f]
-                              (reduce (fn [m name]
-                                        (if (contains? m name) m
-                                            (assoc m name (str "codex/app-server/" (fs/relativize full-dir f)))))
-                                      m (keys (get (read-json f) "definitions"))))
-                            (sorted-map)
-                            (sort-by (fn [f] [(if (str/includes? (str f) "/v2/") 0 1) (str f)]) files))
+(defn generate! [stable-dir full-dir version output-dir]
+  (let [files (bundle/files full-dir)
+        {index :schemas definitions :definitions} (bundle/indexes full-dir)
         stable (read-json (fs/path stable-dir "ClientRequest.json"))
         stable-methods (set (map #(get-in % ["properties" "method" "enum" 0]) (get stable "oneOf")))
         union (fn [file direction]
@@ -75,24 +67,27 @@
         client (into (sorted-map) (union "ClientRequest.json" :client->server))
         server (into (sorted-map) (union "ServerRequest.json" :server->client))
         notifications (into (sorted-map) (union "ServerNotification.json" :notification))
-        digest (java.security.MessageDigest/getInstance "SHA-256")]
-    (doseq [f files]
-      (.update digest (.getBytes (str (fs/relativize full-dir f)) "UTF-8"))
-      (.update digest (fs/read-all-bytes f)))
-    (let [sha (apply str (map #(format "%02x" (bit-and 255 %)) (.digest digest)))
-          provenance {:codex-version version :sha256 sha :experimental true
-                      :command "codex app-server generate-json-schema --experimental"}]
-      (doseq [f files :let [target (fs/path "apis/codex/app-server" (fs/relativize full-dir f))]]
-        (fs/create-dirs (fs/parent target))
-        (fs/copy f target {:replace-existing true}))
-      (fs/create-dirs "resources/codex")
-      (fs/copy (fs/path stable-dir "ClientRequest.json") "resources/codex/stable-client-request.json" {:replace-existing true})
-      (write-edn! "resources/codex/schema-index.edn" index)
-      (write-edn! "resources/codex/definition-index.edn" definitions)
-      (write-edn! "resources/codex/catalog.edn"
-                  {:provenance provenance :operations client :server-requests server :notifications notifications})
-      (println "Generated" (count client) "operations and" (count index) "schemas.")
-      (doseq [[op d] client :when (nil? (:result-schema d))]
-        (println "Missing result schema:" op (:args-schema d))))))
+        provenance {:codex-version version :sha256 (bundle/schema-sha256 full-dir) :experimental true
+                    :command bundle/full-command
+                    :stable-sha256 (bundle/file-sha256 (fs/file stable-dir "ClientRequest.json"))
+                    :stable-command bundle/stable-command}]
+    ;; This subtree is entirely generated. Keep handwritten resources outside it.
+    (fs/delete-tree (fs/path output-dir bundle/schema-dir))
+    (doseq [[path f] files :let [target (fs/path output-dir bundle/schema-dir path)]]
+      (fs/create-dirs (fs/parent target))
+      (fs/copy f target))
+    (fs/create-dirs (fs/path output-dir "resources/codex"))
+    (fs/copy (fs/path stable-dir "ClientRequest.json") (fs/path output-dir "resources/codex/stable-client-request.json") {:replace-existing true})
+    (write-edn! (fs/file output-dir "resources/codex/schema-index.edn") index)
+    (write-edn! (fs/file output-dir "resources/codex/definition-index.edn") definitions)
+    (write-edn! (fs/file output-dir "resources/codex/catalog.edn")
+                {:provenance provenance :operations client :server-requests server :notifications notifications})
+    (println "Generated" (count client) "operations and" (count index) "schemas.")
+    (doseq [[op d] client :when (nil? (:result-schema d))]
+      (println "Missing result schema:" op (:args-schema d)))))
 
-(apply -main *command-line-args*)
+(defn -main [stable-dir full-dir version & [output-dir]]
+  (generate! stable-dir full-dir version (or output-dir ".")))
+
+(when (= *file* (System/getProperty "babashka.file"))
+  (apply -main *command-line-args*))

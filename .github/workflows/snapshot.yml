@@ -46,6 +46,9 @@ jobs:
       - name: Check snapshot version and source
         run: bb snapshot:check
 
+      - name: Check committed schema integrity
+        run: bb schemas:check
+
       - name: Build and publish snapshot to Clojars
         env:
           CLOJARS_USERNAME: ${{ secrets.CLOJARS_USERNAME }}

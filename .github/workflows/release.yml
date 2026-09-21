@@ -42,6 +42,9 @@ jobs:
       - name: Check release tag and source
         run: bb release:check
 
+      - name: Check committed schema integrity
+        run: bb schemas:check
+
       - name: Build and publish to Clojars
         env:
           CLOJARS_USERNAME: ${{ secrets.CLOJARS_USERNAME }}

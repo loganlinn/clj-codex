@@ -68,7 +68,8 @@
 
 (deftest catalog-and-capability
   (is (= 164 (count (api/operations))))
-  (is (= "0.155.1" (:codex-version (api/provenance))))
+  (is (= (.trim (slurp (clojure.java.io/resource "codex/generator-version.txt")))
+         (:codex-version (api/provenance))))
   (let [{:keys [conn]} (fake)]
     (try
       (is (thrown? clojure.lang.ExceptionInfo

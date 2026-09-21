@@ -41,8 +41,22 @@
   test:unix-live {:doc "Run an isolated live Codex Unix socket smoke test"
                   :task (apply (requiring-resolve 'codex.unix-smoke/-main) *command-line-args*)}
 
-  codegen {:doc "Regenerate protocol schemas and catalog using installed Codex"
-           :task (shell "bb --classpath src script/codegen.clj")}
+  codegen {:doc "Regenerate protocol schemas and catalog using the pinned Codex version"
+           :extra-paths ["script"]
+           :task ((requiring-resolve 'codegen/-main))}
+
+  codegen:check {:doc "Regenerate in a temporary directory and check all committed outputs"
+                 :extra-paths ["script"]
+                 :task ((requiring-resolve 'codegen/-main) "--check")}
+
+  schemas:check {:doc "Check bundled schema provenance and references without Codex"
+                 :extra-paths ["script"]
+                 :task (do ((requiring-resolve 'schema-bundle/check!) ".")
+                           (println "Schema bundle integrity checks passed."))}
+
+  test:codegen {:doc "Check schema drift detection, replacement, and integrity guards"
+                :extra-paths ["script"]
+                :task ((requiring-resolve 'codegen-test/-main))}
 
   fmt {:doc "Fix Clojure formatting (optional file or directory arguments)"
        :extra-deps {dev.weavejester/cljfmt {:mvn/version "0.16.5"}}

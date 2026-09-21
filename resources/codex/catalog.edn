@@ -3,7 +3,10 @@
   :sha256
   "fe008aea5afaa8cd0e4eb20cab18e36a34bd3734e2fdc290493f31deb2c3da2c",
   :experimental true,
-  :command "codex app-server generate-json-schema --experimental"},
+  :command "codex app-server generate-json-schema --experimental",
+  :stable-sha256
+  "85d6d137bab416d9ad47982adf354d707713042da5d37f934d0b2ed386e53ca4",
+  :stable-command "codex app-server generate-json-schema"},
  :operations
  {:fuzzy-file-search
   {:retry :never-automatically,

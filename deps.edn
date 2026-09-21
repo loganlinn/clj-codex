@@ -3,7 +3,9 @@
         cheshire/cheshire {:mvn/version "5.13.0"}
         babashka/process {:mvn/version "0.6.23"}
         org.babashka/http-client {:mvn/version "0.4.22"}}
- :aliases {:build {:deps {io.github.clojure/tools.build {:mvn/version "0.10.14"}
+ :aliases {:build {:extra-paths ["script"]
+                   :deps {cheshire/cheshire {:mvn/version "5.13.0"}
+                          io.github.clojure/tools.build {:mvn/version "0.10.14"}
                           slipset/deps-deploy {:mvn/version "0.2.5"}}
                    :ns-default build}
            :test {:extra-paths ["test"]
