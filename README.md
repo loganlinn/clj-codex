@@ -1,5 +1,7 @@
 # clj-codex
 
+[![Clojars Project](https://img.shields.io/clojars/v/com.github.loganlinn/clj-codex.svg)](https://clojars.org/com.github.loganlinn/clj-codex)
+
 A Clojure SDK for [codex app-server](https://learn.chatgpt.com/docs/app-server) API.
 
 ## Usage
