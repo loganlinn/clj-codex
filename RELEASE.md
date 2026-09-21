@@ -185,26 +185,41 @@ GitHub repository secrets are available inside Actions, not automatically in you
 
 1. Merge the release changes and check that CI passes for the selected commit.
 2. Start from a clean checkout of that commit.
-3. Create an annotated tag with an unused version:
+3. Create a draft release with an unused version:
 
    ```sh
-   git tag -a v0.1.0 -m 'Release 0.1.0'
-   bb release:check v0.1.0
-   git push origin refs/tags/v0.1.0
+   bb release:draft v0.1.0
    ```
 
-4. Create a draft GitHub Release for that existing tag:
+4. Review the generated notes at the draft URL.
+5. Publish the draft release in GitHub.
+6. Check the **Publish to Clojars** workflow result.
+7. Check the version on [Clojars](https://clojars.org/com.github.loganlinn/clj-codex).
 
-   ```sh
-   gh release create v0.1.0 --verify-tag --draft --generate-notes --title v0.1.0
-   ```
+The task requires Git, an authenticated GitHub CLI with repository write access, and the Java and Babashka tools described above.
+The `origin` fetch and push URLs must both point to `github.com/loganlinn/clj-codex` through HTTPS or SSH.
+The task accepts one explicit tag argument and runs from the repository root.
 
-5. Review the generated notes in GitHub.
-6. Publish the draft release in GitHub.
-7. Check the **Publish to Clojars** workflow result.
-8. Check the version on [Clojars](https://clojars.org/com.github.loganlinn/clj-codex).
+Before it creates a tag, the task checks:
 
-When you create a prerelease draft, use a prerelease tag and add `--prerelease`.
+- The checkout is clean, including untracked files.
+- The tag is absent locally and on `origin`.
+- No GitHub release or draft uses the tag.
+- The latest `ci.yml` push run on `main` for this exact commit completed successfully.
+- Clojars contains neither the version's POM nor its JAR.
+
+A missing, pending, or failed CI run stops the task.
+A network error or an unexpected response also stops the task.
+The task creates an annotated tag at the checked commit, runs `release:check`, and pushes only that tag.
+It then creates a draft with generated notes and prints the draft URL.
+It does not publish the draft or upload to Clojars.
+
+Tags with `-alpha.N`, `-beta.N`, or `-rc.N` automatically create prerelease drafts:
+
+```sh
+bb release:draft v0.1.0-rc.1
+```
+
 Publishing the draft triggers the same workflow.
 
 The workflow passes the tag through `RELEASE_TAG` and runs `bb release:check`, then `bb publish`.
@@ -213,6 +228,28 @@ It does not run tests or modify source files.
 The tasks also accept an explicit tag argument for local use.
 
 ## Recover from a failed release
+
+If `release:draft` fails after tag creation, it keeps the tag and stops before subsequent steps.
+The task refuses an existing tag, including one from an earlier attempt.
+It never deletes or replaces tags.
+
+Before you resume, inspect the local tag, remote tag, and GitHub release.
+Check that the version is still absent from Clojars.
+From the original clean checkout, run the remaining steps:
+
+```sh
+bb release:check v0.1.0
+git -c push.followTags=false push origin refs/tags/v0.1.0:refs/tags/v0.1.0
+```
+
+If the GitHub draft is absent, create it:
+
+```sh
+gh release create v0.1.0 --repo loganlinn/clj-codex --verify-tag --draft --generate-notes --title v0.1.0
+```
+
+For a prerelease tag, add `--prerelease` to this manual command.
+If the draft already exists, review that draft.
 
 Clojars does not allow replacement of a published release version.
 The publisher reports a deployment error on a duplicate version. It does not silently skip the upload.

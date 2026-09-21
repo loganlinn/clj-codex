@@ -2,6 +2,7 @@
   (:require [clojure.java.shell :as sh]
             [clojure.string :as str]
             [clojure.tools.build.api :as b]
+            [release-version :as version]
             [schema-bundle :as bundle]))
 
 (def lib 'com.github.loganlinn/clj-codex)
@@ -14,13 +15,10 @@
 (defn- release-options [{:keys [tag version]}]
   (when version
     (throw (ex-info "Tagged releases require :tag, not :version" {})))
-  (let [tag (or tag (env "RELEASE_TAG"))]
-    (when-not (and (string? tag)
-                   (re-matches #"v(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(?:-(alpha|beta|rc)\.(0|[1-9][0-9]*))?" tag))
-      (throw (ex-info "Expected vMAJOR.MINOR.PATCH, optionally with -alpha.N, -beta.N, or -rc.N" {:tag tag})))
+  (let [{:keys [tag version]} (version/parse-tag (or tag (env "RELEASE_TAG")))]
     {:tag tag
-     :version (subs tag 1)
-     :jar-file (str "target/clj-codex-" (subs tag 1) ".jar")}))
+     :version version
+     :jar-file (str "target/clj-codex-" version ".jar")}))
 
 (defn- snapshot-options [{:keys [version tag]}]
   (when tag

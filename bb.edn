@@ -20,6 +20,10 @@
   release:check {:doc "Check the release tag, commit, and clean checkout: bb release:check v0.1.0"
                  :task (build-task "check-release")}
 
+  release:draft {:doc "Check CI and version availability, push a tag, and create a GitHub draft: bb release:draft v0.1.0"
+                 :extra-paths ["script"]
+                 :task (apply (requiring-resolve 'release/-main) *command-line-args*)}
+
   publish {:doc "Build and publish a tagged release to Clojars: bb publish v0.1.0"
            :task (build-task "publish")}
 
@@ -31,6 +35,10 @@
 
   test:build {:doc "Check publication versions, guards, and package contents without uploading"
               :task (clojure "-T:build" "test-build")}
+
+  test:release {:doc "Check draft release guards and orchestration without GitHub or Clojars writes"
+                :extra-paths ["script"]
+                :task ((requiring-resolve 'release-test/-main))}
 
   test {:doc "Run the shared test suite in Babashka"
         :task (apply (requiring-resolve 'codex.test-runner/-main) *command-line-args*)}

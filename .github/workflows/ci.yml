@@ -59,6 +59,9 @@ jobs:
       - name: Run Babashka tests
         if: matrix.runtime == 'babashka'
         run: bb test
+      - name: Check draft release automation
+        if: matrix.runtime == 'babashka'
+        run: bb test:release
       - name: Run JVM Clojure tests
         if: matrix.runtime == 'clojure'
         run: clojure -M:test

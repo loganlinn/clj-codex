@@ -54,7 +54,7 @@ The examples cover connections, server state, conversation history, turns, event
 - [API source](src/codex): implementations and namespace documentation.
 - [Protocol schemas](apis/codex/app-server): bundled app-server wire definitions.
 - [Operation catalog](resources/codex/catalog.edn): operation metadata for discovery and invocation.
-- [Design notes](DESIGN.md): original architecture and contracts.
+- [Agent instructions](AGENTS.md): architecture, contracts, and development guidance.
 
 The bundled protocol does not guarantee support from every server version.
 Use [`codex.api`](API.md#codex.api) to inspect protocol provenance and available operations.
