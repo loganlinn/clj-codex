@@ -10,19 +10,20 @@
 (defn fake
   ([] (fake {}))
   ([opts]
-   (let [callbacks (atom nil) sent (atom []) responder (atom nil)
+   (let [callbacks (atom nil) sent (atom []) responder (atom nil) transport-closes (atom 0)
          conn (server/connect!
                (merge {:transport {:type :custom
                                    :open (fn [cb]
                                            (reset! callbacks cb)
-                                           {:close! (fn [])
+                                           {:close! #(swap! transport-closes inc)
                                             :send! (fn [message]
                                                      (swap! sent conj message)
                                                      (if (= "initialize" (get message "method"))
                                                        ((:receive! cb) {"id" (get message "id") "result" {"userAgent" "test"}})
                                                        (when @responder (@responder message))))})}}
                       opts))]
-     {:conn conn :sent sent :responder responder :receive! #((:receive! @callbacks) %)
+     {:conn conn :sent sent :responder responder :transport-closes transport-closes
+      :receive! #((:receive! @callbacks) %)
       :close! #((:closed! @callbacks) nil)})))
 
 (defn eventually [f]
@@ -42,6 +43,71 @@
         (receive! {"id" (:id a) "result" nil})
         (is (false? (server/await! b))) (is (nil? (server/await! a))))
       (finally (server/close! conn)))))
+
+(deftest with-open-closes-jvm-connections
+  ;; Babashka cannot implement Closeable on records; with-connection is portable.
+  (when-not (System/getProperty "babashka.version")
+    (doseq [mode [:return :throw :close-early :binding-failure]]
+      (testing (name mode)
+        (let [{:keys [conn transport-closes]} (fake)
+              error (ex-info "Body or initializer failed" {:mode mode})
+              pending (server/request! conn "waiting" {} {:timeout-ms nil})
+              observer (server/listen! conn (fn [_]))]
+          (try
+            (is (instance? java.io.Closeable conn))
+            (let [result (try
+                           (with-open [c conn
+                                       other (if (= :binding-failure mode) (throw error) (java.io.StringReader. ""))]
+                             (is (= :ready (server/status c)))
+                             (case mode
+                               :throw (throw error)
+                               :close-early (server/close! c)
+                               nil)
+                             :returned)
+                           (catch clojure.lang.ExceptionInfo e e))]
+              (is (= (if (#{:throw :binding-failure} mode) error :returned) result)))
+            (is (= :closed (server/status conn)))
+            (is (= 1 @transport-closes))
+            (is (thrown? clojure.lang.ExceptionInfo (server/await! pending 1000 ::waiting)))
+            (is (empty? @(:listeners conn)))
+            (is (= :closed (:codex.error/category (ex-data (:error @(:result observer))))))
+            (server/close! conn)
+            (.close ^java.io.Closeable conn)
+            (is (= 1 @transport-closes))
+            (finally (server/close! conn))))))))
+
+(deftest with-connection-cleans-up-in-reverse-order
+  (doseq [mode [:return :throw :close-early :binding-failure]]
+    (testing (name mode)
+      (let [opened (atom []) closed (atom [])
+            open! (fn [label]
+                    (let [{:keys [conn transport-closes] :as fixture} (fake)]
+                      (add-watch transport-closes ::close-order (fn [& _] (swap! closed conj label)))
+                      (swap! opened conj fixture)
+                      conn))
+            error (ex-info "Body or initializer failed" {:mode mode})]
+        (try
+          (let [result (try
+                         (server/with-connection [first-conn (open! :first)
+                                                  second-conn (do
+                                                                (is (= :ready (server/status first-conn)))
+                                                                (if (= :binding-failure mode) (throw error) (open! :second)))]
+                           (is (= :ready (server/status second-conn)))
+                           (case mode
+                             :throw (throw error)
+                             :close-early (server/close! second-conn)
+                             nil)
+                           :returned)
+                         (catch clojure.lang.ExceptionInfo e e))]
+            (is (= (if (#{:throw :binding-failure} mode) error :returned) result)))
+          (is (= (if (= :binding-failure mode) [:first] [:second :first]) @closed))
+          (is (= (if (= :binding-failure mode) 1 2) (count @opened)))
+          (doseq [{:keys [conn transport-closes]} @opened]
+            (is (= :closed (server/status conn)))
+            (server/close! conn)
+            (is (= 1 @transport-closes)))
+          (finally
+            (doseq [{:keys [conn]} @opened] (server/close! conn))))))))
 
 (deftest schema-conversion
   (is (= {"threadId" "t" "gitInfo" {"branch" nil}}

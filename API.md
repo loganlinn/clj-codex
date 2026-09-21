@@ -32,6 +32,7 @@
     -  [`request!`](#codex.app-server/request!) - Submit a raw RPC and return a pending handle.
     -  [`status`](#codex.app-server/status) - Return the connection lifecycle state.
     -  [`unlisten!`](#codex.app-server/unlisten!) - Stop a local raw observer.
+    -  [`with-connection`](#codex.app-server/with-connection) - Bind connections and close them with close! when the body exits.
 -  [`codex.command`](#codex.command)  - Sandboxed command execution.
     -  [`await!`](#codex.command/await!) - Await exit and collected byte output.
     -  [`exec!`](#codex.command/exec!) - Run a buffered command and return stdout/stderr strings and exit status.
@@ -382,7 +383,7 @@ Bidirectional app-server connections. Raw params/results use string-keyed JSON m
 Function.
 
 Release local pending state. Does not cancel remote work.
-<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/app_server.clj#L159-L164">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/app_server.clj#L167-L172">Source</a></sub></p>
 
 ## <a name="codex.app-server/await!">`await!`</a>
 ``` clojure
@@ -392,7 +393,7 @@ Release local pending state. Does not cancel remote work.
 Function.
 
 Await a pending RPC. A local timeout returns timeout-value without cancelling the RPC.
-<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/app_server.clj#L154-L157">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/app_server.clj#L162-L165">Source</a></sub></p>
 
 ## <a name="codex.app-server/close!">`close!`</a>
 ``` clojure
@@ -402,7 +403,7 @@ Await a pending RPC. A local timeout returns timeout-value without cancelling th
 Function.
 
 Close the connection and owned process. Remote turns are not interrupted. Idempotent.
-<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/app_server.clj#L191-L209">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/app_server.clj#L199-L217">Source</a></sub></p>
 
 ## <a name="codex.app-server/connect!">`connect!`</a>
 ``` clojure
@@ -411,10 +412,12 @@ Close the connection and owned process. Remote turns are not interrupted. Idempo
 Function.
 
 Connect over :stdio or :websocket and complete initialize/initialized.
+   On JVM Clojure, the connection implements java.io.Closeable for with-open.
+   Use with-connection for automatic cleanup in both Babashka and JVM Clojure.
    WebSockets use TCP unless transport contains :unix-socket (ws:// only).
    :handlers maps raw method strings to functions returning {:result ...}, {:error ...},
    or ::defer. :interaction-timeout-ms bounds deferred requests. No account login occurs.
-<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/app_server.clj#L211-L262">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/app_server.clj#L236-L289">Source</a></sub></p>
 
 ## <a name="codex.app-server/info">`info`</a>
 ``` clojure
@@ -423,7 +426,7 @@ Connect over :stdio or :websocket and complete initialize/initialized.
 Function.
 
 Return initialization results, capabilities, and safe connection metadata.
-<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/app_server.clj#L18-L21">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/app_server.clj#L26-L29">Source</a></sub></p>
 
 ## <a name="codex.app-server/listen!">`listen!`</a>
 ``` clojure
@@ -434,7 +437,7 @@ Function.
 
 Observe raw incoming envelopes on an ordered bounded worker queue.
    opts: :capacity (default 1024), :on-error. Returns a subscription.
-<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/app_server.clj#L31-L53">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/app_server.clj#L39-L61">Source</a></sub></p>
 
 ## <a name="codex.app-server/notify!">`notify!`</a>
 ``` clojure
@@ -443,7 +446,7 @@ Observe raw incoming envelopes on an ordered bounded worker queue.
 Function.
 
 Send a raw notification. Use ::omit to omit params.
-<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/app_server.clj#L187-L189">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/app_server.clj#L195-L197">Source</a></sub></p>
 
 ## <a name="codex.app-server/pending-requests">`pending-requests`</a>
 ``` clojure
@@ -452,7 +455,7 @@ Send a raw notification. Use ::omit to omit params.
 Function.
 
 Return pending server requests, including their reply tokens.
-<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/app_server.clj#L77-L78">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/app_server.clj#L85-L86">Source</a></sub></p>
 
 ## <a name="codex.app-server/reply!">`reply!`</a>
 ``` clojure
@@ -461,7 +464,7 @@ Return pending server requests, including their reply tokens.
 Function.
 
 Reply once to a server request token. reply is {:result wire-value} or {:error wire-error}.
-<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/app_server.clj#L80-L91">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/app_server.clj#L88-L99">Source</a></sub></p>
 
 ## <a name="codex.app-server/request!">`request!`</a>
 ``` clojure
@@ -471,7 +474,7 @@ Reply once to a server request token. reply is {:result wire-value} or {:error w
 Function.
 
 Submit a raw RPC and return a pending handle. :timeout-ms nil disables its deadline.
-<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/app_server.clj#L166-L185">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/app_server.clj#L174-L193">Source</a></sub></p>
 
 ## <a name="codex.app-server/status">`status`</a>
 ``` clojure
@@ -480,7 +483,7 @@ Submit a raw RPC and return a pending handle. :timeout-ms nil disables its deadl
 Function.
 
 Return the connection lifecycle state.
-<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/app_server.clj#L17-L17">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/app_server.clj#L25-L25">Source</a></sub></p>
 
 ## <a name="codex.app-server/unlisten!">`unlisten!`</a>
 ``` clojure
@@ -489,7 +492,20 @@ Return the connection lifecycle state.
 Function.
 
 Stop a local raw observer. Does not unsubscribe a remote thread.
-<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/app_server.clj#L23-L29">Source</a></sub></p>
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/app_server.clj#L31-L37">Source</a></sub></p>
+
+## <a name="codex.app-server/with-connection">`with-connection`</a>
+``` clojure
+(with-connection bindings & body)
+```
+Macro.
+
+Bind connections and close them with close! when the body exits.
+   Works in Babashka and JVM Clojure. Use [conn (connect! opts)] for one connection.
+   bindings is a vector of symbol/expression pairs, evaluated in order.
+   Returns the last body value. Connections close in reverse order, including
+   when the body or a later binding expression throws.
+<p><sub><a href="https://github.com/loganlinn/clj-codex/blob/main/src/codex/app_server.clj#L219-L234">Source</a></sub></p>
 
 -----
 # <a name="codex.command">codex.command</a>

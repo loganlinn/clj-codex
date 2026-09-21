@@ -5,14 +5,22 @@
             [codex.impl.util :as u])
   (:import [java.util.concurrent LinkedBlockingQueue TimeUnit]))
 
-(defrecord Connection [id state transport pending requests listeners handlers request-queue options counter write-lock])
+(declare close! reply! notify! request! receive!)
+
+;; Babashka records cannot implement Java interfaces. Select the record form
+;; at macroexpansion so both runtimes can load this shared namespace.
+(defmacro ^:private defconnection []
+  (let [record '(defrecord Connection [id state transport pending requests listeners handlers request-queue options counter write-lock])]
+    (if (System/getProperty "babashka.version")
+      record
+      (concat record '[java.io.Closeable (close [this] (close! this))]))))
+
+(defconnection)
 (defrecord Pending [id connection result])
 (defrecord Subscription [id connection queue result active worker])
 (defmethod print-method Connection [c w] (.write ^java.io.Writer w (str "#codex/connection " (pr-str {:id (:id c) :status (:status @(:state c))}))))
 (defmethod print-method Pending [p w] (.write ^java.io.Writer w (str "#codex/pending " (pr-str {:id (:id p) :done? (realized? (:result p))}))))
 (defmethod print-method Subscription [s w] (.write ^java.io.Writer w (str "#codex/subscription " (pr-str {:id (:id s) :active? @(:active s)}))))
-
-(declare close! reply! notify! request! receive!)
 
 (defn status "Return the connection lifecycle state." [conn] (:status @(:state conn)))
 (defn info "Return initialization results, capabilities, and safe connection metadata." [conn]
@@ -208,8 +216,27 @@
          (when-let [close (:close! @(:transport conn))] (try (close) (catch Exception _ nil))))))
    nil))
 
+(defmacro with-connection
+  "Bind connections and close them with close! when the body exits.
+   Works in Babashka and JVM Clojure. Use [conn (connect! opts)] for one connection.
+   bindings is a vector of symbol/expression pairs, evaluated in order.
+   Returns the last body value. Connections close in reverse order, including
+   when the body or a later binding expression throws."
+  [bindings & body]
+  (when-not (and (vector? bindings) (even? (count bindings))
+                 (every? simple-symbol? (take-nth 2 bindings)))
+    (throw (u/error :argument "with-connection requires a vector of symbol/expression pairs" {})))
+  (if (empty? bindings)
+    `(do ~@body)
+    `(let ~(subvec bindings 0 2)
+       (try
+         (with-connection ~(subvec bindings 2) ~@body)
+         (finally (close! ~(first bindings)))))))
+
 (defn connect!
   "Connect over :stdio or :websocket and complete initialize/initialized.
+   On JVM Clojure, the connection implements java.io.Closeable for with-open.
+   Use with-connection for automatic cleanup in both Babashka and JVM Clojure.
    WebSockets use TCP unless transport contains :unix-socket (ws:// only).
    :handlers maps raw method strings to functions returning {:result ...}, {:error ...},
    or ::defer. :interaction-timeout-ms bounds deferred requests. No account login occurs."

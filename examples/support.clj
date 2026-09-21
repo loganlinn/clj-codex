@@ -1,5 +1,26 @@
 (ns examples.support
-  "Small helpers shared by the Babashka examples. Loading this file starts no server."
+  "Shared classpath, CLI, and connection helpers for the Babashka examples.
+  Loading this file starts no server. Scripts refer its helpers with
+  (:use examples.support) after loading it relative to their own file.
+
+  connect! starts a codex app-server subprocess over stdio by default.
+  server/with-connection closes the owned process when its scope exits.
+  Scripts use the existing Codex configuration and do not start a login flow.
+
+  To use an existing TCP WebSocket server, start it in another terminal:
+    codex app-server --listen ws://127.0.0.1:4500
+
+  Pass --url ws://127.0.0.1:4500 to state.clj, threads.clj, or watch.clj.
+  Cleanup closes the client and leaves that server running.
+  For authentication, pass --token-env MY_CODEX_TRANSPORT_TOKEN with --url.
+  The helper reads the transport credential from that environment variable.
+  Use --experimental to opt into experimental API operations.
+
+  main! handles --help, rejects invalid arguments, and reports runtime errors
+  to stderr with a nonzero exit status. timeout-spec supplies a positive
+  --timeout-ms option with a default of 300000 ms.
+
+  CLI reference: https://github.com/babashka/cli"
   (:require [babashka.classpath :as cp]
             [babashka.cli :as cli]
             [babashka.fs :as fs]

@@ -1,4 +1,21 @@
 (ns examples.repl
+  "Explore the SDK one form at a time in a Babashka REPL.
+
+  From the checkout, start bb --classpath .:src:resources:apis repl, then evaluate:
+    (require 'examples.repl)
+    (in-ns 'examples.repl)
+
+  Evaluate individual forms in the comment block. Loading this namespace makes
+  no API calls. Use keys, get-in, select-keys, pprint, and ordinary sequence
+  functions to inspect results. Finish with (server/close! conn).
+
+  A stdio connection owns its server subprocess. To use the WebSocket connection
+  form, first run codex app-server --listen ws://127.0.0.1:4500 in another terminal.
+  Closing that connection leaves the external server running.
+
+  Model turns use the existing Codex provider or account and can consume paid
+  usage. The read-only thread uses approval policy never. Wait timeouts leave
+  remote work running, so interruption is an explicit operation."
   (:require [codex.api :as api]
             [clojure.pprint :refer [pprint]]
             [codex.app-server :as server]
@@ -16,9 +33,6 @@
             [codex.turn :as turn]))
 
 (comment
-  ;; From the checkout: bb --classpath .:src:resources:apis repl
-  ;; (require 'examples.repl) then (in-ns 'examples.repl).
-  ;; Evaluate individual forms. Loading this file performs no API calls.
   (def conn (server/connect! {:transport {:type :stdio :command ["codex" "app-server"]}
                               :capabilities {:experimental-api true}}))
   ;; Alternatively, connect to an existing server instead of creating conn above:
