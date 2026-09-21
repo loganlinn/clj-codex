@@ -13,6 +13,7 @@ Use the scripts for repeatable queries and complete workflows.
 | [unix_socket.clj](unix_socket.clj) | Unix WebSocket connection, initialization, loaded threads, cleanup | Reads an existing server; leaves it running |
 | [threads.clj](threads.clj) | Stored threads, reducible pagination, turns and items | Reads stored history |
 | [watch.clj](watch.clj) | Thread subscription, events, state reduction, pending requests | Resumes a thread and observes it |
+| [core_async.clj](core_async.clj) | Persisted events, core.async mult/tap, independent consumers | Reads a local session without resuming it |
 | [turn.clj](turn.clj) | Input values, tracked turns, completion, interruption | Creates a thread and runs the model |
 | [review_agent.clj](review_agent.clj) | Git repository paths, review targets, events, final review report | Creates a thread and runs the reviewer |
 | [support.clj](support.clj) | CLI parsing, classpath setup, connection options, error reporting | Shared helpers. Loading starts no server |
@@ -83,6 +84,9 @@ These scripts close their connection without stopping the existing server.
 Its final projection contains events observed during that invocation, not the complete stored history.
 An idle thread can produce no events.
 
+To observe a local session from another terminal, use [core_async.clj](core_async.clj).
+It reads the session log, which different server processes can share.
+
 For an authenticated WebSocket endpoint, pass `--token-env MY_CODEX_TRANSPORT_TOKEN` with `--url`.
 The script reads the credential from that environment variable.
 Use `--experimental` to opt into experimental operations.
@@ -132,6 +136,83 @@ Available topics depend on the server version and configured provider.
 For example, account rate limits require a supported account.
 Models, MCP status, and loaded threads return one page. `threads.clj` shows how to reduce across pages.
 Configuration output can contain local paths and provider settings.
+
+## Observe a local session
+
+```sh
+# Replay recorded events, then follow new events until Ctrl-C.
+bb examples/core_async.clj SESSION_ID
+
+# Print only new events.
+bb examples/core_async.clj SESSION_ID --from-now
+
+# Read a stopped session and exit.
+bb examples/core_async.clj SESSION_ID --once
+
+# Emit every complete log record as JSONL.
+bb examples/core_async.clj SESSION_ID --once --all --format jsonl
+```
+
+Use the thread ID printed by `review_agent.clj` or returned by `thread/start!` as `SESSION_ID`.
+The example uses `thread/read!` to locate the local log, then closes its lookup server.
+It reads the log without resuming the session or starting a model turn.
+The lookup uses the current Codex home, including `CODEX_HOME` when set.
+
+By default, the example prints `event_msg` records as EDN, including their timestamps and payloads.
+Raw JSON keys remain strings.
+The `--all` option also includes metadata, context, and response records.
+These are persisted log records. They differ from the domain events returned by `codex.event/listen!`.
+The log can omit live token deltas, and events appear only after Codex writes them to disk.
+The log path and record format are internal Codex details that can change between versions.
+
+The example polls every 250 ms and uses fixed channel buffers of 32 records.
+It waits for a complete line before decoding UTF-8 or JSON.
+The `--once` option stops at the initial file size and omits an incomplete final record.
+The `--from-now` option skips existing records, including a record already in progress at attachment.
+Following continues across turn completion, so an idle or stopped session waits until Ctrl-C.
+Ephemeral sessions have no persisted log to observe.
+
+### Fan out events with core.async
+
+The example feeds a channel into `core.async/mult` and attaches two consumers with `core.async/tap`.
+One consumer prints records. The other counts records with `core.async/reduce` and reports the total to stderr after replay finishes.
+Both taps receive every selected record, in order.
+Babashka includes core.async, so this example needs no additional dependencies.
+
+Both taps attach before the producer starts because a mult does not replay earlier values.
+A full tap buffer pauses delivery until its consumer catches up.
+The producer and printer use `async/thread` for blocking file and output operations.
+The producer closes its channel on completion or error. The mult then closes both taps after delivery.
+The example waits for both consumers and propagates worker errors to the CLI.
+
+Load the example in a Babashka REPL to attach your own consumers:
+
+```clojure
+(load-file "examples/core_async.clj")
+(def path (session-path! "SESSION_ID"))
+(def events (async/chan 32))
+(def broadcast (async/mult events))
+(def latest (async/tap broadcast (async/chan (async/sliding-buffer 1))))
+(def counted (async/tap broadcast (async/chan 32)))
+(def total (async/reduce (fn [n _] (inc n)) 0 counted))
+(def reader
+  (async/thread
+    (try
+      (stream-log! path events {:once true})
+      {:ok true}
+      (catch Exception e {:error e}))))
+
+(async/<!! reader)  ; Completion or a read error.
+(async/<!! total)   ; Number of records delivered to the counter.
+(async/<!! latest)  ; Last record retained by the sliding buffer.
+```
+
+The sliding buffer retains only the latest record, while the counter receives every record.
+For continuous observation, pass a channel as `:stop` and omit `:once` in `stream-log!`.
+Close that channel to stop the producer, including a put blocked by a slow tap.
+Consumers must drain their channels so the mult can finish delivery and close the taps.
+Use `async/untap` to detach a consumer, then close and drain its channel to release any delivery already in progress.
+See the [core.async mult and tap reference](https://clojure.github.io/core.async/clojure.core.async.html#var-mult).
 
 ## Run a turn
 
