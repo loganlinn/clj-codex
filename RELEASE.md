@@ -9,12 +9,40 @@ The `published` event also covers prereleases published from drafts, which the `
 One trigger per publication path prevents duplicate uploads from tag and release events.
 See [GitHub release events](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#release).
 
-The workflow builds the exact release commit and checks that its tag still points to that commit.
-Versions come from tags, without a separate version file or version commit.
-Accepted tags are `vMAJOR.MINOR.PATCH`, optionally followed by `-alpha.N`, `-beta.N`, or `-rc.N`.
-For example, `v0.1.0-rc.1` publishes Maven version `0.1.0-rc.1`.
-The separate snapshot workflow accepts `MAJOR.MINOR.PATCH-SNAPSHOT` through manual dispatch on `main`.
+The canonical library version is in [version.edn](version.edn):
+
+```clojure
+{:version "0.1.0-SNAPSHOT"}
+```
+
+During development, `main` contains the next version with the `-SNAPSHOT` suffix.
+Builds, local installs, snapshots, and releases all read this file.
+The build and publication tasks accept no version arguments or version overrides.
+The upstream Codex generator has a separate pin in `resources/codex/generator-version.txt`.
+
+`bb release:prepare` removes `-SNAPSHOT` for the release commit.
+After that commit passes CI on `main`, `bb release:draft` derives the tag from its version.
+For example, version `0.1.0` produces tag `v0.1.0`.
+The publisher checks that the event tag matches the committed version and points to the release commit.
+`RELEASE_TAG` supplies this check, not the package version.
+
+Versions can include `-alpha.N`, `-beta.N`, or `-rc.N` before an optional `-SNAPSHOT` suffix.
+For example, `0.1.0-rc.1-SNAPSHOT` becomes release version `0.1.0-rc.1` and tag `v0.1.0-rc.1`.
+Snapshot publication uses the committed snapshot version through manual dispatch on `main`, without a version input.
 Snapshots need no tag or GitHub Release. Their POM records the source commit in the SCM tag field.
+
+| Task | Effect |
+| --- | --- |
+| `bb version:show` | Print the version from `version.edn` |
+| `bb release:prepare` | Remove `-SNAPSHOT` from `version.edn` |
+| `bb version:bump` | Increment the patch number and start a new snapshot |
+| `bb version:bump minor` | Increment the minor number, reset the patch number, and start a new snapshot |
+| `bb version:bump major` | Increment the major number, reset the minor and patch numbers, and start a new snapshot |
+
+The preparation and bump tasks modify only `version.edn`.
+They do not commit or push changes.
+Bump tasks remove any prerelease qualifier.
+For a specific prerelease sequence, edit `version.edn` directly.
 
 ## One-time setup
 
@@ -127,12 +155,12 @@ Java 21 and Babashka 1.12.218 match CI. The workflow also installs Clojure CLI 1
 The Babashka tasks can invoke Clojure through Babashka's bundled `deps.clj` runner locally.
 
 ```sh
-bb jar v0.1.0
-jar tf target/clj-codex-0.1.0.jar
-bb install v0.1.0
-bb jar 0.1.0-SNAPSHOT
-bb install 0.1.0-SNAPSHOT
+bb version:show
+bb jar
+jar tf "target/clj-codex-$(bb version:show).jar"
+bb install
 bb test:build
+bb test:release
 ```
 
 These tasks do not require a Git tag or Clojars credentials.
@@ -151,18 +179,19 @@ After a local install, use the installed Maven version for `com.github.loganlinn
 
 1. Commit and push these build and workflow files to `main`.
    Manual dispatch requires the workflow file on the default branch.
-2. Check that CI passes for the selected commit on `main`.
-3. Dispatch the snapshot workflow with an explicit version:
+2. Check that the committed `version.edn` contains a snapshot version.
+3. Check that CI passes for the selected commit on `main`.
+4. Dispatch the snapshot workflow:
 
    ```sh
-   gh workflow run snapshot.yml --ref main -f version=0.1.0-SNAPSHOT
+   gh workflow run snapshot.yml --ref main
    gh run list --workflow snapshot.yml --limit 5
    ```
 
-4. Check the workflow result and the version on [Clojars](https://clojars.org/com.github.loganlinn/clj-codex).
+5. Check the workflow result and the version on [Clojars](https://clojars.org/com.github.loganlinn/clj-codex).
 
 The workflow accepts only `main`, checks the exact event commit, and publishes with the existing repository secrets.
-It accepts only snapshot versions, so manual dispatch cannot publish an untagged stable release.
+It reads `version.edn` from that commit and rejects a version without the `-SNAPSHOT` suffix.
 The release and snapshot workflows share a publication queue.
 
 Use the snapshot from a consumer project:
@@ -178,31 +207,50 @@ See [Clojars snapshot identifiers](https://github.com/clojars/clojars-web/wiki/S
 Consumers can use `clojure -Sforce` to refresh dependency resolution.
 When you need a stable version that cannot change, use a tagged release.
 
-For local publication, export the credentials and run `bb publish:snapshot 0.1.0-SNAPSHOT` from a clean checkout.
+For local publication, export the credentials and run `bb publish:snapshot` from a clean checkout.
 GitHub repository secrets are available inside Actions, not automatically in your local shell.
 
 ## Publish a release
 
-1. Merge the release changes and check that CI passes for the selected commit.
-2. Start from a clean checkout of that commit.
-3. Create a draft release with an unused version:
+1. Prepare the version for release:
 
    ```sh
-   bb release:draft v0.1.0
+   bb release:prepare
    ```
 
-4. Review the generated notes at the draft URL.
-5. Publish the draft release in GitHub.
-6. Check the **Publish to Clojars** workflow result.
-7. Check the version on [Clojars](https://clojars.org/com.github.loganlinn/clj-codex).
+2. Commit the change to `version.edn` as the release commit.
+3. Merge the release commit into `main` through the normal review process.
+4. Wait for that commit's CI run on `main` to pass.
+5. Start from a clean checkout of that commit.
+6. Create the draft release:
+
+   ```sh
+   bb release:draft
+   ```
+
+7. Review the generated notes at the draft URL.
+8. Publish the draft release in GitHub.
+9. Check the **Publish to Clojars** workflow result.
+10. Check the version on [Clojars](https://clojars.org/com.github.loganlinn/clj-codex).
+11. Start the next development version:
+
+    ```sh
+    bb version:bump
+    ```
+
+12. Commit the new snapshot version and merge it into `main`.
+
+For example, this sequence changes `0.1.0-SNAPSHOT` to `0.1.0`, tags that commit, then starts `0.1.1-SNAPSHOT`.
+Use `bb version:bump minor` or `bb version:bump major` for a different next development version.
 
 The task requires Git, an authenticated GitHub CLI with repository write access, and the Java and Babashka tools described above.
 The `origin` fetch and push URLs must both point to `github.com/loganlinn/clj-codex` through HTTPS or SSH.
-The task accepts one explicit tag argument and runs from the repository root.
+The task accepts no arguments and runs from the repository root.
 
 Before it creates a tag, the task checks:
 
 - The checkout is clean, including untracked files.
+- `version.edn` matches the committed file and contains a release version without `-SNAPSHOT`.
 - The tag is absent locally and on `origin`.
 - No GitHub release or draft uses the tag.
 - The latest `ci.yml` push run on `main` for this exact commit completed successfully.
@@ -214,18 +262,13 @@ The task creates an annotated tag at the checked commit, runs `release:check`, a
 It then creates a draft with generated notes and prints the draft URL.
 It does not publish the draft or upload to Clojars.
 
-Tags with `-alpha.N`, `-beta.N`, or `-rc.N` automatically create prerelease drafts:
-
-```sh
-bb release:draft v0.1.0-rc.1
-```
-
-Publishing the draft triggers the same workflow.
+Versions with `-alpha.N`, `-beta.N`, or `-rc.N` automatically create prerelease drafts.
+The preparation and draft commands are the same for stable releases and prereleases.
 
 The workflow passes the tag through `RELEASE_TAG` and runs `bb release:check`, then `bb publish`.
 The publication task repeats the source checks, builds once, and uploads that JAR and POM.
 It does not run tests or modify source files.
-The tasks also accept an explicit tag argument for local use.
+The publication task rejects any mismatch between `RELEASE_TAG` and `version.edn`.
 
 ## Recover from a failed release
 
@@ -238,14 +281,15 @@ Check that the version is still absent from Clojars.
 From the original clean checkout, run the remaining steps:
 
 ```sh
-bb release:check v0.1.0
-git -c push.followTags=false push origin refs/tags/v0.1.0:refs/tags/v0.1.0
+bb release:check
+release_tag="v$(bb version:show)"
+git -c push.followTags=false push origin "refs/tags/$release_tag:refs/tags/$release_tag"
 ```
 
 If the GitHub draft is absent, create it:
 
 ```sh
-gh release create v0.1.0 --repo loganlinn/clj-codex --verify-tag --draft --generate-notes --title v0.1.0
+gh release create "$release_tag" --repo loganlinn/clj-codex --verify-tag --draft --generate-notes --title "$release_tag"
 ```
 
 For a prerelease tag, add `--prerelease` to this manual command.

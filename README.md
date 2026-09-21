@@ -55,6 +55,7 @@ The examples cover connections, server state, conversation history, turns, event
 - [Protocol schemas](apis/codex/app-server): bundled app-server wire definitions.
 - [Operation catalog](resources/codex/catalog.edn): operation metadata for discovery and invocation.
 - [Agent instructions](AGENTS.md): architecture, contracts, and development guidance.
+- [Release guide](RELEASE.md): release tasks and the canonical library version in [version.edn](version.edn).
 
 The bundled protocol does not guarantee support from every server version.
 Use [`codex.api`](API.md#codex.api) to inspect protocol provenance and available operations.

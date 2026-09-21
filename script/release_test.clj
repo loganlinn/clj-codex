@@ -5,7 +5,9 @@
             [cheshire.core :as json]
             [clojure.string :as str]
             [clojure.test :refer [deftest is testing run-tests]]
-            [release :as release]))
+            [release :as release]
+            [release-version :as version]
+            [release-version-test]))
 
 (def tag "v0.1.0")
 (def draft-url "https://github.com/loganlinn/clj-codex/releases/untagged-fixture")
@@ -21,6 +23,7 @@
         root (fs/create-dirs (fs/path temp "work"))
         remote (str (fs/path temp "remote.git"))
         calls (atom [])
+        read-version! version/read-version!
         run (fn [& args]
               (str/trim (:out (apply process/shell
                                      {:dir (str root) :out :string :err :string
@@ -32,7 +35,8 @@
       (run "git" "config" "user.name" "Release Test")
       (run "git" "config" "user.email" "release@example.invalid")
       (spit (fs/file root "source.txt") "original\n")
-      (run "git" "add" "source.txt")
+      (spit (fs/file root "version.edn") "{:version \"0.1.0\"}\n")
+      (run "git" "add" "source.txt" "version.edn")
       (run "git" "commit" "-m" "Initial commit")
       (run "git" "remote" "add" "origin" remote)
       (run "git" "push" "origin" "HEAD:refs/heads/main")
@@ -42,7 +46,8 @@
                          :ci [{:headSha commit :headBranch "main" :event "push"
                                :status "completed" :conclusion "success" :url "https://example.invalid/ci"}]
                          :pom-status 404 :jar-status 404})]
-        (with-redefs [release/command!
+        (with-redefs [version/read-version! (fn [_] (read-version! root))
+                      release/command!
                       (fn [& args]
                         (let [args (vec args)]
                           (swap! calls conj args)
@@ -69,8 +74,8 @@
                             ((:after-clojars @state)))
                           {:status (get @state (if pom? :pom-status :jar-status))}))
                       release/check-release!
-                      (fn [tag]
-                        (swap! calls conj [:release/check tag])
+                      (fn []
+                        (swap! calls conj [:release/check])
                         (when (:check-error @state)
                           (throw (ex-info "Simulated release check failure" {}))))]
           (binding [*out* (java.io.StringWriter.)]
@@ -79,18 +84,15 @@
 
 (deftest invalid-arguments-stop-before-commands
   (with-redefs [release/command! (fn [& args] (throw (ex-info "Unexpected command" {:args args})))]
-    (doseq [args [[] [tag "extra"]]]
-      (is (thrown-with-msg? clojure.lang.ExceptionInfo #"Usage:" (apply release/-main args))))
-    (doseq [value [nil "" "0.1.0" "v01.0.0" "v1.0.0-SNAPSHOT" "v1.0.0-rc.01"
-                   "v1.0.0-preview.1" "v1.0.0;echo nope"]]
-      (is (thrown-with-msg? clojure.lang.ExceptionInfo #"Expected vMAJOR" (release/draft! value))))))
+    (doseq [args [[tag] ["0.1.0"] ["--version" "0.1.0"]]]
+      (is (thrown-with-msg? clojure.lang.ExceptionInfo #"Usage:" (apply release/-main args))))))
 
 (deftest stable-draft-pushes-only-the-selected-annotated-tag
   (with-repo
     (fn [{:keys [run commit calls]}]
       (run "git" "config" "push.followTags" "true")
       (run "git" "tag" "-a" "local-only" "-m" "Keep local")
-      (is (= draft-url (release/draft! tag)))
+      (is (= draft-url (release/draft!)))
       (is (= "tag" (run "git" "cat-file" "-t" (str "refs/tags/" tag))))
       (is (= commit (run "git" "rev-parse" (str "refs/tags/" tag "^{commit}"))))
       (is (= (str commit "\trefs/tags/" tag "^{}")
@@ -102,20 +104,48 @@
               ["gh" "release" "create" tag "--repo" release/github-repository
                "--verify-tag" "--draft" "--generate-notes" "--title" tag "--target" commit]]
              (filterv mutating? @calls)))
-      (is (< (.indexOf @calls [:release/check tag])
+      (is (< (.indexOf @calls [:release/check])
              (.indexOf @calls ["git" "-c" "push.followTags=false" "push" "origin" "refs/tags/v0.1.0:refs/tags/v0.1.0"])))
       (let [ci-call (first (filter #(= ["gh" "run" "list"] (take 3 %)) @calls))]
         (is (= commit (nth ci-call (inc (.indexOf ci-call "--commit")))))
         (is (not (some #{"--status"} ci-call)))))))
 
-(deftest prereleases-are-inferred-from-the-tag
+(deftest prereleases-are-inferred-from-the-committed-version
   (with-repo
-    (fn [{:keys [calls state]}]
+    (fn [{:keys [root run calls state]}]
       (swap! state assoc :origin "git@github.com:loganlinn/clj-codex.git"
              :push-origin "ssh://git@github.com/loganlinn/clj-codex.git")
       (doseq [suffix ["alpha.0" "beta.2" "rc.1"]]
-        (is (= draft-url (release/draft! (str tag "-" suffix))))
+        (spit (fs/file root "version.edn") (pr-str {:version (str "0.1.0-" suffix)}))
+        (run "git" "commit" "-am" (str "Prepare " suffix))
+        (swap! state assoc-in [:ci 0 :headSha] (run "git" "rev-parse" "HEAD"))
+        (is (= draft-url (release/draft!)))
         (is (= "--prerelease" (last (last @calls))))))))
+
+(deftest snapshot-release-and-next-development-version
+  (with-repo
+    (fn [{:keys [root run state calls]}]
+      (spit (fs/file root "version.edn") "{:version \"0.1.0-SNAPSHOT\"}\n")
+      (run "git" "commit" "-am" "Develop 0.1.0")
+      (is (thrown-with-msg? clojure.lang.ExceptionInfo #"still has a snapshot" (release/draft!)))
+      (is (empty? (filter mutating? @calls)))
+      (version/prepare! root)
+      (is (thrown-with-msg? clojure.lang.ExceptionInfo #"clean checkout" (release/draft!)))
+      (run "git" "commit" "-am" "Release 0.1.0")
+      (swap! state assoc-in [:ci 0 :headSha] (run "git" "rev-parse" "HEAD"))
+      (is (= draft-url (release/-main)))
+      (is (= "0.1.1-SNAPSHOT" (:version (version/bump! root "patch"))))
+      (run "git" "commit" "-am" "Begin 0.1.1 development")
+      (is (= "0.1.0" (:version (version/parse-document (run "git" "show" "refs/tags/v0.1.0:version.edn"))))))))
+
+(deftest ignored-version-edits-cannot-change-the-release
+  (with-repo
+    (fn [{:keys [root run calls]}]
+      (run "git" "update-index" "--assume-unchanged" "version.edn")
+      (spit (fs/file root "version.edn") "{:version \"0.2.0\"}\n")
+      (is (str/blank? (run "git" "status" "--porcelain")))
+      (is (thrown-with-msg? clojure.lang.ExceptionInfo #"version committed at HEAD" (release/draft!)))
+      (is (empty? (filter mutating? @calls))))))
 
 (deftest preflight-failures-never-create-a-tag
   (with-repo
@@ -147,7 +177,7 @@
           (testing label
             (reset! state (merge initial changes))
             (reset! calls [])
-            (is (thrown-with-msg? clojure.lang.ExceptionInfo message (release/draft! tag)))
+            (is (thrown-with-msg? clojure.lang.ExceptionInfo message (release/draft!)))
             (is (empty? (filter mutating? @calls)))
             (is (str/blank? (run "git" "tag" "--list" tag)))))))))
 
@@ -155,10 +185,10 @@
   (with-repo
     (fn [{:keys [run calls]}]
       (run "git" "tag" "-a" tag "-m" "Existing")
-      (is (thrown-with-msg? clojure.lang.ExceptionInfo #"exists locally" (release/draft! tag)))
+      (is (thrown-with-msg? clojure.lang.ExceptionInfo #"exists locally" (release/draft!)))
       (run "git" "push" "origin" (str "refs/tags/" tag))
       (run "git" "tag" "-d" tag)
-      (is (thrown-with-msg? clojure.lang.ExceptionInfo #"exists on origin" (release/draft! tag)))
+      (is (thrown-with-msg? clojure.lang.ExceptionInfo #"exists on origin" (release/draft!)))
       (is (empty? (filter mutating? @calls))))))
 
 (deftest dirty-checkouts-and-source-changes-stop-tagging
@@ -166,14 +196,14 @@
     (with-repo
       (fn [{:keys [root calls]}]
         (spit (fs/file root file) "changed\n")
-        (is (thrown-with-msg? clojure.lang.ExceptionInfo #"clean checkout" (release/draft! tag)))
+        (is (thrown-with-msg? clojure.lang.ExceptionInfo #"clean checkout" (release/draft!)))
         (is (empty? (filter mutating? @calls))))))
   (with-repo
     (fn [{:keys [state root run calls]}]
       (swap! state assoc :after-clojars
              #(do (spit (fs/file root "source.txt") "new commit\n")
                   (run "git" "commit" "-am" "Concurrent change")))
-      (is (thrown-with-msg? clojure.lang.ExceptionInfo #"HEAD changed" (release/draft! tag)))
+      (is (thrown-with-msg? clojure.lang.ExceptionInfo #"HEAD changed" (release/draft!)))
       (is (empty? (filter mutating? @calls))))))
 
 (deftest partial-failures-preserve-tags-and-stop-later-actions
@@ -184,13 +214,13 @@
     (with-repo
       (fn [{:keys [state run calls]}]
         (swap! state merge changes)
-        (is (thrown-with-msg? clojure.lang.ExceptionInfo #"Simulated" (release/draft! tag)))
+        (is (thrown-with-msg? clojure.lang.ExceptionInfo #"Simulated" (release/draft!)))
         (is (= expected-writes (count (filter mutating? @calls))))
         (is (= tag (run "git" "tag" "--list" tag)))
         (is (= remote-tag? (not (str/blank? (run "git" "ls-remote" "origin" (str "refs/tags/" tag))))))
-        (is (thrown-with-msg? clojure.lang.ExceptionInfo #"exists locally" (release/draft! tag)))))))
+        (is (thrown-with-msg? clojure.lang.ExceptionInfo #"exists locally" (release/draft!)))))))
 
 (defn -main []
-  (let [{:keys [fail error]} (run-tests 'release-test)]
+  (let [{:keys [fail error]} (run-tests 'release-test 'release-version-test)]
     (when (pos? (+ fail error))
       (throw (ex-info "Release task tests failed" {:fail fail :error error})))))

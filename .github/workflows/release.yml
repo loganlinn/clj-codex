@@ -39,7 +39,7 @@ jobs:
           cli: '1.12.0.1530'
           bb: '1.12.218'
 
-      - name: Check release tag and source
+      - name: Check committed version, release tag, and source
         run: bb release:check
 
       - name: Check committed schema integrity

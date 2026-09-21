@@ -12,22 +12,23 @@
 (defn- env [key]
   (not-empty (System/getenv key)))
 
-(defn- release-options [{:keys [tag version]}]
-  (when version
-    (throw (ex-info "Tagged releases require :tag, not :version" {})))
-  (let [{:keys [tag version]} (version/parse-tag (or tag (env "RELEASE_TAG")))]
-    {:tag tag
+(defn- project-options! [opts]
+  (when (or (contains? opts :tag) (contains? opts :version) (env "SNAPSHOT_VERSION"))
+    (throw (ex-info "Version overrides are not supported. Edit version.edn." {})))
+  (let [{:keys [tag version snapshot?]} (version/read-version! ".")]
+    (when-let [expected (env "RELEASE_TAG")]
+      (when (or snapshot? (not= expected tag))
+        (throw (ex-info "Release event tag does not match version.edn" {:expected expected :version version}))))
+    {:tag (when-not snapshot? tag)
      :version version
+     :snapshot? snapshot?
      :jar-file (str "target/clj-codex-" version ".jar")}))
 
-(defn- snapshot-options [{:keys [version tag]}]
-  (when tag
-    (throw (ex-info "Snapshots require :version, not :tag" {})))
-  (let [version (or version (env "SNAPSHOT_VERSION"))]
-    (when-not (and (string? version)
-                   (re-matches #"(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)-SNAPSHOT" version))
-      (throw (ex-info "Expected MAJOR.MINOR.PATCH-SNAPSHOT, for example 0.1.0-SNAPSHOT" {:version version})))
-    {:version version :jar-file (str "target/clj-codex-" version ".jar")}))
+(defn- release-options [opts]
+  (version/require-release (project-options! opts)))
+
+(defn- snapshot-options [opts]
+  (version/require-snapshot (project-options! opts)))
 
 (defn- git [& args]
   (let [{:keys [exit out err]} (apply sh/sh "git" args)]
@@ -42,10 +43,11 @@
     (when-let [expected (env "GITHUB_SHA")]
       (when-not (= expected commit)
         (throw (ex-info "HEAD does not match the GitHub event" {:expected expected :head commit}))))
+    (version/check-committed! "." (git "show" (str commit ":version.edn")))
     commit))
 
 (defn check-release
-  "Require an existing release tag at HEAD and a clean checkout."
+  "Require the tag derived from version.edn at HEAD and a clean checkout."
   [opts]
   (let [{:keys [tag] :as release} (release-options opts)
         commit (check-source)]
@@ -54,7 +56,7 @@
     (assoc release :commit commit)))
 
 (defn check-snapshot
-  "Require a snapshot version and a clean checkout, without requiring a tag."
+  "Require a committed snapshot version and a clean checkout, without a tag."
   [opts]
   (let [snapshot (snapshot-options opts)
         commit (check-source)]
@@ -66,18 +68,10 @@
   (b/delete {:path "target"}))
 
 (defn jar
-  "Build a release tag or snapshot version. A tag need not exist for a local preview."
+  "Build the version in version.edn. A tag need not exist for a local preview."
   [opts]
-  (when (and (:tag opts) (:version opts))
-    (throw (ex-info "Specify a release tag or snapshot version, not both" {})))
   (let [{:keys [tag version jar-file] :as release}
-        (cond
-          (:tag opts) (release-options opts)
-          (:version opts) (snapshot-options opts)
-          (and (env "RELEASE_TAG") (env "SNAPSHOT_VERSION"))
-          (throw (ex-info "Set RELEASE_TAG or SNAPSHOT_VERSION, not both" {}))
-          (env "SNAPSHOT_VERSION") (snapshot-options opts)
-          :else (release-options opts))
+        (project-options! opts)
         basis (b/create-basis {:project "deps.edn"})]
     (bundle/check! ".")
     (clean nil)
@@ -124,17 +118,18 @@
 (defn publish
   "Check the release, build once, and upload to Clojars."
   [opts]
-  (let [{:keys [tag]} (check-release opts)]
-    (deploy! {:tag tag})))
+  (check-release opts)
+  (deploy! opts))
 
 (defn publish-snapshot
   "Check the snapshot, build once, and upload to Clojars without a Git tag."
   [opts]
-  (let [{:keys [version]} (check-snapshot opts)]
-    (deploy! {:version version})))
+  (check-snapshot opts)
+  (deploy! opts))
 
 (defn test-build [_]
   (load-file "script/build_test.clj")
-  (let [{:keys [fail error]} ((requiring-resolve 'clojure.test/run-tests) 'build-test)]
+  (require 'release-version-test)
+  (let [{:keys [fail error]} ((requiring-resolve 'clojure.test/run-tests) 'build-test 'release-version-test)]
     (when (pos? (+ fail error))
       (throw (ex-info "Build tests failed" {:fail fail :error error})))))

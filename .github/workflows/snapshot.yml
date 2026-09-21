@@ -2,11 +2,6 @@ name: Publish snapshot to Clojars
 
 on:
   workflow_dispatch:
-    inputs:
-      version:
-        description: 'Snapshot version, for example 0.1.0-SNAPSHOT'
-        required: true
-        type: string
 
 permissions:
   contents: read
@@ -24,8 +19,6 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     environment: clojars
-    env:
-      SNAPSHOT_VERSION: ${{ inputs.version }}
     steps:
       - name: Check out the selected commit
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -43,7 +36,7 @@ jobs:
           cli: '1.12.0.1530'
           bb: '1.12.218'
 
-      - name: Check snapshot version and source
+      - name: Check committed snapshot version and source
         run: bb snapshot:check
 
       - name: Check committed schema integrity

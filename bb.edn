@@ -2,35 +2,45 @@
 
  :tasks
  {:init (defn build-task [task]
-          (when (> (count *command-line-args*) 1)
-            (throw (ex-info "Expected one release tag or snapshot version" {})))
-          (apply clojure "-T:build" task
-                 (when-let [version (first *command-line-args*)]
-                   [(if (.startsWith version "v") ":tag" ":version") (pr-str version)])))
+          (when (seq *command-line-args*)
+            (throw (ex-info "This task reads version.edn and accepts no arguments" {})))
+          (clojure "-T:build" task))
+
+  version:show {:doc "Print the canonical version from version.edn"
+                :extra-paths ["script"]
+                :task (apply (requiring-resolve 'release-version/-main) "show" *command-line-args*)}
+
+  version:bump {:doc "Start the next snapshot in version.edn: bb version:bump [patch|minor|major] (default: patch)"
+                :extra-paths ["script"]
+                :task (apply (requiring-resolve 'release-version/-main) "bump" *command-line-args*)}
 
   clean {:doc "Delete build output"
          :task (clojure "-T:build" "clean")}
 
-  jar {:doc "Build a JAR and POM: bb jar v0.1.0 or bb jar 0.1.0-SNAPSHOT"
+  jar {:doc "Build a JAR and POM using version.edn"
        :task (build-task "jar")}
 
-  install {:doc "Install locally: bb install v0.1.0 or bb install 0.1.0-SNAPSHOT"
+  install {:doc "Install the version in version.edn locally"
            :task (build-task "install")}
 
-  release:check {:doc "Check the release tag, commit, and clean checkout: bb release:check v0.1.0"
+  release:prepare {:doc "Remove -SNAPSHOT from version.edn for a release commit"
+                   :extra-paths ["script"]
+                   :task (apply (requiring-resolve 'release-version/-main) "prepare" *command-line-args*)}
+
+  release:check {:doc "Check that the tag at HEAD matches the committed release version"
                  :task (build-task "check-release")}
 
-  release:draft {:doc "Check CI and version availability, push a tag, and create a GitHub draft: bb release:draft v0.1.0"
+  release:draft {:doc "Check the release version and CI, push its tag, and create a GitHub draft"
                  :extra-paths ["script"]
                  :task (apply (requiring-resolve 'release/-main) *command-line-args*)}
 
-  publish {:doc "Build and publish a tagged release to Clojars: bb publish v0.1.0"
+  publish {:doc "Build and publish the tagged version from version.edn to Clojars"
            :task (build-task "publish")}
 
-  snapshot:check {:doc "Check a snapshot version and clean checkout: bb snapshot:check 0.1.0-SNAPSHOT"
+  snapshot:check {:doc "Check the committed snapshot version and clean checkout"
                   :task (build-task "check-snapshot")}
 
-  publish:snapshot {:doc "Publish without a Git tag: bb publish:snapshot 0.1.0-SNAPSHOT"
+  publish:snapshot {:doc "Publish the snapshot version from version.edn without a Git tag"
                     :task (build-task "publish-snapshot")}
 
   test:build {:doc "Check publication versions, guards, and package contents without uploading"

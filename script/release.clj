@@ -17,7 +17,9 @@
     (throw (ex-info "Run release:draft from the repository root" {})))
   (when-not (str/blank? (command! "git" "status" "--porcelain" "--untracked-files=all"))
     (throw (ex-info "Release drafts require a clean checkout, including untracked files" {})))
-  (command! "git" "rev-parse" "HEAD"))
+  (let [commit (command! "git" "rev-parse" "HEAD")]
+    (version/check-committed! "." (command! "git" "show" (str commit ":version.edn")))
+    commit))
 
 (defn check-origin! []
   ;; Check both destinations, including multiple configured push URLs.
@@ -67,8 +69,8 @@
         200 (throw (ex-info "Clojars already contains this version" {:version version :url url}))
         (throw (ex-info "Cannot check Clojars version availability" {:url url :status status}))))))
 
-(defn preflight! [tag]
-  (let [{:keys [version] :as release} (version/parse-tag tag)
+(defn preflight! []
+  (let [{:keys [tag version] :as release} (version/require-release (version/read-version! "."))
         commit (check-source!)
         ref (str "refs/tags/" tag)]
     (check-origin!)
@@ -81,17 +83,19 @@
     (check-clojars! version)
     (assoc release :commit commit)))
 
-(defn check-release! [tag]
-  (tasks/clojure "-T:build" "check-release" ":tag" (pr-str tag)))
+(defn check-release! []
+  (tasks/clojure "-T:build" "check-release"))
 
-(defn draft! [tag]
-  (let [{:keys [version prerelease? commit]} (preflight! tag)
+(defn draft! []
+  (let [{:keys [tag version prerelease? commit]} (preflight!)
         ref (str "refs/tags/" tag)]
     (when-not (= commit (check-source!))
       (throw (ex-info "HEAD changed during the release checks" {:commit commit})))
+    (when-not (= version (:version (version/read-version! ".")))
+      (throw (ex-info "version.edn changed during the release checks" {})))
     (command! "git" "tag" "-a" tag "-m" (str "Release " version) commit)
     (println "Created annotated tag" tag "at" commit)
-    (check-release! tag)
+    (check-release!)
     (command! "git" "-c" "push.followTags=false" "push" "origin" (str ref ":" ref))
     (println "Pushed" ref)
     (let [url (apply command!
@@ -103,6 +107,6 @@
       url)))
 
 (defn -main [& args]
-  (when-not (= 1 (count args))
-    (throw (ex-info "Usage: bb release:draft vMAJOR.MINOR.PATCH[-alpha.N|-beta.N|-rc.N]" {})))
-  (draft! (first args)))
+  (when (seq args)
+    (throw (ex-info "Usage: bb release:draft (reads version.edn; no arguments)" {})))
+  (draft!))
