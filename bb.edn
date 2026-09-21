@@ -1,7 +1,38 @@
 {:paths ["src" "resources" "apis" "test"]
 
  :tasks
- {test {:doc "Run the shared test suite in Babashka"
+ {:init (defn build-task [task]
+          (when (> (count *command-line-args*) 1)
+            (throw (ex-info "Expected one release tag or snapshot version" {})))
+          (apply clojure "-T:build" task
+                 (when-let [version (first *command-line-args*)]
+                   [(if (.startsWith version "v") ":tag" ":version") (pr-str version)])))
+
+  clean {:doc "Delete build output"
+         :task (clojure "-T:build" "clean")}
+
+  jar {:doc "Build a JAR and POM: bb jar v0.1.0 or bb jar 0.1.0-SNAPSHOT"
+       :task (build-task "jar")}
+
+  install {:doc "Install locally: bb install v0.1.0 or bb install 0.1.0-SNAPSHOT"
+           :task (build-task "install")}
+
+  release:check {:doc "Check the release tag, commit, and clean checkout: bb release:check v0.1.0"
+                 :task (build-task "check-release")}
+
+  publish {:doc "Build and publish a tagged release to Clojars: bb publish v0.1.0"
+           :task (build-task "publish")}
+
+  snapshot:check {:doc "Check a snapshot version and clean checkout: bb snapshot:check 0.1.0-SNAPSHOT"
+                  :task (build-task "check-snapshot")}
+
+  publish:snapshot {:doc "Publish without a Git tag: bb publish:snapshot 0.1.0-SNAPSHOT"
+                    :task (build-task "publish-snapshot")}
+
+  test:build {:doc "Check publication versions, guards, and package contents without uploading"
+              :task (clojure "-T:build" "test-build")}
+
+  test {:doc "Run the shared test suite in Babashka"
         :task (apply (requiring-resolve 'codex.test-runner/-main) *command-line-args*)}
 
   test:jvm {:doc "Run the shared test suite in JVM Clojure"

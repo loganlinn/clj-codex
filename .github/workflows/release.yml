@@ -1,0 +1,49 @@
+name: Publish to Clojars
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+# Serialize releases, including updates to the shared Maven metadata.
+concurrency:
+  group: clojars-publish
+  cancel-in-progress: false
+  queue: max
+
+jobs:
+  publish:
+    name: Publish tagged library
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: clojars
+    env:
+      RELEASE_TAG: ${{ github.event.release.tag_name }}
+    steps:
+      - name: Check out the release commit
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - uses: DeLaGuardo/setup-clojure@6d46099eae24853c33c0482f2bb54edf4f1a4c74 # 13.7.0
+        with:
+          cli: '1.12.0.1530'
+          bb: '1.12.218'
+
+      - name: Check release tag and source
+        run: bb release:check
+
+      - name: Build and publish to Clojars
+        env:
+          CLOJARS_USERNAME: ${{ secrets.CLOJARS_USERNAME }}
+          CLOJARS_PASSWORD: ${{ secrets.CLOJARS_PASSWORD }}
+        run: bb publish
