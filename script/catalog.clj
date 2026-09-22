@@ -23,10 +23,13 @@
    "config/batchWrite" "ConfigWriteResponse"
    "configRequirements/read" "ConfigRequirementsReadResponse"})
 
-(defn read-json [p] (json/parse-string (slurp (str p))))
+(defn read-json [p]
+  (json/parse-string (slurp (str p))))
+
 (defn write-edn! [p value]
   (fs/create-dirs (fs/parent p))
   (spit p (with-out-str (pp/pprint value))))
+
 (defn type-name [s]
   (or (some-> (get s "$ref") (str/split #"/") last)
       (some type-name (get s "anyOf"))))

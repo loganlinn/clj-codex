@@ -1,6 +1,26 @@
 (ns codex.plugin "Plugin operations. Upstream marks these APIs as under development." (:require [codex.api :as api]))
-(defn list! "Discover plugins and marketplaces." ([c] (list! c {})) ([c opts] (api/invoke! c {:op :plugin/list :args opts})))
-(defn read! "Read a plugin by explicit source and name arguments." [c args] (api/invoke! c {:op :plugin/read :args args}))
-(defn install! "Install a plugin by explicit source and name arguments." [c args] (api/invoke! c {:op :plugin/install :args args}))
-(defn uninstall! "Uninstall a plugin." [c args] (api/invoke! c {:op :plugin/uninstall :args args}))
-(defn skill! "Read remote plugin skill content." [c args] (api/invoke! c {:op :plugin.skill/read :args args}))
+
+(defn list!
+  "Discover plugins and marketplaces."
+  ([c] (list! c {}))
+  ([c opts] (api/invoke! c {:op :plugin/list :args opts})))
+
+(defn read!
+  "Read a plugin by explicit source and name arguments."
+  [c args]
+  (api/invoke! c {:op :plugin/read :args args}))
+
+(defn install!
+  "Install a plugin by explicit source and name arguments."
+  [c args]
+  (api/invoke! c {:op :plugin/install :args args}))
+
+(defn uninstall!
+  "Uninstall a plugin."
+  [c args]
+  (api/invoke! c {:op :plugin/uninstall :args args}))
+
+(defn skill!
+  "Read remote plugin skill content."
+  [c args]
+  (api/invoke! c {:op :plugin.skill/read :args args}))

@@ -8,13 +8,17 @@
            [java.security MessageDigest]))
 
 (def schema-dir "apis/codex/app-server")
+
 (def version-file "resources/codex/generator-version.txt")
+
 (def resource-files
   ["resources/codex/catalog.edn"
    "resources/codex/schema-index.edn"
    "resources/codex/definition-index.edn"
    "resources/codex/stable-client-request.json"])
+
 (def full-command "codex app-server generate-json-schema --experimental")
+
 (def stable-command "codex app-server generate-json-schema")
 
 (defn pinned-version [root]

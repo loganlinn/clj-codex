@@ -8,6 +8,7 @@
             [schema-bundle :as bundle]))
 
 (def commit (apply str (repeat 40 "a")))
+
 (def ^:dynamic *project-version* "0.1.0")
 
 (defn git-fixture [& args]

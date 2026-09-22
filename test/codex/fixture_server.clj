@@ -1,6 +1,8 @@
 (ns codex.fixture-server
   "Deterministic JSONL peer for transport tests; requires no account or network."
-  (:require [cheshire.core :as json] [clojure.java.io :as io]))
+  (:require [cheshire.core :as json]
+            [clojure.java.io :as io]))
+
 (defn -main [& _]
   (binding [*out* *err*] (println "fixture stderr is separate from protocol output"))
   (doseq [line (line-seq (io/reader System/in))]

@@ -15,16 +15,22 @@
 (defn error [category message data]
   (ex-info message (assoc data :codex.error/category category)))
 
-(defn uuid [] (str (java.util.UUID/randomUUID)))
+(defn uuid []
+  (str (java.util.UUID/randomUUID)))
 
 (defn worker! [name f]
   (doto (Thread. ^Runnable (fn [] (f)) ^String name)
     (.setDaemon true)
     (.start)))
 
-(defn deliver-error! [p e] (deliver p {:error e}))
-(defn deliver-value! [p v] (deliver p {:value v}))
-(defn unwrap [v] (if-let [e (:error v)] (throw e) (:value v)))
+(defn deliver-error! [p e]
+  (deliver p {:error e}))
+
+(defn deliver-value! [p v]
+  (deliver p {:value v}))
+
+(defn unwrap [v]
+  (if-let [e (:error v)] (throw e) (:value v)))
 
 (defn await-result
   ([p] (unwrap @p))

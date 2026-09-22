@@ -6,7 +6,9 @@
             [schema-bundle :as bundle]))
 
 (def lib 'com.github.loganlinn/clj-codex)
+
 (def repository "https://github.com/loganlinn/clj-codex")
+
 (def class-dir "target/classes")
 
 (defn- env [key]

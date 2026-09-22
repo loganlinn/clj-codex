@@ -1,8 +1,11 @@
 (ns codex.impl.execution
-  (:require [codex.api :as api] [codex.app-server :as server]
-            [codex.impl.schema :as schema] [codex.impl.util :as u]))
+  (:require [codex.api :as api]
+            [codex.app-server :as server]
+            [codex.impl.schema :as schema]
+            [codex.impl.util :as u]))
 
 (defrecord Execution [connection kind id result subscription request output lock])
+
 (defmethod print-method Execution [p w]
   (.write ^java.io.Writer w (str "#codex/execution " (pr-str {:kind (:kind p) :id (:id p) :done? (realized? (:result p))}))))
 
@@ -83,16 +86,19 @@
 (defn await!
   ([p] (u/await-result (:result p)))
   ([p timeout-ms timeout-value] (u/await-result (:result p) timeout-ms timeout-value)))
+
 (defn write! [p bytes close?]
   (api/invoke! (:connection p)
                {:op (if (= :command (:kind p)) :command.exec/write :process/write-stdin)
                 :args (cond-> {(if (= :command (:kind p)) :process-id :process-handle) (:id p)
                                :close-stdin (boolean close?)}
                         bytes (assoc :delta-base64 (.encodeToString (java.util.Base64/getEncoder) bytes)))}))
+
 (defn resize! [p size]
   (api/invoke! (:connection p)
                {:op (if (= :command (:kind p)) :command.exec/resize :process/resize-pty)
                 :args {(if (= :command (:kind p)) :process-id :process-handle) (:id p) :size size}}))
+
 (defn terminate! [p]
   (api/invoke! (:connection p)
                {:op (if (= :command (:kind p)) :command.exec/terminate :process/kill)

@@ -10,7 +10,9 @@
             [release-version-test]))
 
 (def tag "v0.1.0")
+
 (def draft-url "https://github.com/loganlinn/clj-codex/releases/untagged-fixture")
+
 (def origin "https://github.com/loganlinn/clj-codex.git")
 
 (defn mutating? [args]

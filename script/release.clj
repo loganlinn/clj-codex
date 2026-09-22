@@ -7,6 +7,7 @@
             [release-version :as version]))
 
 (def repository "loganlinn/clj-codex")
+
 (def github-repository (str "github.com/" repository))
 
 (defn command! [& args]

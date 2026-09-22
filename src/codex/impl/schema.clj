@@ -6,12 +6,16 @@
             [codex.impl.util :as u]))
 
 (def index (delay (edn/read-string (slurp (io/resource "codex/schema-index.edn")))))
+
 (def definitions (delay (edn/read-string (slurp (io/resource "codex/definition-index.edn")))))
+
 (def catalog (delay (edn/read-string (slurp (io/resource "codex/catalog.edn")))))
+
 (def document (memoize (fn [path]
                          (if-let [r (io/resource path)]
                            (json/parse-string (slurp r))
                            (throw (u/error :schema "Schema resource not found" {:resource path}))))))
+
 (def stable (delay (document "codex/stable-client-request.json")))
 
 (def entity-ns
@@ -44,6 +48,7 @@
     "boolean" (boolean? x) true))
 
 (declare errors)
+
 (defn errors
   "Check the structural JSON Schema vocabulary used by the bundled protocol."
   ([root s x] (errors root s x [] false))
@@ -95,6 +100,7 @@
   x)
 
 (declare transform)
+
 (defn- transform-union [direction root branches x owner]
   (let [tagged (when (and (= direction :decode) (map? x))
                  (some (fn [branch]
@@ -170,6 +176,9 @@
 
 (defn encode [root s x]
   (check! root s (transform :encode root s x nil)))
-(defn decode [root s x] (transform :decode root s x nil))
+
+(defn decode [root s x]
+  (transform :decode root s x nil))
+
 (defn decode-type [id x]
   (let [[root s] (lookup id)] (decode root s x)))

@@ -1,6 +1,7 @@
 (ns codex.api
   "Inspectable operations, schema-aware invocation, and reducible pagination."
-  (:require [clojure.edn :as edn] [clojure.java.io :as io]
+  (:require [clojure.edn :as edn]
+            [clojure.java.io :as io]
             [codex.app-server :as server]
             [codex.impl.schema :as schema]
             [codex.impl.util :as u]))
@@ -9,12 +10,20 @@
   (delay (merge-with merge (:operations @schema/catalog)
                      (edn/read-string (slurp (io/resource "codex/operation-semantics.edn"))))))
 
-(defn operations "Return the operation catalog, optionally filtered by a descriptor predicate."
+(defn operations
+  "Return the operation catalog, optionally filtered by a descriptor predicate."
   ([] @operation-catalog)
   ([pred] (into (sorted-map) (filter (comp pred val)) (operations))))
-(defn describe "Describe an operation keyword such as :thread/read or :thread.goal/set." [op]
+
+(defn describe
+  "Describe an operation keyword such as :thread/read or :thread.goal/set."
+  [op]
   (or (get (operations) op) (throw (u/error :operation "Unknown operation" {:op op}))))
-(defn provenance "Return the Codex generator version and schema digest." [] (:provenance @schema/catalog))
+
+(defn provenance
+  "Return the Codex generator version and schema digest."
+  []
+  (:provenance @schema/catalog))
 
 (defn- params [conn descriptor args]
   (let [root (schema/document "codex/app-server/ClientRequest.json")
@@ -49,6 +58,7 @@
     :else result))
 
 (defrecord PendingOperation [request descriptor])
+
 (defmethod print-method PendingOperation [p w]
   (.write ^java.io.Writer w (str "#codex/operation " (pr-str {:op (get-in p [:descriptor :op]) :id (get-in p [:request :id])}))))
 
@@ -78,7 +88,8 @@
      (catch clojure.lang.ExceptionInfo e
        (throw (ex-info (ex-message e) (assoc (ex-data e) :op (get-in pending [:descriptor :op])) e))))))
 
-(defn invoke! "Run an operation and return its domain result after the RPC response."
+(defn invoke!
+  "Run an operation and return its domain result after the RPC response."
   ([conn operation] (await! (submit! conn operation)))
   ([conn operation opts] (await! (submit! conn operation opts))))
 
@@ -99,7 +110,9 @@
             (contains? seen cursor) (throw (u/error :pagination "Repeated pagination cursor" {:op (:op operation)}))
             :else (recur next-acc (assoc args :cursor cursor) (conj seen cursor))))))))
 
-(defn entries "Return a reducible of entries across pages. Does not fetch during construction." [conn operation]
+(defn entries
+  "Return a reducible of entries across pages. Does not fetch during construction."
+  [conn operation]
   (reify clojure.lang.IReduceInit
     (reduce [_ rf init]
       (reduce (fn [acc page]

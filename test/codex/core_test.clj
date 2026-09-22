@@ -1,11 +1,17 @@
 (ns codex.core-test
   (:require [clojure.test :refer [deftest is testing]]
-            [codex.api :as api] [codex.app-server :as server]
-            [codex.event :as event] [codex.impl.schema :as schema]
-            [codex.interaction :as interaction] [codex.run :as run]
-            [codex.command :as command] [codex.process :as process]
-            [codex.permission :as permission] [codex.repl :as repl]
-            [codex.thread :as thread] [codex.turn :as turn]))
+            [codex.api :as api]
+            [codex.app-server :as server]
+            [codex.event :as event]
+            [codex.impl.schema :as schema]
+            [codex.interaction :as interaction]
+            [codex.run :as run]
+            [codex.command :as command]
+            [codex.process :as process]
+            [codex.permission :as permission]
+            [codex.repl :as repl]
+            [codex.thread :as thread]
+            [codex.turn :as turn]))
 
 (defn fake
   ([] (fake {}))
@@ -31,7 +37,8 @@
     (if-let [x (f)] x
             (when (pos? n) (Thread/sleep 5) (recur (dec n))))))
 
-(defn encode [id value] (let [[root s] (schema/lookup id)] (schema/encode root s value)))
+(defn encode [id value]
+  (let [[root s] (schema/lookup id)] (schema/encode root s value)))
 
 (deftest connection-and-correlation
   (let [{:keys [conn sent receive!]} (fake)]

@@ -16,19 +16,32 @@
       (concat record '[java.io.Closeable (close [this] (close! this))]))))
 
 (defconnection)
+
 (defrecord Pending [id connection result])
+
 (defrecord Subscription [id connection queue result active worker])
+
 (defmethod print-method Connection [c w] (.write ^java.io.Writer w (str "#codex/connection " (pr-str {:id (:id c) :status (:status @(:state c))}))))
+
 (defmethod print-method Pending [p w] (.write ^java.io.Writer w (str "#codex/pending " (pr-str {:id (:id p) :done? (realized? (:result p))}))))
+
 (defmethod print-method Subscription [s w] (.write ^java.io.Writer w (str "#codex/subscription " (pr-str {:id (:id s) :active? @(:active s)}))))
 
-(defn status "Return the connection lifecycle state." [conn] (:status @(:state conn)))
-(defn info "Return initialization results, capabilities, and safe connection metadata." [conn]
+(defn status
+  "Return the connection lifecycle state."
+  [conn]
+  (:status @(:state conn)))
+
+(defn info
+  "Return initialization results, capabilities, and safe connection metadata."
+  [conn]
   (merge {:id (:id conn) :status (status conn)
           :capabilities (:capabilities (:options conn))}
          (select-keys @(:state conn) [:server :error])))
 
-(defn unlisten! "Stop a local raw observer. Does not unsubscribe a remote thread." [subscription]
+(defn unlisten!
+  "Stop a local raw observer. Does not unsubscribe a remote thread."
+  [subscription]
   (when (compare-and-set! (:active subscription) true false)
     (swap! (:listeners (:connection subscription)) dissoc (:id subscription))
     (.clear ^LinkedBlockingQueue (:queue subscription))
@@ -82,7 +95,9 @@
         (let [e (u/error :transport "Transport write failed; remote outcome is unknown" {})]
           (close! conn e) (throw e))))))
 
-(defn pending-requests "Return pending server requests, including their reply tokens." [conn]
+(defn pending-requests
+  "Return pending server requests, including their reply tokens."
+  [conn]
   (vec (vals @(:requests conn))))
 
 (defn reply!
@@ -164,7 +179,9 @@
   ([pending] (u/await-result (:result pending)))
   ([pending timeout-ms timeout-value] (u/await-result (:result pending) timeout-ms timeout-value)))
 
-(defn abandon! "Release local pending state. Does not cancel remote work." [pending]
+(defn abandon!
+  "Release local pending state. Does not cancel remote work."
+  [pending]
   (let [conn (:connection pending)]
     (locking (:pending conn)
       (swap! (:pending conn) dissoc (:id pending)))
@@ -192,7 +209,9 @@
        (catch Exception e (swap! (:pending conn) dissoc id) (u/deliver-error! result e)))
      pending)))
 
-(defn notify! "Send a raw notification. Use ::omit to omit params." [conn method params]
+(defn notify!
+  "Send a raw notification. Use ::omit to omit params."
+  [conn method params]
   (send! conn (cond-> {"method" method} (not= ::omit params) (assoc "params" params)))
   nil)
 

@@ -37,6 +37,7 @@
     (str k)))
 
 (def ^:private token-pattern #"[!#$%&'*+.^_`|~0-9A-Za-z-]+")
+
 (def ^:private guid "258EAFA5-E914-47DA-95CA-C5AB0DC85B11")
 
 (defn- invalid! [^String message]

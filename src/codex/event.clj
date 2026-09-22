@@ -11,7 +11,9 @@
    "turn/plan/updated" :turn/plan-updated "turn/diff/updated" :turn/diff-updated
    "serverRequest/resolved" :interaction/resolved})
 
-(defn normalize "Convert a raw notification/request to a domain envelope. Responses return nil." [conn raw]
+(defn normalize
+  "Convert a raw notification/request to a domain envelope. Responses return nil."
+  [conn raw]
   (when-let [method (get raw "method")]
     (let [op (u/operation method)
           request? (contains? raw "id")
@@ -29,11 +31,14 @@
         item-id (assoc :codex.item/id item-id)
         request? (assoc :codex.interaction/id (get raw "id"))))))
 
-(defn matches? "Match an event against optional :thread-id, :turn-id, :item-id, and :types." [filter event]
+(defn matches?
+  "Match an event against optional :thread-id, :turn-id, :item-id, and :types."
+  [filter event]
   (and (or (nil? (:thread-id filter)) (= (:thread-id filter) (:codex.thread/id event)))
        (or (nil? (:turn-id filter)) (= (:turn-id filter) (:codex.turn/id event)))
        (or (nil? (:item-id filter)) (= (:item-id filter) (:codex.item/id event)))
        (or (nil? (:types filter)) (contains? (set (:types filter)) (::type event)))))
+
 (defn listen!
   "Observe matching domain events. :capacity and :on-error configure the local observer."
   ([conn f] (listen! conn {} f))
@@ -41,10 +46,20 @@
    (server/listen! conn (select-keys filter [:capacity :on-error])
                    (fn [raw] (when-let [event (normalize conn raw)]
                                (when (matches? filter event) (f event)))))))
-(defn unlisten! "Release an event observer." [subscription] (server/unlisten! subscription))
-(defn text-delta "Return an agent text delta, or nil." [event]
+
+(defn unlisten!
+  "Release an event observer."
+  [subscription]
+  (server/unlisten! subscription))
+
+(defn text-delta
+  "Return an agent text delta, or nil."
+  [event]
   (when (= :item/text-delta (::type event)) (get-in event [::data :delta])))
-(defn terminal? "Is this a terminal turn notification?" [event]
+
+(defn terminal?
+  "Is this a terminal turn notification?"
+  [event]
   (and (= :turn/completed (::type event))
        (contains? #{:completed :failed :interrupted} (get-in event [::data :turn :codex.turn/status]))))
 
@@ -92,7 +107,9 @@
       :interaction/resolved (update state :pending dissoc (:request-id data))
       state)))
 
-(defn turn-snapshot "Read a turn projection, with items in observed order." [state thread-id turn-id]
+(defn turn-snapshot
+  "Read a turn projection, with items in observed order."
+  [state thread-id turn-id]
   (assoc (get-in state [:turns [thread-id turn-id]] {:codex.turn/id turn-id})
          :codex.thread/id thread-id
          :codex.turn/items (mapv #(get-in state [:items [thread-id turn-id %]])

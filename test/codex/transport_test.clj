@@ -1,6 +1,9 @@
 (ns codex.transport-test
-  (:require [cheshire.core :as json] [clojure.string :as str] [clojure.test :refer [deftest is]]
-            [codex.app-server :as server] [codex.impl.util :as u])
+  (:require [cheshire.core :as json]
+            [clojure.string :as str]
+            [clojure.test :refer [deftest is]]
+            [codex.app-server :as server]
+            [codex.impl.util :as u])
   (:import [java.net ServerSocket] [java.io ByteArrayOutputStream]))
 
 (deftest stdio-framing-and-stderr
@@ -30,6 +33,7 @@
           (when (neg? read) (throw (ex-info "EOF" {})))
           (recur (+ offset read)))))
     bytes))
+
 (defn read-frame [in]
   (let [first-byte (.read ^java.io.InputStream in)
         second-byte (.read ^java.io.InputStream in)]
@@ -42,6 +46,7 @@
       (when mask
         (dotimes [i n] (aset-byte payload i (unchecked-byte (bit-xor (aget payload i) (aget mask (mod i 4)))))))
       [(bit-and first-byte 15) payload])))
+
 (defn write-frame! [out opcode last? bytes]
   (.write ^java.io.OutputStream out (int (bit-or opcode (if last? 128 0))))
   (let [n (alength bytes)]

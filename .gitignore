@@ -3,3 +3,5 @@
 .clj-kondo/.cache/
 .lsp/.cache/
 target/
+.worktrees/
+node_modules/
